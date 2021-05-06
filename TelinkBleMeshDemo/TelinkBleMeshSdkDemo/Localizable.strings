@@ -1,0 +1,51 @@
+/* 
+  Localizable.strings
+  TelinkBleMeshSdkDemo
+
+  Created by maginawin on 2021/1/14.
+  
+*/
+
+"nodes" = "Nodes";
+"networks" = "Networks";
+"add_network" = "Add network";
+"cancel" = "Cancel";
+"add" = "Add";
+"network_name" = "Network name";
+"network_password" = "Network password";
+"factory_network" = "Facotry network";
+"adding" = "Adding";
+"connecting" = "Connecting...";
+"connected" = "Connected";
+"disconnected" = "Disconnected";
+"fail_to_connect" = "Fail to connect";
+"please_turn_on_bluetooth" = "Please turn on bluetooth";
+"login_successful" = "Login successful";
+"login_failed" = "Login failed";
+"add_device" = "Add device";
+"pairing..." = "Pairing...";
+"pairing_failed" = "Pairing failed";
+"pairing_finished" = "Pairing finished";
+"stop" = "Stop";
+"change_address" = "Change address";
+"reset_network" = "Reset network";
+"settings" = "Settings";
+"change" = "Change";
+"change_address" = "Change address";
+"change_address_msg" = "Restart all devices after changing the address.";
+"reset_network" = "Reset network";
+"reset_network_msg" = "Restart all devices after reseting the network.";
+"reset" = "Reset";
+"add_new_device" = "Add new device";
+"manage_device_addresses" = "Manage device addresses";
+"device_addresses" = "Device addresses";
+"used_addresses" = "Used addresses";
+"available_addresses" = "Available addresses";
+"clear_used" = "Clear used";
+"delete" = "Delete";
+"clear" = "Clear";
+"clear_used_msg" = "Are you sure your want to clear all used addresses?";
+"out_of_range" = "Out of range";
+"change_address_successful" = "Change address successful";
+"change_address_overtime" = "Change address overtime";
+"pull_refresh" = "Pull refresh";
