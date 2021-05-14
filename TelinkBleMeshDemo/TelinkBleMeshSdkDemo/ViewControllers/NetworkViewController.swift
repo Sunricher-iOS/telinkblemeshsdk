@@ -116,6 +116,13 @@ class NetworkViewController: UITableViewController {
             deviceDelegate = controller
             navigationController?.pushViewController(controller, animated: true)
             
+        case .bridge:
+            
+            let controller = DeviceViewController(style: .grouped)
+            controller.device = device
+            deviceDelegate = controller
+            navigationController?.pushViewController(controller, animated: true)
+            
         default:
             break
         }
@@ -146,6 +153,14 @@ class NetworkViewController: UITableViewController {
 }
 
 extension NetworkViewController: MeshManagerNodeDelegate {
+    
+    func meshManagerDidUpdateState(_ manager: MeshManager, state: CBManagerState) {
+        
+        if state == .poweredOn {
+            
+            MeshManager.shared.scanNode(network, autoLogin: true, ignoreName: false)
+        }
+    }
     
     func meshManager(_ manager: MeshManager, didLoginNode node: MeshNode) {
         

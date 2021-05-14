@@ -168,6 +168,8 @@ extension MeshManager {
         
         executeSerialAsyncTask {
             
+            SampleCommandCenter.shared.removeAll()
+            
             self.setNetworkState = .none
             
             MLog("connect")
@@ -219,7 +221,6 @@ extension MeshManager {
             }
             
             SampleCommandCenter.shared.removeAll()
-            
             Thread.sleep(forTimeInterval: 1.0)
         }
     }

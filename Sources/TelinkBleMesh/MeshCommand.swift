@@ -20,7 +20,7 @@ public struct MeshCommand {
     /// 3 bytes, for command data, will auto increment
     var seqNoForCommandData: Int {
         
-        if MeshCommand.seqNo == Int.max {
+        if MeshCommand.seqNo >= 0xFFFFFF {
             
             MeshCommand.seqNo = 0
         }
