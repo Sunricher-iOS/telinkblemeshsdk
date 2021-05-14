@@ -1,0 +1,897 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0800AAB1260B3ACC0010CA22 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0800AAB0260B3ACC0010CA22 /* SliderTableViewCell.swift */; };
+		082DFEBF25B02ED1004668EF /* NodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFEBE25B02ED1004668EF /* NodeViewController.swift */; };
+		082DFEC325B0302E004668EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 082DFEC225B0302E004668EF /* Localizable.strings */; };
+		082DFEC725B0307A004668EF /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFEC625B0307A004668EF /* Tools.swift */; };
+		082DFED425B03113004668EF /* NetworksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFED325B03113004668EF /* NetworksViewController.swift */; };
+		082DFED825B034FA004668EF /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFED725B034FA004668EF /* NetworkManager.swift */; };
+		082DFEDE25B04B41004668EF /* NetworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFEDD25B04B41004668EF /* NetworkViewController.swift */; };
+		082DFEE225B04CAF004668EF /* TelinkBleMeshExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFEE125B04CAF004668EF /* TelinkBleMeshExtensions.swift */; };
+		0850A2982611BE0600638765 /* AddDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0850A2972611BE0600638765 /* AddDeviceViewController.swift */; };
+		085651F32609F5C400C7FF8E /* DeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085651F22609F5C400C7FF8E /* DeviceViewController.swift */; };
+		085651FD2609F64400C7FF8E /* MyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085651FC2609F64400C7FF8E /* MyDevice.swift */; };
+		08AD22B626438E69000468AF /* DeviceAddressesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */; };
+		08AD230E2643C019000468AF /* TelinkBleMesh in Frameworks */ = {isa = PBXBuildFile; productRef = 08AD230D2643C019000468AF /* TelinkBleMesh */; };
+		08AE3C8A263BA0E500952791 /* DeviceSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AE3C89263BA0E500952791 /* DeviceSettingsViewController.swift */; };
+		08D6AC1D260C36B100AEB39C /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6AC1C260C36B100AEB39C /* SwitchTableViewCell.swift */; };
+		08DF3C9925AEF97000EC3AF7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3C9825AEF97000EC3AF7 /* AppDelegate.swift */; };
+		08DF3CA225AEF97100EC3AF7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08DF3CA125AEF97100EC3AF7 /* Assets.xcassets */; };
+		08DF3CA525AEF97100EC3AF7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08DF3CA325AEF97100EC3AF7 /* LaunchScreen.storyboard */; };
+		08DF3CB025AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3CAF25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift */; };
+		08DF3CDC25AF107200EC3AF7 /* NodesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */; };
+		08FCB95E25B1438D00F2F06C /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 08FCB95D25B1438D00F2F06C /* Toast */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		08DF3CAC25AEF97200EC3AF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08DF3C8D25AEF97000EC3AF7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 08DF3C9425AEF97000EC3AF7;
+			remoteInfo = TelinkBleMeshSdkDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0800AAB0260B3ACC0010CA22 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
+		082DFEBE25B02ED1004668EF /* NodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeViewController.swift; sourceTree = "<group>"; };
+		082DFEC225B0302E004668EF /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		082DFEC625B0307A004668EF /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
+		082DFED325B03113004668EF /* NetworksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksViewController.swift; sourceTree = "<group>"; };
+		082DFED725B034FA004668EF /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		082DFEDD25B04B41004668EF /* NetworkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkViewController.swift; sourceTree = "<group>"; };
+		082DFEE125B04CAF004668EF /* TelinkBleMeshExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelinkBleMeshExtensions.swift; sourceTree = "<group>"; };
+		0850A2972611BE0600638765 /* AddDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeviceViewController.swift; sourceTree = "<group>"; };
+		085651F22609F5C400C7FF8E /* DeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceViewController.swift; sourceTree = "<group>"; };
+		085651FC2609F64400C7FF8E /* MyDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDevice.swift; sourceTree = "<group>"; };
+		08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAddressesViewController.swift; sourceTree = "<group>"; };
+		08AD22C02643BE12000468AF /* workspace-state.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "workspace-state.json"; sourceTree = "<group>"; };
+		08AD22C32643BE12000468AF /* manifest.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = manifest.db; sourceTree = "<group>"; };
+		08AD22C52643BE12000468AF /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
+		08AD22C72643BE12000468AF /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
+		08AD22C82643BE12000468AF /* TelinkBleMeshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelinkBleMeshTests.swift; sourceTree = "<group>"; };
+		08AD22C92643BE12000468AF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		08AD22CA2643BE12000468AF /* TelinkBleMeshSdk.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = TelinkBleMeshSdk.xcworkspace; sourceTree = "<group>"; };
+		08AD22CB2643BE12000468AF /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		08AD22CC2643BE12000468AF /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		08AD22CF2643BE12000468AF /* MeshNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshNode.swift; sourceTree = "<group>"; };
+		08AD22D02643BE12000468AF /* MeshDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshDevice.swift; sourceTree = "<group>"; };
+		08AD22D22643BE12000468AF /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
+		08AD22D32643BE12000468AF /* SampleCommandCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleCommandCenter.swift; sourceTree = "<group>"; };
+		08AD22D42643BE12000468AF /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
+		08AD22D52643BE12000468AF /* MeshManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshManager.swift; sourceTree = "<group>"; };
+		08AD22D62643BE12000468AF /* MeshAddressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshAddressManager.swift; sourceTree = "<group>"; };
+		08AD22D72643BE12000468AF /* MeshPairingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshPairingManager.swift; sourceTree = "<group>"; };
+		08AD22D82643BE12000468AF /* MeshDeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshDeviceType.swift; sourceTree = "<group>"; };
+		08AD22D92643BE12000468AF /* MeshNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshNetwork.swift; sourceTree = "<group>"; };
+		08AD22DA2643BE12000468AF /* MeshCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshCommand.swift; sourceTree = "<group>"; };
+		08AD22DD2643BE12000468AF /* CryptoAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CryptoAction.h; sourceTree = "<group>"; };
+		08AD22DE2643BE12000468AF /* CryptoUtil.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CryptoUtil.c; sourceTree = "<group>"; };
+		08AD22DF2643BE12000468AF /* CryptoAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CryptoAction.m; sourceTree = "<group>"; };
+		08AD22E02643BE12000468AF /* CryptoUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CryptoUtil.h; sourceTree = "<group>"; };
+		08AD22E32643BE12000468AF /* TelinkBleMeshSdkDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelinkBleMeshSdkDemoTests.swift; sourceTree = "<group>"; };
+		08AD22E42643BE12000468AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		08AD22E62643BE12000468AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		08AD22E82643BE12000468AF /* TelinkBleMeshExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelinkBleMeshExtensions.swift; sourceTree = "<group>"; };
+		08AD22E92643BE12000468AF /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		08AD22EA2643BE12000468AF /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
+		08AD22EB2643BE12000468AF /* MyDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDevice.swift; sourceTree = "<group>"; };
+		08AD22ED2643BE12000468AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		08AD22EE2643BE12000468AF /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		08AD22F02643BE12000468AF /* NodesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodesViewController.swift; sourceTree = "<group>"; };
+		08AD22F12643BE12000468AF /* NetworkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkViewController.swift; sourceTree = "<group>"; };
+		08AD22F22643BE12000468AF /* NetworksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksViewController.swift; sourceTree = "<group>"; };
+		08AD22F42643BE12000468AF /* DeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceViewController.swift; sourceTree = "<group>"; };
+		08AD22F52643BE12000468AF /* DeviceSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSettingsViewController.swift; sourceTree = "<group>"; };
+		08AD22F62643BE12000468AF /* DeviceAddressesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAddressesViewController.swift; sourceTree = "<group>"; };
+		08AD22F72643BE12000468AF /* AddDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeviceViewController.swift; sourceTree = "<group>"; };
+		08AD22F82643BE12000468AF /* NodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeViewController.swift; sourceTree = "<group>"; };
+		08AD22F92643BE12000468AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		08AD22FB2643BE12000468AF /* SliderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
+		08AD22FC2643BE12000468AF /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
+		08AD22FD2643BE12000468AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		08AD22FE2643BE12000468AF /* TelinkBleMeshSdkDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = TelinkBleMeshSdkDemo.xcodeproj; sourceTree = "<group>"; };
+		08AD23062643BE12000468AF /* xcschememanagement.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = xcschememanagement.plist; sourceTree = "<group>"; };
+		08AE3C89263BA0E500952791 /* DeviceSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSettingsViewController.swift; sourceTree = "<group>"; };
+		08D6AC1C260C36B100AEB39C /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
+		08DF3C9525AEF97000EC3AF7 /* TelinkBleMeshSdkDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelinkBleMeshSdkDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		08DF3C9825AEF97000EC3AF7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		08DF3CA125AEF97100EC3AF7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		08DF3CA425AEF97100EC3AF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		08DF3CA625AEF97100EC3AF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		08DF3CAB25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TelinkBleMeshSdkDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		08DF3CAF25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelinkBleMeshSdkDemoTests.swift; sourceTree = "<group>"; };
+		08DF3CB125AEF97200EC3AF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodesViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		08DF3C9225AEF97000EC3AF7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08AD230E2643C019000468AF /* TelinkBleMesh in Frameworks */,
+				08FCB95E25B1438D00F2F06C /* Toast in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08DF3CA825AEF97200EC3AF7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		082DFECC25B030DF004668EF /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0850A28E2611BDCD00638765 /* Device */,
+				08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */,
+				082DFEBE25B02ED1004668EF /* NodeViewController.swift */,
+				082DFED325B03113004668EF /* NetworksViewController.swift */,
+				082DFEDD25B04B41004668EF /* NetworkViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		082DFECF25B030E9004668EF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				082DFEC625B0307A004668EF /* Tools.swift */,
+				082DFED725B034FA004668EF /* NetworkManager.swift */,
+				082DFEE125B04CAF004668EF /* TelinkBleMeshExtensions.swift */,
+				085651FC2609F64400C7FF8E /* MyDevice.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		082DFED225B030FA004668EF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				08D6AC1C260C36B100AEB39C /* SwitchTableViewCell.swift */,
+				0800AAB0260B3ACC0010CA22 /* SliderTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0850A28E2611BDCD00638765 /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				085651F22609F5C400C7FF8E /* DeviceViewController.swift */,
+				0850A2972611BE0600638765 /* AddDeviceViewController.swift */,
+				08AE3C89263BA0E500952791 /* DeviceSettingsViewController.swift */,
+				08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */,
+			);
+			path = Device;
+			sourceTree = "<group>";
+		};
+		08AD22BD2643BE12000468AF /* TelinkBleMesh */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22BE2643BE12000468AF /* .build */,
+				08AD22C42643BE12000468AF /* Tests */,
+				08AD22C92643BE12000468AF /* README.md */,
+				08AD22CA2643BE12000468AF /* TelinkBleMeshSdk.xcworkspace */,
+				08AD22CB2643BE12000468AF /* .gitignore */,
+				08AD22CC2643BE12000468AF /* Package.swift */,
+				08AD22CD2643BE12000468AF /* Sources */,
+				08AD22E12643BE12000468AF /* TelinkBleMeshSdkDemo */,
+				08AD23012643BE12000468AF /* .swiftpm */,
+			);
+			name = TelinkBleMesh;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		08AD22BE2643BE12000468AF /* .build */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22BF2643BE12000468AF /* artifacts */,
+				08AD22C02643BE12000468AF /* workspace-state.json */,
+				08AD22C12643BE12000468AF /* checkouts */,
+				08AD22C22643BE12000468AF /* repositories */,
+				08AD22C32643BE12000468AF /* manifest.db */,
+			);
+			path = .build;
+			sourceTree = "<group>";
+		};
+		08AD22BF2643BE12000468AF /* artifacts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = artifacts;
+			sourceTree = "<group>";
+		};
+		08AD22C12643BE12000468AF /* checkouts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = checkouts;
+			sourceTree = "<group>";
+		};
+		08AD22C22643BE12000468AF /* repositories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = repositories;
+			sourceTree = "<group>";
+		};
+		08AD22C42643BE12000468AF /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22C52643BE12000468AF /* LinuxMain.swift */,
+				08AD22C62643BE12000468AF /* TelinkBleMeshTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		08AD22C62643BE12000468AF /* TelinkBleMeshTests */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22C72643BE12000468AF /* XCTestManifests.swift */,
+				08AD22C82643BE12000468AF /* TelinkBleMeshTests.swift */,
+			);
+			path = TelinkBleMeshTests;
+			sourceTree = "<group>";
+		};
+		08AD22CD2643BE12000468AF /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22CE2643BE12000468AF /* TelinkBleMesh */,
+				08AD22DB2643BE12000468AF /* CryptoAction */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		08AD22CE2643BE12000468AF /* TelinkBleMesh */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22CF2643BE12000468AF /* MeshNode.swift */,
+				08AD22D02643BE12000468AF /* MeshDevice.swift */,
+				08AD22D12643BE12000468AF /* Utils */,
+				08AD22D52643BE12000468AF /* MeshManager.swift */,
+				08AD22D62643BE12000468AF /* MeshAddressManager.swift */,
+				08AD22D72643BE12000468AF /* MeshPairingManager.swift */,
+				08AD22D82643BE12000468AF /* MeshDeviceType.swift */,
+				08AD22D92643BE12000468AF /* MeshNetwork.swift */,
+				08AD22DA2643BE12000468AF /* MeshCommand.swift */,
+			);
+			path = TelinkBleMesh;
+			sourceTree = "<group>";
+		};
+		08AD22D12643BE12000468AF /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22D22643BE12000468AF /* Tools.swift */,
+				08AD22D32643BE12000468AF /* SampleCommandCenter.swift */,
+				08AD22D42643BE12000468AF /* RepeatingTimer.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		08AD22DB2643BE12000468AF /* CryptoAction */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22DC2643BE12000468AF /* include */,
+			);
+			path = CryptoAction;
+			sourceTree = "<group>";
+		};
+		08AD22DC2643BE12000468AF /* include */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22DD2643BE12000468AF /* CryptoAction.h */,
+				08AD22DE2643BE12000468AF /* CryptoUtil.c */,
+				08AD22DF2643BE12000468AF /* CryptoAction.m */,
+				08AD22E02643BE12000468AF /* CryptoUtil.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		08AD22E12643BE12000468AF /* TelinkBleMeshSdkDemo */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22E22643BE12000468AF /* TelinkBleMeshSdkDemoTests */,
+				08AD22E52643BE12000468AF /* TelinkBleMeshSdkDemo */,
+				08AD22FE2643BE12000468AF /* TelinkBleMeshSdkDemo.xcodeproj */,
+			);
+			path = TelinkBleMeshSdkDemo;
+			sourceTree = "<group>";
+		};
+		08AD22E22643BE12000468AF /* TelinkBleMeshSdkDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22E32643BE12000468AF /* TelinkBleMeshSdkDemoTests.swift */,
+				08AD22E42643BE12000468AF /* Info.plist */,
+			);
+			path = TelinkBleMeshSdkDemoTests;
+			sourceTree = "<group>";
+		};
+		08AD22E52643BE12000468AF /* TelinkBleMeshSdkDemo */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22E62643BE12000468AF /* Assets.xcassets */,
+				08AD22E72643BE12000468AF /* Models */,
+				08AD22EC2643BE12000468AF /* LaunchScreen.storyboard */,
+				08AD22EE2643BE12000468AF /* Localizable.strings */,
+				08AD22EF2643BE12000468AF /* ViewControllers */,
+				08AD22F92643BE12000468AF /* AppDelegate.swift */,
+				08AD22FA2643BE12000468AF /* Views */,
+				08AD22FD2643BE12000468AF /* Info.plist */,
+			);
+			path = TelinkBleMeshSdkDemo;
+			sourceTree = "<group>";
+		};
+		08AD22E72643BE12000468AF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22E82643BE12000468AF /* TelinkBleMeshExtensions.swift */,
+				08AD22E92643BE12000468AF /* NetworkManager.swift */,
+				08AD22EA2643BE12000468AF /* Tools.swift */,
+				08AD22EB2643BE12000468AF /* MyDevice.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		08AD22EF2643BE12000468AF /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22F02643BE12000468AF /* NodesViewController.swift */,
+				08AD22F12643BE12000468AF /* NetworkViewController.swift */,
+				08AD22F22643BE12000468AF /* NetworksViewController.swift */,
+				08AD22F32643BE12000468AF /* Device */,
+				08AD22F82643BE12000468AF /* NodeViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		08AD22F32643BE12000468AF /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22F42643BE12000468AF /* DeviceViewController.swift */,
+				08AD22F52643BE12000468AF /* DeviceSettingsViewController.swift */,
+				08AD22F62643BE12000468AF /* DeviceAddressesViewController.swift */,
+				08AD22F72643BE12000468AF /* AddDeviceViewController.swift */,
+			);
+			path = Device;
+			sourceTree = "<group>";
+		};
+		08AD22FA2643BE12000468AF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22FB2643BE12000468AF /* SliderTableViewCell.swift */,
+				08AD22FC2643BE12000468AF /* SwitchTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		08AD22FF2643BE12000468AF /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		08AD23012643BE12000468AF /* .swiftpm */ = {
+			isa = PBXGroup;
+			children = (
+				08AD23022643BE12000468AF /* xcode */,
+			);
+			path = .swiftpm;
+			sourceTree = "<group>";
+		};
+		08AD23022643BE12000468AF /* xcode */ = {
+			isa = PBXGroup;
+			children = (
+				08AD23032643BE12000468AF /* xcuserdata */,
+			);
+			path = xcode;
+			sourceTree = "<group>";
+		};
+		08AD23032643BE12000468AF /* xcuserdata */ = {
+			isa = PBXGroup;
+			children = (
+				08AD23042643BE12000468AF /* maginawin.xcuserdatad */,
+			);
+			path = xcuserdata;
+			sourceTree = "<group>";
+		};
+		08AD23042643BE12000468AF /* maginawin.xcuserdatad */ = {
+			isa = PBXGroup;
+			children = (
+				08AD23052643BE12000468AF /* xcschemes */,
+			);
+			path = maginawin.xcuserdatad;
+			sourceTree = "<group>";
+		};
+		08AD23052643BE12000468AF /* xcschemes */ = {
+			isa = PBXGroup;
+			children = (
+				08AD23062643BE12000468AF /* xcschememanagement.plist */,
+			);
+			path = xcschemes;
+			sourceTree = "<group>";
+		};
+		08DF3C8C25AEF97000EC3AF7 = {
+			isa = PBXGroup;
+			children = (
+				08DF3C9725AEF97000EC3AF7 /* TelinkBleMeshSdkDemo */,
+				08DF3CAE25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests */,
+				08DF3C9625AEF97000EC3AF7 /* Products */,
+				08DF3CD425AEFA6B00EC3AF7 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		08DF3C9625AEF97000EC3AF7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				08DF3C9525AEF97000EC3AF7 /* TelinkBleMeshSdkDemo.app */,
+				08DF3CAB25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		08DF3C9725AEF97000EC3AF7 /* TelinkBleMeshSdkDemo */ = {
+			isa = PBXGroup;
+			children = (
+				082DFECF25B030E9004668EF /* Models */,
+				082DFED225B030FA004668EF /* Views */,
+				082DFECC25B030DF004668EF /* ViewControllers */,
+				08DF3C9825AEF97000EC3AF7 /* AppDelegate.swift */,
+				08DF3CA125AEF97100EC3AF7 /* Assets.xcassets */,
+				08DF3CA325AEF97100EC3AF7 /* LaunchScreen.storyboard */,
+				08DF3CA625AEF97100EC3AF7 /* Info.plist */,
+				082DFEC225B0302E004668EF /* Localizable.strings */,
+			);
+			path = TelinkBleMeshSdkDemo;
+			sourceTree = "<group>";
+		};
+		08DF3CAE25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				08DF3CAF25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift */,
+				08DF3CB125AEF97200EC3AF7 /* Info.plist */,
+			);
+			path = TelinkBleMeshSdkDemoTests;
+			sourceTree = "<group>";
+		};
+		08DF3CD425AEFA6B00EC3AF7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				08AD22BD2643BE12000468AF /* TelinkBleMesh */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		08DF3C9425AEF97000EC3AF7 /* TelinkBleMeshSdkDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08DF3CBF25AEF97200EC3AF7 /* Build configuration list for PBXNativeTarget "TelinkBleMeshSdkDemo" */;
+			buildPhases = (
+				08DF3C9125AEF97000EC3AF7 /* Sources */,
+				08DF3C9225AEF97000EC3AF7 /* Frameworks */,
+				08DF3C9325AEF97000EC3AF7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TelinkBleMeshSdkDemo;
+			packageProductDependencies = (
+				08FCB95D25B1438D00F2F06C /* Toast */,
+				08AD230D2643C019000468AF /* TelinkBleMesh */,
+			);
+			productName = TelinkBleMeshSdkDemo;
+			productReference = 08DF3C9525AEF97000EC3AF7 /* TelinkBleMeshSdkDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		08DF3CAA25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08DF3CC225AEF97200EC3AF7 /* Build configuration list for PBXNativeTarget "TelinkBleMeshSdkDemoTests" */;
+			buildPhases = (
+				08DF3CA725AEF97200EC3AF7 /* Sources */,
+				08DF3CA825AEF97200EC3AF7 /* Frameworks */,
+				08DF3CA925AEF97200EC3AF7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				08DF3CAD25AEF97200EC3AF7 /* PBXTargetDependency */,
+			);
+			name = TelinkBleMeshSdkDemoTests;
+			productName = TelinkBleMeshSdkDemoTests;
+			productReference = 08DF3CAB25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08DF3C8D25AEF97000EC3AF7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1220;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					08DF3C9425AEF97000EC3AF7 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					08DF3CAA25AEF97200EC3AF7 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 08DF3C9425AEF97000EC3AF7;
+					};
+				};
+			};
+			buildConfigurationList = 08DF3C9025AEF97000EC3AF7 /* Build configuration list for PBXProject "TelinkBleMeshSdkDemo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 08DF3C8C25AEF97000EC3AF7;
+			packageReferences = (
+				08FCB95C25B1438D00F2F06C /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+			);
+			productRefGroup = 08DF3C9625AEF97000EC3AF7 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 08AD22FF2643BE12000468AF /* Products */;
+					ProjectRef = 08AD22FE2643BE12000468AF /* TelinkBleMeshSdkDemo.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				08DF3C9425AEF97000EC3AF7 /* TelinkBleMeshSdkDemo */,
+				08DF3CAA25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		08DF3C9325AEF97000EC3AF7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08DF3CA525AEF97100EC3AF7 /* LaunchScreen.storyboard in Resources */,
+				082DFEC325B0302E004668EF /* Localizable.strings in Resources */,
+				08DF3CA225AEF97100EC3AF7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08DF3CA925AEF97200EC3AF7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		08DF3C9125AEF97000EC3AF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				082DFED825B034FA004668EF /* NetworkManager.swift in Sources */,
+				08DF3CDC25AF107200EC3AF7 /* NodesViewController.swift in Sources */,
+				0850A2982611BE0600638765 /* AddDeviceViewController.swift in Sources */,
+				082DFEBF25B02ED1004668EF /* NodeViewController.swift in Sources */,
+				08DF3C9925AEF97000EC3AF7 /* AppDelegate.swift in Sources */,
+				08AD22B626438E69000468AF /* DeviceAddressesViewController.swift in Sources */,
+				082DFED425B03113004668EF /* NetworksViewController.swift in Sources */,
+				08D6AC1D260C36B100AEB39C /* SwitchTableViewCell.swift in Sources */,
+				08AE3C8A263BA0E500952791 /* DeviceSettingsViewController.swift in Sources */,
+				082DFEDE25B04B41004668EF /* NetworkViewController.swift in Sources */,
+				082DFEC725B0307A004668EF /* Tools.swift in Sources */,
+				085651FD2609F64400C7FF8E /* MyDevice.swift in Sources */,
+				082DFEE225B04CAF004668EF /* TelinkBleMeshExtensions.swift in Sources */,
+				0800AAB1260B3ACC0010CA22 /* SliderTableViewCell.swift in Sources */,
+				085651F32609F5C400C7FF8E /* DeviceViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08DF3CA725AEF97200EC3AF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08DF3CB025AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		08DF3CAD25AEF97200EC3AF7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 08DF3C9425AEF97000EC3AF7 /* TelinkBleMeshSdkDemo */;
+			targetProxy = 08DF3CAC25AEF97200EC3AF7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		08AD22EC2643BE12000468AF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				08AD22ED2643BE12000468AF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		08DF3CA325AEF97100EC3AF7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				08DF3CA425AEF97100EC3AF7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		08DF3CBD25AEF97200EC3AF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		08DF3CBE25AEF97200EC3AF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		08DF3CC025AEF97200EC3AF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HA9DE4BFZL;
+				INFOPLIST_FILE = TelinkBleMeshSdkDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sunricher.maginawin.TelinkBleMeshSdkDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		08DF3CC125AEF97200EC3AF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HA9DE4BFZL;
+				INFOPLIST_FILE = TelinkBleMeshSdkDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sunricher.maginawin.TelinkBleMeshSdkDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		08DF3CC325AEF97200EC3AF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HA9DE4BFZL;
+				INFOPLIST_FILE = TelinkBleMeshSdkDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sunricher.maginawin.TelinkBleMeshSdkDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TelinkBleMeshSdkDemo.app/TelinkBleMeshSdkDemo";
+			};
+			name = Debug;
+		};
+		08DF3CC425AEF97200EC3AF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HA9DE4BFZL;
+				INFOPLIST_FILE = TelinkBleMeshSdkDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sunricher.maginawin.TelinkBleMeshSdkDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TelinkBleMeshSdkDemo.app/TelinkBleMeshSdkDemo";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		08DF3C9025AEF97000EC3AF7 /* Build configuration list for PBXProject "TelinkBleMeshSdkDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08DF3CBD25AEF97200EC3AF7 /* Debug */,
+				08DF3CBE25AEF97200EC3AF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08DF3CBF25AEF97200EC3AF7 /* Build configuration list for PBXNativeTarget "TelinkBleMeshSdkDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08DF3CC025AEF97200EC3AF7 /* Debug */,
+				08DF3CC125AEF97200EC3AF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08DF3CC225AEF97200EC3AF7 /* Build configuration list for PBXNativeTarget "TelinkBleMeshSdkDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08DF3CC325AEF97200EC3AF7 /* Debug */,
+				08DF3CC425AEF97200EC3AF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		08FCB95C25B1438D00F2F06C /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		08AD230D2643C019000468AF /* TelinkBleMesh */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TelinkBleMesh;
+		};
+		08FCB95D25B1438D00F2F06C /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08FCB95C25B1438D00F2F06C /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 08DF3C8D25AEF97000EC3AF7 /* Project object */;
+}
