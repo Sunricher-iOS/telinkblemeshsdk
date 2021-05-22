@@ -403,6 +403,7 @@ extension MeshPairingManager: MeshManagerNodeDelegate {
             if pendingDevices.count == 0 {
                 
                 status = .stopped
+                timer?.invalidate()
                 MLog("getNextAvailableAddress failed & pendingDevices.count == 0, stopped.")
                 connectNode = nil
                 MeshManager.shared.stopScanNode()

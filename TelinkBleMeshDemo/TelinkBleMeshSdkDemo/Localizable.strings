@@ -34,7 +34,7 @@
 "change_address" = "Change address";
 "change_address_msg" = "Restart all devices after changing the address.";
 "reset_network" = "Reset network";
-"reset_network_msg" = "Restart all devices after reseting the network.";
+"reset_network_msg" = "Restart all devices after resetting the network.";
 "reset" = "Reset";
 "add_new_device" = "Add new device";
 "manage_device_addresses" = "Manage device addresses";

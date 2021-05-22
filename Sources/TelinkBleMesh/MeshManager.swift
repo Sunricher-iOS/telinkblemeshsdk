@@ -100,7 +100,7 @@ public class MeshManager: NSObject {
         executeSerialAsyncTask {
             
             let options: [String: Any] = [
-                CBCentralManagerOptionShowPowerAlertKey: true
+                CBCentralManagerOptionShowPowerAlertKey: false
             ]
             self.centralManager = CBCentralManager(delegate: self, queue: DispatchQueue(label: "centralManager"), options: options)
             
@@ -126,6 +126,8 @@ extension MeshManager {
         
         executeSerialAsyncTask {
             
+            self.network = network
+            
             self.isAutoLogin = autoLogin
             self.isScanIgnoreName = ignoreName
             
@@ -134,8 +136,6 @@ extension MeshManager {
             
             MLog("scanNodeTask network \(network.name), password \(network.password), autoLogin " + (autoLogin ? "true" : "false"))
             guard self.isBluetoothPowerOn() else { return }
-            
-            self.network = network
             
             let options: [String: Any] = [
                 CBCentralManagerScanOptionAllowDuplicatesKey: true
@@ -198,6 +198,8 @@ extension MeshManager {
         
         executeSerialAsyncTask {
             
+            SampleCommandCenter.shared.removeAll()
+            
             self.isAutoLogin = autoLogin
             self.isLogin = false
             
@@ -220,7 +222,6 @@ extension MeshManager {
                 }
             }
             
-            SampleCommandCenter.shared.removeAll()
             Thread.sleep(forTimeInterval: 1.0)
         }
     }
@@ -323,6 +324,8 @@ extension MeshManager {
                 
                 return
             }
+            
+            MLog("datas " + nameData.hexString + ", " + passwordData.hexString + ", " + ltkData.hexString);
             
             peripheral.writeValue(nameData, for: pairingCharacteristic, type: .withResponse)
             Thread.sleep(forTimeInterval: 0.2)
