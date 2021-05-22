@@ -260,8 +260,9 @@ extension MeshManager {
         case processing
     }
     
-    public var bleState: CBManagerState {
+    public var centralManagerState: CBManagerState? {
         
+        if centralManager == nil { return nil }
         return centralManager.state
     }
     
