@@ -23,6 +23,7 @@ import CryptoAction
     
     @objc optional func meshManager(_ manager: MeshManager, didFailToLoginNodeIdentifier identifier: UUID)
     
+    @available(*, deprecated, message: "use `meshManagerDidUpdateState` instand of it")
     @objc optional func meshManagerNeedTurnOnBluetooth(_ manager: MeshManager)
     
     @available(iOS 10.0, *)
@@ -257,6 +258,11 @@ extension MeshManager {
         
         case none
         case processing
+    }
+    
+    public var bleState: CBManagerState {
+        
+        return centralManager.state
     }
     
     /**
