@@ -14,7 +14,8 @@ class DeviceSettingsViewController: UITableViewController {
     weak var device: MyDevice!
     
     private var options: [SettingsOption] = [
-        .changeAddress, .resetNetwork, .syncDatetime, .getDatetime
+        .changeAddress, .resetNetwork, .syncDatetime, .getDatetime,
+        .setLightOnOffDuration, .getLightOnOffDuration
     ]
     
     /// (short address, mac data)
@@ -26,6 +27,8 @@ class DeviceSettingsViewController: UITableViewController {
         super.viewDidLoad()
 
         title = "settings".localization
+        
+        MeshManager.shared.deviceDelegate = self
     }
 
     // MARK: - Table view data source
@@ -47,6 +50,12 @@ class DeviceSettingsViewController: UITableViewController {
             
         case .getDatetime:
             getDatetimeAction()
+            
+        case .setLightOnOffDuration:
+            setLightOnOffDurationAction()
+            
+        case .getLightOnOffDuration:
+            getLightOnOffDurationAction()
         }
     }
 
@@ -85,6 +94,9 @@ extension DeviceSettingsViewController {
         case syncDatetime
         case getDatetime
         
+        case setLightOnOffDuration
+        case getLightOnOffDuration
+        
         var title: String {
             
             switch self {
@@ -100,6 +112,12 @@ extension DeviceSettingsViewController {
                 
             case .getDatetime:
                 return "get_datetime".localization
+                
+            case .setLightOnOffDuration:
+                return "set_light_onoff_duration".localization
+                
+            case .getLightOnOffDuration:
+                return "get_light_onoff_duration".localization
             }
         }
     }
@@ -142,7 +160,6 @@ extension DeviceSettingsViewController {
             
             self.view.makeToastActivity(.center)
             
-            MeshManager.shared.deviceDelegate = self
             MeshCommand.changeAddress(Int(self.device.meshDevice.address), withNewAddress: address, macData: macData).send()
         }
         
@@ -186,8 +203,42 @@ extension DeviceSettingsViewController {
     
     private func getDatetimeAction() {
      
-        MeshManager.shared.deviceDelegate = self
         MeshCommand.getDatetime(Int(device.meshDevice.address)).send()
+    }
+    
+    private func setLightOnOffDurationAction() {
+        
+        let alert = UIAlertController(title: "set_light_onoff_duration".localization, message: "[0, 65535]", preferredStyle: .alert)
+        alert.popoverPresentationController?.sourceView = view
+        alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.width / 2, y: view.bounds.height / 2, width: 1, height: 1)
+        
+        var valueTextField: UITextField?
+        alert.addTextField { (textField) in
+            valueTextField = textField
+            textField.keyboardType = .numberPad
+        }
+        
+        let cancelAction = UIAlertAction(title: "cancel".localization, style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "ok".localization, style: .default) { [weak self] (_) in
+            
+            guard let self = self else { return }
+            guard let valueString = valueTextField?.text, let value = Int(valueString, radix: 10) else {
+                
+                return
+            }
+            
+            MeshCommand.setLightOnOffDuration(Int(self.device.meshDevice.address), duration: value).send()
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func getLightOnOffDurationAction() {
+        
+        MeshCommand.getLightOnOffDuration(Int(device.meshDevice.address)).send()
     }
     
 }
@@ -225,8 +276,14 @@ extension DeviceSettingsViewController: MeshManagerDeviceDelegate {
         let hour = dateComponents.hour ?? 0
         let minute = dateComponents.minute ?? 0
         let second = dateComponents.second ?? 0
-        let dateString = "\(year)/\(month)/\(day) \(hour):\(minute):\(second)"
+        let dateString = "\(address): \(year)/\(month)/\(day) \(hour):\(minute):\(second)"
         view.makeToast(dateString, position: .center)
+    }
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetLightOnOffDuration duration: Int) {
+        
+        let message = "\(address): duration \(duration) seconds"
+        view.makeToast(message, position: .center)
     }
     
 }

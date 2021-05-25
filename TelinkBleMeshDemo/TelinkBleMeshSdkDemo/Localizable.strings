@@ -52,3 +52,6 @@
 "sync_datetime" = "Sync datetime";
 "get_datetime" = "Get datetime";
 "sent" = "Sent";
+"set_light_onoff_duration" = "Set light on/off duration";
+"get_light_onoff_duration" = "Get light on/off duration";
+"ok" = "OK";

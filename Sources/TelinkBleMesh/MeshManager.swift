@@ -43,11 +43,15 @@ public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
     
     func meshManager(_ manager: MeshManager, device address: Int, didGetDate date: Date)
     
+    func meshManager(_ manager: MeshManager, device address: Int, didGetLightOnOffDuration duration: Int)
+    
 }
 
 extension MeshManagerDeviceDelegate {
     
     public func meshManager(_ manager: MeshManager, device address: Int, didGetDate date: Date) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetLightOnOffDuration duration: Int) {}
     
 }
 
@@ -909,6 +913,11 @@ extension MeshManager {
                 
                 self.deviceDelegate?.meshManager(self, device: address, didUpdateDeviceType: deviceType, macData: macData)
             }
+            
+        case .lightControlMode:
+            
+            MLog("lightControlMode ")
+            handleLightCongtrolModeCommand(command)
         }
     }
     
@@ -960,6 +969,32 @@ extension MeshManager {
         DispatchQueue.main.async {
             
             self.deviceDelegate?.meshManager(self, device: command.src, didGetDate: date)
+        }
+    }
+    
+    private func handleLightCongtrolModeCommand(_ command: MeshCommand) {
+        
+        guard let mode = MeshCommand.SrLightControlMode(rawValue: command.userData[1]) else {
+            
+            MLog("handleLightCongtrolModeCommand failed, unsupported mode \(command.userData[1])")
+            return
+        }
+        
+        switch mode {
+        
+        case .lightOnOffDuration:
+            
+            guard command.userData[2] == 0x00 else {
+                
+                MLog("lightOnOffDuration userData[2] != 0x00, is not get/response data")
+                return
+            }
+            
+            let duration = Int(command.userData[3]) | Int((command.userData[4] << 8))
+            DispatchQueue.main.async {
+                
+                self.deviceDelegate?.meshManager(self, device: command.src, didGetLightOnOffDuration: duration)
+            }
         }
     }
     

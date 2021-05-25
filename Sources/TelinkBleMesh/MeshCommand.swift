@@ -154,6 +154,13 @@ extension MeshCommand {
     enum SrIndentifier: UInt8 {
         
         case mac = 0x76
+        
+        case lightControlMode = 0x01
+    }
+    
+    enum SrLightControlMode: UInt8 {
+        
+        case lightOnOffDuration = 0x0F
     }
     
     enum SingleChannel: UInt8 {
@@ -489,4 +496,35 @@ extension MeshCommand {
         cmd.param = 0x10
         return cmd
     }
+}
+
+// MARK: - Light Control Mode
+
+extension MeshCommand {
+    
+    /// - Parameter duration: Range `[1, 0xFFFF]`, unit `second(s)`.
+    public static func setLightOnOffDuration(_ address: Int, duration: Int) -> MeshCommand {
+                
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.lightOnOffDuration.rawValue
+        cmd.userData[2] = 0x01 // set
+        cmd.userData[3] = UInt8(duration & 0xFF)
+        cmd.userData[4] = UInt8((duration >> 8) & 0xFF)
+        return cmd
+    }
+    
+    public static func getLightOnOffDuration(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.lightOnOffDuration.rawValue
+        cmd.userData[2] = 0x00 // get
+        return cmd
+    }
+    
 }
