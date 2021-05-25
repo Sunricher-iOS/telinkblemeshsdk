@@ -109,14 +109,9 @@ class NetworkViewController: UITableViewController {
         
         switch deviceType.category {
         
-        case .light:
-            
-            let controller = DeviceViewController(style: .grouped)
-            controller.device = device
-            deviceDelegate = controller
-            navigationController?.pushViewController(controller, animated: true)
-            
-        case .bridge:
+        case .light: fallthrough
+        case .bridge: fallthrough
+        case .rfPa:
             
             let controller = DeviceViewController(style: .grouped)
             controller.device = device
@@ -210,7 +205,7 @@ extension NetworkViewController: MeshManagerDeviceDelegate {
         tableView.reloadData()        
     }
     
-    func meshManager(_ manager: MeshManager, device address:UInt8, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {
+    func meshManager(_ manager: MeshManager, device address:Int, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {
         
         if let device = devices.first(where: { $0.meshDevice.address == address }) {
             

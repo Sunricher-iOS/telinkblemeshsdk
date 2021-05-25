@@ -19,6 +19,7 @@ public struct MeshDeviceType {
         case curtain
         case outlet
         case bridge
+        case rfPa
         
         case unsupported
     }
@@ -88,7 +89,15 @@ public struct MeshDeviceType {
             category = .unsupported
             
         case 0x50:
-            category = .bridge
+            
+            if rawValue2 == 0x02 {
+                
+                category = .rfPa
+                
+            } else {
+                
+                category = .bridge
+            }
         
         default:
             category = .unsupported
@@ -125,6 +134,9 @@ extension MeshDeviceType.Category {
             
         case .bridge:
             return "Bridge"
+            
+        case .rfPa:
+            return "RF PA"
             
         case .unsupported:
             return "Unsupported"
@@ -170,12 +182,26 @@ extension MeshDeviceType {
         case singleOnOff2 = 0x14
         
         case onoff = 0x30
+        case onoff2 = 0x60
+        
         case dim = 0x31
+        case dim3 = 0x61
+        
         case cct = 0x32
+        case cct3 = 0x62
+        
         case rgb = 0x33
+        case rgb2 = 0x63
+        
         case rgbw = 0x34
+        case rgbw2 = 0x64
+        
         case rgbCct = 0x35
+        case rgbCct2 = 0x65
+        
         case dtw = 0x36
+        case dtw2 = 0x66
+        
         case channel6Pwm = 0x37
         case dim2 = 0x38
         case cct2 = 0x39
@@ -186,31 +212,38 @@ extension MeshDeviceType {
             
             switch self {
             
-            case .endpoint6Pwm: fallthrough
             case .singleOnOff: fallthrough
             case .singleOnOff2: fallthrough
             case .onoff: fallthrough
-            case .dtw: fallthrough
-            case .channel6Pwm:
+            case .onoff2:
                 return [.onOff]
                 
             case .singleDim: fallthrough
             case .singleDim2: fallthrough
             case .dim: fallthrough
-            case .dim2:
+            case .dim2: fallthrough
+            case .dim3: fallthrough
+            case .dtw: fallthrough
+            case .dtw2:
                 return [.onOff, .brightness]
 
             case .cct: fallthrough
-            case .cct2:
+            case .cct2: fallthrough
+            case .cct3: fallthrough
+            case .endpoint6Pwm: fallthrough
+            case .channel6Pwm:
                 return [.onOff, .brightness, .colorTemperature]
                 
-            case .rgb:
+            case .rgb: fallthrough
+            case .rgb2:
                 return [.onOff, .brightness, .rgb]
                 
-            case .rgbw:
+            case .rgbw: fallthrough
+            case .rgbw2:
                 return [.onOff, .brightness, .white, .rgb]
                 
-            case .rgbCct:
+            case .rgbCct: fallthrough
+            case .rgbCct2:
                 return [.onOff, .brightness, .colorTemperature, .rgb]
                 
             case .rfPa:

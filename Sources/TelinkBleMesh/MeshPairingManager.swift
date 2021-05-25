@@ -175,7 +175,7 @@ extension MeshPairingManager {
         timer?.invalidate()
         status = .addressChanging
         
-        let consumeInterval = Double(pendingDevices.count) * 0.2
+        let consumeInterval = Double(pendingDevices.count) * MeshManager.shared.sendingTimeInterval
         
         for device in pendingDevices {
             
@@ -471,8 +471,12 @@ extension MeshPairingManager: MeshManagerDeviceDelegate {
         }
     }
     
-    public func meshManager(_ manager: MeshManager, device address: UInt8, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {
+    public func meshManager(_ manager: MeshManager, device address: Int, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {
         
+        
+    }
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetDate date: Date) {
         
     }
     

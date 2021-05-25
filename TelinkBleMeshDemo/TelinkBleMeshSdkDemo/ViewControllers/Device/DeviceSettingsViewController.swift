@@ -14,7 +14,7 @@ class DeviceSettingsViewController: UITableViewController {
     weak var device: MyDevice!
     
     private var options: [SettingsOption] = [
-        .changeAddress, .resetNetwork
+        .changeAddress, .resetNetwork, .syncDatetime, .getDatetime
     ]
     
     /// (short address, mac data)
@@ -41,6 +41,12 @@ class DeviceSettingsViewController: UITableViewController {
             
         case .resetNetwork:
             resetNetworkAction()
+            
+        case .syncDatetime:
+            syncDatetimeAction()
+            
+        case .getDatetime:
+            getDatetimeAction()
         }
     }
 
@@ -76,6 +82,9 @@ extension DeviceSettingsViewController {
         
         case resetNetwork
         
+        case syncDatetime
+        case getDatetime
+        
         var title: String {
             
             switch self {
@@ -85,6 +94,12 @@ extension DeviceSettingsViewController {
                 
             case .resetNetwork:
                 return "reset_network".localization
+                
+            case .syncDatetime:
+                return "sync_datetime".localization
+                
+            case .getDatetime:
+                return "get_datetime".localization
             }
         }
     }
@@ -163,6 +178,18 @@ extension DeviceSettingsViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    private func syncDatetimeAction() {
+        
+        MeshCommand.syncDatetime(Int(device.meshDevice.address)).send()
+        view.makeToast("sent".localization, position: .center)
+    }
+    
+    private func getDatetimeAction() {
+     
+        MeshManager.shared.deviceDelegate = self
+        MeshCommand.getDatetime(Int(device.meshDevice.address)).send()
+    }
+    
 }
 
 extension DeviceSettingsViewController: MeshManagerDeviceDelegate {
@@ -175,7 +202,7 @@ extension DeviceSettingsViewController: MeshManagerDeviceDelegate {
         }
     }
     
-    func meshManager(_ manager: MeshManager, device address: UInt8, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {
+    func meshManager(_ manager: MeshManager, device address: Int, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {
         
         guard let newAddress = self.newAddress else { return }
         
@@ -186,6 +213,20 @@ extension DeviceSettingsViewController: MeshManagerDeviceDelegate {
             view.hideToastActivity()
             view.makeToast("change_address_successful".localization, position: .center)
         }
+    }
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetDate date: Date) {
+        
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let year = dateComponents.year ?? 0
+        let month = dateComponents.month ?? 0
+        let day = dateComponents.day ?? 0
+        let hour = dateComponents.hour ?? 0
+        let minute = dateComponents.minute ?? 0
+        let second = dateComponents.second ?? 0
+        let dateString = "\(year)/\(month)/\(day) \(hour):\(minute):\(second)"
+        view.makeToast(dateString, position: .center)
     }
     
 }

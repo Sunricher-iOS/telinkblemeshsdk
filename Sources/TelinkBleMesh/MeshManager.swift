@@ -39,7 +39,15 @@ public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
     
     func meshManager(_ manager: MeshManager, didUpdateMeshDevices meshDevices: [MeshDevice])
     
-    func meshManager(_ manager: MeshManager, device address:UInt8, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data)
+    func meshManager(_ manager: MeshManager, device address:Int, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data)
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetDate date: Date)
+    
+}
+
+extension MeshManagerDeviceDelegate {
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetDate date: Date) {}
     
 }
 
@@ -86,7 +94,7 @@ public class MeshManager: NSObject {
     private var sectionKey = UnsafeMutablePointer<UInt8>.allocate(capacity: 16)
     
     // 200ms every command
-    private let sendingTimeInterval: TimeInterval = 0.2
+    internal private(set) var sendingTimeInterval: TimeInterval = 0.2
     private let sendingQueue = DispatchQueue(label: "MeshManager sending")
     private let sendingQueueKey = DispatchSpecificKey<Void>()
     
@@ -169,6 +177,7 @@ extension MeshManager {
         
         executeSerialAsyncTask {
             
+            self.updateSendingTimeInterval(node)
             SampleCommandCenter.shared.removeAll()
             
             self.setNetworkState = .none
@@ -250,7 +259,7 @@ extension MeshManager {
             
             let data = Data([0x01])
             self.connectNode?.peripheral.writeValue(data, for: notifyCharacteristic, type: .withResponse)
-            Thread.sleep(forTimeInterval: 0.2)
+            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
         }
     }
     
@@ -335,16 +344,16 @@ extension MeshManager {
             MLog("datas " + nameData.hexString + ", " + passwordData.hexString + ", " + ltkData.hexString);
             
             peripheral.writeValue(nameData, for: pairingCharacteristic, type: .withResponse)
-            Thread.sleep(forTimeInterval: 0.2)
+            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
             
             peripheral.writeValue(passwordData, for: pairingCharacteristic, type: .withResponse)
-            Thread.sleep(forTimeInterval: 0.2)
+            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
             
             peripheral.writeValue(ltkData, for: pairingCharacteristic, type: .withResponse)
-            Thread.sleep(forTimeInterval: 0.2)
+            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
             
             peripheral.readValue(for: pairingCharacteristic)
-            Thread.sleep(forTimeInterval: 0.2)
+            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
         }
     }
     
@@ -551,6 +560,7 @@ extension MeshManager: CBPeripheralDelegate {
         
         MLog("peripheral didWriteValueFor \(MeshUUID.uuidDescription(characteristic.uuid))")
         if MErrorNotNil(error) {
+            MLog("peripheral didWriteValueFor \(MeshUUID.uuidDescription(characteristic.uuid)) error " + (error?.localizedDescription ?? ""))
             return
         }
         
@@ -835,6 +845,19 @@ extension MeshManager {
         case .resetNetwork:
             
             MLog("resetNetwork tag")
+            
+        case .syncDatetime:
+            
+            MLog("syncDatetime tag")
+            
+        case .getDatetime:
+            
+            MLog("getDatetime tag")
+            
+        case .datetimeResponse:
+            
+            MLog("datetimeResponse tag")
+            self.handleDatetimeResponseData(data)
         }
     }
     
@@ -878,7 +901,7 @@ extension MeshManager {
             
             let deviceType = MeshDeviceType(deviceType: command.userData[1], subDeviceType: command.userData[2])
             let macData = Data(command.userData[3...8].reversed())
-            let address = UInt8(command.src)
+            let address = command.src
             
             MLog("DeviceType \(address), \(deviceType.category.description), MAC \(macData.hexString)")
             
@@ -893,13 +916,13 @@ extension MeshManager {
         
         guard let command = MeshCommand(notifyData: data) else {
             
-            MLog("handleNewNodeAddressData failed, cannot covert to a MeshCommand")
+            MLog("handleGetMacNotifyData failed, cannot covert to a MeshCommand")
             return
         }
         
         let newAddress = command.param
         let macData = Data(command.userData[1...6].reversed())
-        MLog("handleNewNodeAddressData newAddress " + String(format: "%02X", newAddress) + ", mac \(macData.hexString)")
+        MLog("handleGetMacNotifyData newAddress " + String(format: "%02X", newAddress) + ", mac \(macData.hexString)")
         
         DispatchQueue.main.async {
             
@@ -908,6 +931,45 @@ extension MeshManager {
         
     }
     
+    private func handleDatetimeResponseData(_ data: Data) {
+        
+        guard let command = MeshCommand(notifyData: data) else {
+            
+            MLog("handleDatetimeResponseData failed, cannot covert to a MeshCommand")
+            return
+        }
+        
+        let year = command.param | (Int(command.userData[0]) << 8)
+        let month = Int(command.userData[1])
+        let day = Int(command.userData[2])
+        let hour = Int(command.userData[3])
+        let minute = Int(command.userData[4])
+        let second = Int(command.userData[5])
+        
+        MLog("handleDatetimeResponseData \(year)/\(month)/\(day) \(hour):\(minute):\(second)")
+        
+        let calendar = Calendar.current
+        let dateComponent = DateComponents(calendar: calendar,year: year, month: month, day: day, hour: hour, minute: minute, second: second)
+        
+        guard let date = dateComponent.date else {
+            
+            MLog("handleDatetimeResponseData failed, dateComponent.date is nil")
+            return
+        }
+        
+        DispatchQueue.main.async {
+            
+            self.deviceDelegate?.meshManager(self, device: command.src, didGetDate: date)
+        }
+    }
+    
 }
 
-
+extension MeshManager {
+        
+    fileprivate func updateSendingTimeInterval(_ node: MeshNode) {
+        
+        self.sendingTimeInterval = (node.deviceType.category == .rfPa) ? 0.5 : 0.2
+    }
+    
+}

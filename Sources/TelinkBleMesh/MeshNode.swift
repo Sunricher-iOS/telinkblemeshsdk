@@ -88,6 +88,8 @@ public class MeshNode: NSObject {
     
     public internal(set) var rssi: Int = 0
     
+    public internal(set) var deviceType: MeshDeviceType
+    
     
 //    init(_ peripheral: CBPeripheral) {
 //        
@@ -131,6 +133,8 @@ public class MeshNode: NSObject {
         self.shortAddress = UInt16(manufacturerData[17])
         let productIdData = manufacturerData[14...15]
         self.productId = productIdData.uint16Value
+        
+        self.deviceType = MeshDeviceType(deviceType: UInt8((productId >> 8) & 0xFF), subDeviceType: UInt8(productId & 0xFF))
         
         MLog("productId \(productIdData.hexString), shortAddress \(shortAddress)")
     }

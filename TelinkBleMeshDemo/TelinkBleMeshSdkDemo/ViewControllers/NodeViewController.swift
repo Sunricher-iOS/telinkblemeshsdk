@@ -41,12 +41,18 @@ class NodeViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let device = devices[indexPath.row]
-        guard device.isValid else { return }
+        guard device.isValid else {
+            
+            MeshCommand.requestMacDeviceType(Int(device.meshDevice.address)).send()        
+            return
+        }
         guard let deviceType = device.deviceType else { return }
         
         switch deviceType.category {
         
-        case .light:
+        case .light: fallthrough
+        case .bridge: fallthrough
+        case .rfPa:
             
             let controller = DeviceViewController(style: .grouped)
             controller.device = device
@@ -111,7 +117,7 @@ extension NodeViewController: MeshManagerDeviceDelegate {
         tableView.reloadData()
     }
     
-    func meshManager(_ manager: MeshManager, device address: UInt8, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {
+    func meshManager(_ manager: MeshManager, device address: Int, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {
         
         if let device = devices.first(where: { $0.meshDevice.address == address }) {
             

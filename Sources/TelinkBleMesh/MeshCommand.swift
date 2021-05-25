@@ -142,6 +142,12 @@ extension MeshCommand {
         case getMacNotify = 0xE1
         
         case resetNetwork = 0xE3
+        
+        case syncDatetime = 0xE4
+        
+        case getDatetime = 0xE8
+        
+        case datetimeResponse = 0xE9
     }
     
     /// Sunricher private protocol
@@ -443,4 +449,44 @@ extension MeshCommand {
         return cmd
     }
     
+}
+
+// MARK: - Date-time
+
+extension MeshCommand {
+    
+    public static func syncDatetime(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .syncDatetime
+        cmd.dst = address
+        
+        let now = Date()
+        let calendar = Calendar.current
+        let dateComponent = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: now)
+        let year = dateComponent.year ?? 2000
+        let month = dateComponent.month ?? 1
+        let day = dateComponent.day ?? 1
+        let hour = dateComponent.hour ?? 0
+        let minute = dateComponent.minute ?? 0
+        let second = dateComponent.second ?? 0
+        
+        cmd.param = (year & 0xFF)
+        cmd.userData[0] = UInt8((year >> 8) & 0xFF)
+        cmd.userData[1] = UInt8(month & 0xFF)
+        cmd.userData[2] = UInt8(day & 0xFF)
+        cmd.userData[3] = UInt8(hour & 0xFF)
+        cmd.userData[4] = UInt8(minute & 0xFF)
+        cmd.userData[5] = UInt8(second & 0xFF)
+        return cmd
+    }
+    
+    public static func getDatetime(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .getDatetime
+        cmd.dst = address
+        cmd.param = 0x10
+        return cmd
+    }
 }

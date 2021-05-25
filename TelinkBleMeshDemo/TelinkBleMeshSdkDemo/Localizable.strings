@@ -49,3 +49,6 @@
 "change_address_successful" = "Change address successful";
 "change_address_overtime" = "Change address overtime";
 "pull_refresh" = "Pull refresh";
+"sync_datetime" = "Sync datetime";
+"get_datetime" = "Get datetime";
+"sent" = "Sent";
