@@ -40,7 +40,8 @@ class MyDevice {
         }
         
         let mac = macData!.reduce("", { $0 + String(format: "%02X", $1) })
-        return mac + ", \(deviceType!.category.description)"
+        let deviceTypeRawValueString = String(format: "0x%02X%02X", deviceType!.rawValue1, deviceType!.rawValue2)
+        return mac + ", \(deviceType!.category.description) [\(deviceTypeRawValueString)]"
     }
     
     var isValid: Bool {

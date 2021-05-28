@@ -33,8 +33,6 @@ import CryptoAction
     
     @objc optional func meshManager(_ manager: MeshManager, didConfirmNewNetwork isSuccess: Bool)
     
-//    @objc optional func meshManager(_ manager: MeshManager, didGet)
-    
 }
 
 public protocol MeshManagerDeviceDelegate: NSObjectProtocol {

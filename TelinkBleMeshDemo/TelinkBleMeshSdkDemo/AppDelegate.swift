@@ -29,7 +29,7 @@ extension AppDelegate {
         
         let nodes = NodesViewController(style: .grouped)
         let peripheralsController = UINavigationController(rootViewController: nodes)
-        peripheralsController.tabBarItem.title = "nodes".localization
+        peripheralsController.tabBarItem.title = "factory_network".localization
         
         let networks = NetworksViewController(style: .grouped)
         let networksController = UINavigationController(rootViewController: networks)
