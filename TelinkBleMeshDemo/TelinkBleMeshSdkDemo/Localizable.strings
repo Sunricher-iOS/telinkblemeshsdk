@@ -55,3 +55,17 @@
 "set_light_onoff_duration" = "Set light on/off duration";
 "get_light_onoff_duration" = "Get light on/off duration";
 "ok" = "OK";
+"ota" = "OTA";
+"firmware_update" = "Firmware update";
+"current_firmware" = "Current firmware";
+"latest_firmware" = "Latest firmware";
+"update" = "Update";
+"already_the_latest_firmware" = "It's already the latest firmware";
+"update_firmware_title" = "Update to the latest firmware?";
+"updating" = "Updating...";
+"the_update_is_complete" = "The update is complete, please refresh (reconnect) your device.";
+"no_updates" = "No updates";
+"get_current_firmware_again" = "Get current firmware again.";
+"connect_overtime" = "Connect overtime, please restart your device and try again.";
+"invalid_ota_file" = "Invalid OTA file";
+"ota_disconnected" = "Disconnected, please restart your device and try again.";

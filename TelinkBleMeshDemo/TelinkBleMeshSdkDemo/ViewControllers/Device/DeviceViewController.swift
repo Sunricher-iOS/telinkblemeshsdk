@@ -11,6 +11,7 @@ import TelinkBleMesh
 class DeviceViewController: UITableViewController {
     
     weak var device: MyDevice!
+    var network: MeshNetwork!
     
     private var capabilities: [MeshDeviceType.Capability]!
     private let colorSliderTypes: [ColorSliderType] = [.red, .green, .blue, .hue]
@@ -22,7 +23,8 @@ class DeviceViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = String(format: "0x%02X", device.meshDevice.address)
+        let hexAddress = String(format: "0x%02X", device.meshDevice.address)
+        self.title = "\(device.meshDevice.address) (\(hexAddress))"
         
         self.capabilities =  device.deviceType?.capabilities ?? []
         
@@ -34,6 +36,7 @@ class DeviceViewController: UITableViewController {
         
         let controller = DeviceSettingsViewController(style: .grouped)
         controller.device = device
+        controller.network = network
         navigationController?.pushViewController(controller, animated: true)
     }
 

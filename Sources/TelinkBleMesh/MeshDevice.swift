@@ -41,8 +41,9 @@ public struct MeshDevice {
     
     public var description: String {
         
-        return "Address " + String(format: "0x%02X", address) +
-            ", state \(state.title), brightness \(brightness)"
+        let hexAddress = String(format: "0x%02X", address)
+        
+        return "Address \(address) (\(hexAddress)), state \(state.title), \(brightness)%"
     }
     
     private init?(deviceAddr: UInt8, isOnline: Bool, brightness: UInt8) {

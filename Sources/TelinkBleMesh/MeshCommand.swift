@@ -148,6 +148,10 @@ extension MeshCommand {
         case getDatetime = 0xE8
         
         case datetimeResponse = 0xE9
+        
+        case getFirmware = 0xC7
+        
+        case firmwareResponse = 0xC8
     }
     
     /// Sunricher private protocol
@@ -524,6 +528,20 @@ extension MeshCommand {
         cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
         cmd.userData[1] = SrLightControlMode.lightOnOffDuration.rawValue
         cmd.userData[2] = 0x00 // get
+        return cmd
+    }
+    
+}
+
+// MARK: - OTA
+
+extension MeshCommand {
+    
+    public static func getFirmwareVersion(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .getFirmware
+        cmd.dst = address
         return cmd
     }
     

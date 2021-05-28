@@ -349,4 +349,51 @@ static int snNo = 0;
     return [NSData dataWithBytes:buffer length:20];
 }
 
+#pragma mark - OTA
+
++ (NSData *)getOtaData:(NSData *)data index:(int)index {
+    
+    BOOL isEnd = data.length == 0;
+    int countIndex = index;
+    Byte *tempBytes = (Byte *)[data bytes];
+    Byte resultBytes[20];
+    
+    memset(resultBytes, 0xff, 20);
+    memcpy(resultBytes, &countIndex, 2);
+    memcpy(resultBytes+2, tempBytes, data.length);
+    uint16_t crc = crc16(resultBytes, isEnd ? 2 : 18);
+    memcpy(isEnd ? (resultBytes + 2) : (resultBytes+18), &crc, 2);
+    NSData *writeData = [NSData dataWithBytes:resultBytes length:isEnd ? 4 : 20];
+    return writeData;
+}
+
++ (NSData *)getOtaEndData:(int)index {
+    
+    Byte resultBytes[4];
+    
+    memset(resultBytes, 0xff, 4);
+    memcpy(resultBytes, &index, 2);
+    uint16_t crc = crc16(resultBytes, 2);
+    memcpy(resultBytes+2, &crc, 2);
+    NSData *writeData = [NSData dataWithBytes:resultBytes length:4];
+    return writeData;
+}
+
+extern unsigned short crc16 (unsigned char *pD, int len)
+{
+    static unsigned short poly[2]={0, 0xa001};              //0x8005 <==> 0xa001
+    unsigned short crc = 0xffff;
+    int i,j;
+    for(j=len; j>0; j--)
+    {
+        unsigned char ds = *pD++;
+        for(i=0; i<8; i++)
+        {
+            crc = (crc >> 1) ^ poly[(crc ^ ds ) & 1];
+            ds = ds >> 1;
+        }
+    }
+    return crc;
+}
+
 @end

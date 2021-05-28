@@ -33,6 +33,8 @@ import CryptoAction
     
     @objc optional func meshManager(_ manager: MeshManager, didConfirmNewNetwork isSuccess: Bool)
     
+//    @objc optional func meshManager(_ manager: MeshManager, didGet)
+    
 }
 
 public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
@@ -45,13 +47,21 @@ public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
     
     func meshManager(_ manager: MeshManager, device address: Int, didGetLightOnOffDuration duration: Int)
     
+    func meshManager(_ manager: MeshManager, device address: Int, didGetFirmwareVersion version: String)
+    
 }
 
 extension MeshManagerDeviceDelegate {
     
+    public func meshManager(_ manager: MeshManager, didUpdateMeshDevices meshDevices: [MeshDevice]) {}
+    
+    public func meshManager(_ manager: MeshManager, device address:Int, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {}
+    
     public func meshManager(_ manager: MeshManager, device address: Int, didGetDate date: Date) {}
     
     public func meshManager(_ manager: MeshManager, device address: Int, didGetLightOnOffDuration duration: Int) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetFirmwareVersion version: String) {}
     
 }
 
@@ -124,6 +134,8 @@ public class MeshManager: NSObject {
     }
     
 }
+
+// MARK: - Public
 
 extension MeshManager {
     
@@ -318,6 +330,8 @@ extension MeshManager {
     
 }
 
+// MARK: - Interval
+
 extension MeshManager {
     
     /**
@@ -359,6 +373,32 @@ extension MeshManager {
             peripheral.readValue(for: pairingCharacteristic)
             Thread.sleep(forTimeInterval: self.sendingTimeInterval)
         }
+    }
+    
+    func readFirmwareWithConnectNode() {
+        
+        guard self.isLogin else {
+            return
+        }
+        
+        executeSendingAsyncTask {
+            
+            Thread.sleep(forTimeInterval: 3)
+            
+            guard let firmwareCharacteristic = self.firmwareCharacteristic else { return }
+            
+            self.connectNode?.peripheral.readValue(for: firmwareCharacteristic)
+        }
+    }
+    
+    func writeOtaData(_ data: Data) -> Bool {
+        
+        guard isLogin, let otaCharacteristic = self.otaCharacteristic else {
+            return false
+        }
+        
+        self.connectNode?.peripheral.writeValue(data, for: otaCharacteristic, type: .withoutResponse)
+        return true
     }
     
 }
@@ -453,13 +493,12 @@ extension MeshManager: CBCentralManagerDelegate {
     
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         
-        MLog("centralManager didDisconnectPeripheral")
+        MLog("centralManager didDisconnectPeripheral " + (error?.localizedDescription ?? "error nil"))
         
         self.connectNode = nil
+        self.isLogin = false
         
         DispatchQueue.main.async {
-            
-            self.isLogin = false
             
             if self.isAutoLogin {
                 
@@ -484,30 +523,23 @@ extension MeshManager: CBPeripheralDelegate {
     
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         
-        MLog("peripheral didDiscoverServices")
+        MLog("peripheral didDiscoverServices " + "\(peripheral.services?.count ?? 0)")
         if MErrorNotNil(error) {
             return
         }
         
         executeSerialAsyncTask {
             
-            if let accessService = peripheral.services?.first(where: { $0.uuid.uuidString == MeshUUID.accessService }) {
+            peripheral.services?.forEach {
                 
-                MLog("accessService found")
-                peripheral.discoverCharacteristics(nil, for: accessService)
-            }
-            
-            if let deviceInformationService = peripheral.services?.first(where: { $0.uuid.uuidString == MeshUUID.deviceInformationService }) {
-                
-                MLog("deviceInformationService found")
-                peripheral.discoverCharacteristics(nil, for: deviceInformationService)
+                peripheral.discoverCharacteristics(nil, for: $0)
             }
         }
     }
     
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         
-        MLog("peripheral didDiscoverCharacteristicsFor \(MeshUUID.uuidDescription(service.uuid))")
+        MLog("peripheral didDiscoverCharacteristicsFor \(MeshUUID.uuidDescription(service.uuid)) \(service.characteristics?.count ?? 0)")
         if MErrorNotNil(error) {
             return
         }
@@ -517,9 +549,9 @@ extension MeshManager: CBPeripheralDelegate {
             
             characteristics.forEach {
                 
-                let uuidString = $0.uuid.uuidString
+                MLog("characteristic \($0.uuid.uuidString)")
                 
-                switch uuidString {
+                switch $0.uuid.uuidString {
                 
                 case MeshUUID.notifyCharacteristic:
                     
@@ -569,8 +601,8 @@ extension MeshManager: CBPeripheralDelegate {
         }
         
         executeSerialAsyncTask {
-            
-            if (characteristic.uuid.uuidString == MeshUUID.pairingCharacteristic) {
+                        
+            if (MeshUUID.pairingCharacteristic == characteristic.uuid.uuidString) {
                 
                 if self.setNetworkState == .processing {
                     
@@ -613,11 +645,11 @@ extension MeshManager: CBPeripheralDelegate {
                         
             case MeshUUID.otaCharacteristic:
                 
-                MLog("otaCharacteristic didUpdateValue \(value.hexString)")
+                self.handleOtaValue(value)
                 
             case MeshUUID.firmwareCharacteristic:
                 
-                MLog("firmwareCharacteristic didUpdateValue \(value.hexString)")
+                self.handleFirmwareValue(value)
                 
             default:
                 break
@@ -627,6 +659,8 @@ extension MeshManager: CBPeripheralDelegate {
     }
     
 }
+
+// MARK: - Private
 
 extension MeshManager {
     
@@ -651,7 +685,7 @@ extension MeshManager {
 
 extension MeshManager {
     
-    private func executeSerialAsyncTask(_ task: @escaping () -> Void) {
+    func executeSerialAsyncTask(_ task: @escaping () -> Void) {
         
         if DispatchQueue.getSpecific(key: serialQueueKey) != nil {
             
@@ -862,6 +896,15 @@ extension MeshManager {
             
             MLog("datetimeResponse tag")
             self.handleDatetimeResponseData(data)
+            
+        case .getFirmware:
+            
+            MLog("getFirmware tag")
+            
+        case .firmwareResponse:
+            
+            MLog("firmwareResponse tag")
+            self.handleFirmwareResponseValue(data)
         }
     }
     
@@ -997,8 +1040,43 @@ extension MeshManager {
             }
         }
     }
+        
+    private func handleFirmwareValue(_ value: Data) {
+        
+        guard let firmware = String(data: value, encoding: .utf8) else {
+            return
+        }
+        MLog("handleFirmwareValue firmware \(firmware)")
+    }
+    
+    private func handleOtaValue(_ value: Data) {
+        
+    }
+    
+    private func handleFirmwareResponseValue(_ value: Data) {
+        
+        guard let command = MeshCommand(notifyData: value) else {
+            return
+        }
+        
+        let versionData = command.userData[0...3]
+        guard let version = String(data: versionData, encoding: .utf8) else {
+            return
+        }
+        
+        let isStandard = version.contains("V")
+        MLog("handleFirmwareResponseValue version \(version), src \(command.src)")
+        
+        DispatchQueue.main.async {
+            
+            let currentVersion = isStandard ? version : "V0.1"
+            self.deviceDelegate?.meshManager(self, device: command.src, didGetFirmwareVersion: currentVersion)
+        }
+    }
     
 }
+
+// MARK: - Fileprivate
 
 extension MeshManager {
         

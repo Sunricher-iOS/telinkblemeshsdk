@@ -62,4 +62,10 @@
 
 + (NSData *)getNetworkConfirm:(uint8_t *)sectionKey;
 
+#pragma mark - OTA
+
++ (NSData *)getOtaData:(NSData *)data index:(int)index;
+
++ (NSData *)getOtaEndData:(int)index;
+
 @end

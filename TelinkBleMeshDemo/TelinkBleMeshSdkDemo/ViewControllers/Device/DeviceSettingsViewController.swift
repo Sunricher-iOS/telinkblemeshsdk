@@ -12,10 +12,11 @@ import Toast
 class DeviceSettingsViewController: UITableViewController {
     
     weak var device: MyDevice!
+    var network: MeshNetwork!
     
     private var options: [SettingsOption] = [
         .changeAddress, .resetNetwork, .syncDatetime, .getDatetime,
-        .setLightOnOffDuration, .getLightOnOffDuration
+        .setLightOnOffDuration, .getLightOnOffDuration, .ota
     ]
     
     /// (short address, mac data)
@@ -56,6 +57,14 @@ class DeviceSettingsViewController: UITableViewController {
             
         case .getLightOnOffDuration:
             getLightOnOffDurationAction()
+            
+        case .ota:
+            
+            let controller = OtaTableViewController(style: .grouped)
+            controller.title = "firmware_update".localization
+            controller.device = device
+            controller.netework = network
+            navigationController?.pushViewController(controller, animated: true)
         }
     }
 
@@ -97,6 +106,8 @@ extension DeviceSettingsViewController {
         case setLightOnOffDuration
         case getLightOnOffDuration
         
+        case ota
+        
         var title: String {
             
             switch self {
@@ -118,6 +129,9 @@ extension DeviceSettingsViewController {
                 
             case .getLightOnOffDuration:
                 return "get_light_onoff_duration".localization
+                
+            case .ota:
+                return "firmware_update".localization
             }
         }
     }

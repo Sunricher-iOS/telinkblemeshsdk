@@ -79,11 +79,10 @@ public class MeshPairingManager: NSObject {
     private var pendingDevices: [Data: (Int, Int)] = [:]
     private var availableAddressList: [Int] = []
     
-    private var connectNode: MeshNode?
+//    private var connectNode: MeshNode?
     
     private override init() {
-        super.init()
-        
+        super.init()        
     }
     
     public func startPairing(_ network: MeshNetwork, delegate: MeshPairingManagerDelegate) {
@@ -118,7 +117,7 @@ public class MeshPairingManager: NSObject {
         pendingDevices.removeAll()
         availableAddressList.removeAll()
                 
-        connectNode = nil
+//        connectNode = nil
         MeshManager.shared.stopScanNode()
         MeshManager.shared.disconnect()
     }
@@ -132,7 +131,7 @@ extension MeshPairingManager {
         
         timer?.invalidate()
         status = .existDeviceScanning
-        connectNode = nil
+//        connectNode = nil
         MeshManager.shared.scanNode(network)
         
         timer = Timer.scheduledTimer(timeInterval: connectingInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
@@ -144,7 +143,7 @@ extension MeshPairingManager {
         
         timer?.invalidate()
         status = .factoryConnecting
-        connectNode = nil
+//        connectNode = nil
         MeshManager.shared.scanNode(.factory)
         
         timer = Timer.scheduledTimer(timeInterval: connectingInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
@@ -233,7 +232,7 @@ extension MeshPairingManager {
             
             status = .stopped
             MLog("factoryConnecting failed, cancel.")
-            connectNode = nil
+//            connectNode = nil
             MeshManager.shared.stopScanNode()
             MeshManager.shared.disconnect()
             
@@ -266,7 +265,7 @@ extension MeshPairingManager {
             
             status = .networkConnecting
             MLog("networkSetting OK, next, networkConnecting")
-            connectNode = nil
+//            connectNode = nil
             MeshManager.shared.scanNode(network)
             
             timer = Timer.scheduledTimer(timeInterval: connectingInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
@@ -280,7 +279,7 @@ extension MeshPairingManager {
             
             status = .stopped
             MLog("networkConnecting failed, cancel.")
-            connectNode = nil
+//            connectNode = nil
             MeshManager.shared.stopScanNode()
             MeshManager.shared.disconnect()
             
@@ -335,7 +334,6 @@ extension MeshPairingManager: MeshManagerNodeDelegate {
             }
         }
         
-//        self.connectNode = node
         manager.connect(node)
     }
     
@@ -405,7 +403,7 @@ extension MeshPairingManager: MeshManagerNodeDelegate {
                 status = .stopped
                 timer?.invalidate()
                 MLog("getNextAvailableAddress failed & pendingDevices.count == 0, stopped.")
-                connectNode = nil
+//                connectNode = nil
                 MeshManager.shared.stopScanNode()
                 MeshManager.shared.disconnect()
                 

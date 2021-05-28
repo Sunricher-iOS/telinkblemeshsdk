@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import TelinkBleMesh
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

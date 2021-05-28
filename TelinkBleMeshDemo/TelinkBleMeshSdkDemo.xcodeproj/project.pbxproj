@@ -21,6 +21,7 @@
 		08AD22B626438E69000468AF /* DeviceAddressesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */; };
 		08AD230E2643C019000468AF /* TelinkBleMesh in Frameworks */ = {isa = PBXBuildFile; productRef = 08AD230D2643C019000468AF /* TelinkBleMesh */; };
 		08AE3C8A263BA0E500952791 /* DeviceSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AE3C89263BA0E500952791 /* DeviceSettingsViewController.swift */; };
+		08AEE6EE265E524500986085 /* OtaTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AEE6ED265E524500986085 /* OtaTableViewController.swift */; };
 		08D6AC1D260C36B100AEB39C /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6AC1C260C36B100AEB39C /* SwitchTableViewCell.swift */; };
 		08DF3C9925AEF97000EC3AF7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3C9825AEF97000EC3AF7 /* AppDelegate.swift */; };
 		08DF3CA225AEF97100EC3AF7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08DF3CA125AEF97100EC3AF7 /* Assets.xcassets */; };
@@ -101,6 +102,7 @@
 		08AD22FE2643BE12000468AF /* TelinkBleMeshSdkDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = TelinkBleMeshSdkDemo.xcodeproj; sourceTree = "<group>"; };
 		08AD23062643BE12000468AF /* xcschememanagement.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = xcschememanagement.plist; sourceTree = "<group>"; };
 		08AE3C89263BA0E500952791 /* DeviceSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSettingsViewController.swift; sourceTree = "<group>"; };
+		08AEE6ED265E524500986085 /* OtaTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaTableViewController.swift; sourceTree = "<group>"; };
 		08D6AC1C260C36B100AEB39C /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		08DF3C9525AEF97000EC3AF7 /* TelinkBleMeshSdkDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelinkBleMeshSdkDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08DF3C9825AEF97000EC3AF7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				0850A2972611BE0600638765 /* AddDeviceViewController.swift */,
 				08AE3C89263BA0E500952791 /* DeviceSettingsViewController.swift */,
 				08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */,
+				08AEE6ED265E524500986085 /* OtaTableViewController.swift */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -586,6 +589,7 @@
 			files = (
 				082DFED825B034FA004668EF /* NetworkManager.swift in Sources */,
 				08DF3CDC25AF107200EC3AF7 /* NodesViewController.swift in Sources */,
+				08AEE6EE265E524500986085 /* OtaTableViewController.swift in Sources */,
 				0850A2982611BE0600638765 /* AddDeviceViewController.swift in Sources */,
 				082DFEBF25B02ED1004668EF /* NodeViewController.swift in Sources */,
 				08DF3C9925AEF97000EC3AF7 /* AppDelegate.swift in Sources */,
@@ -768,6 +772,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sunricher.maginawin.TelinkBleMeshSdkDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -787,6 +792,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sunricher.maginawin.TelinkBleMeshSdkDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -56,6 +56,7 @@ class NodeViewController: UITableViewController {
             
             let controller = DeviceViewController(style: .grouped)
             controller.device = device
+            controller.network = .factory
             deviceDelegate = controller
             navigationController?.pushViewController(controller, animated: true)
             

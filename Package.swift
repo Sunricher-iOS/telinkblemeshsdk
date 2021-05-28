@@ -31,6 +31,9 @@ let package = Package(
             dependencies: ["CryptoAction"],
             exclude: [
                 "TelinkBleMeshDemo"
+            ],
+            resources: [
+                .copy("Resources")
             ]),
         .testTarget(
             name: "TelinkBleMeshTests",

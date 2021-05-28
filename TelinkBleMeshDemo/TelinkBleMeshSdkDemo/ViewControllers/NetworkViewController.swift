@@ -115,6 +115,7 @@ class NetworkViewController: UITableViewController {
             
             let controller = DeviceViewController(style: .grouped)
             controller.device = device
+            controller.network = network
             deviceDelegate = controller
             navigationController?.pushViewController(controller, animated: true)
             

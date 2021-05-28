@@ -253,3 +253,10 @@ extension MeshDeviceType {
     }
     
 }
+
+extension MeshDeviceType: Equatable {}
+
+public func == (lhs: MeshDeviceType, rhs: MeshDeviceType) -> Bool {
+    
+    return lhs.rawValue1 == rhs.rawValue1 && lhs.rawValue2 == rhs.rawValue2
+}

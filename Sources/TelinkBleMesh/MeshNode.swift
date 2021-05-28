@@ -12,6 +12,7 @@ public struct MeshUUID {
     
     public static let accessService = "00010203-0405-0607-0809-0A0B0C0D1910"
     
+    
     public static let notifyCharacteristic = "00010203-0405-0607-0809-0A0B0C0D1911"
     
     public static let commandCharacteristic = "00010203-0405-0607-0809-0A0B0C0D1912"
@@ -20,9 +21,12 @@ public struct MeshUUID {
     
     public static let otaCharacteristic = "00010203-0405-0607-0809-0A0B0C0D1913"
     
-    public static let deviceInformationService = "0000180a-0000-1000-8000-00805f9b34fb"
     
-    public static let firmwareCharacteristic = "00002a26-0000-1000-8000-00805f9b34fb"
+//    public static let deviceInformationService = UUID(uuidString: "0000180a-0000-1000-8000-00805f9b34fb")!
+    public static let deviceInformationService = "180A"
+    
+//    public static let firmwareCharacteristic = UUID(uuidString: "00002a26-0000-1000-8000-00805f9b34fb")!
+    public static let firmwareCharacteristic = "2A26"
     
     static func uuidDescription(_ uuidString: String) -> String {
         
