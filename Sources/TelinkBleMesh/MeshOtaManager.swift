@@ -131,8 +131,31 @@ extension MeshOtaManager {
     
     public func getLatestOtaFile(_ deviceType: MeshDeviceType) -> MeshOtaFile? {
         
+        // 0x0130 ~ 0x0136 use the same firmware
+        // 0x0160 ~ 0x0166 use the same firmware
+        
+        var realDeviceType = deviceType
+        
+        switch deviceType.category {
+        
+        case .light:
+            
+            if deviceType.rawValue2 >= 0x30 && deviceType.rawValue2 <= 0x36 {
+                
+                realDeviceType = MeshDeviceType(deviceType: deviceType.rawValue1, subDeviceType: 0x30)
+                
+            } else if (deviceType.rawValue2 >= 0x60 && deviceType.rawValue2 <= 0x66) {
+                
+                realDeviceType = MeshDeviceType(deviceType: deviceType.rawValue1, subDeviceType: 0x60)
+            }
+            
+        default:
+            break
+        }        
+        
         return getAllOtaFiles().first {
-            $0.deviceType == deviceType
+            
+            $0.deviceType == realDeviceType
         }
     }
     
