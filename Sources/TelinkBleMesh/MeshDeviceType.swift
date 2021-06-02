@@ -81,6 +81,7 @@ public struct MeshDeviceType {
             
         case 0x07:
             category = .curtain
+            capabilities = [.onOff, .brightness]
             
         case 0x08:
             category = .outlet
@@ -208,6 +209,8 @@ extension MeshDeviceType {
         
         case rfPa = 0x3A
         
+        case microwaveMotionSensor = 0x3C
+        
         var capabilities: [Capability] {
             
             switch self {
@@ -248,6 +251,9 @@ extension MeshDeviceType {
                 
             case .rfPa:
                 return []
+                
+            case .microwaveMotionSensor:
+                return [.onOff, .brightness]
             }
         }
     }

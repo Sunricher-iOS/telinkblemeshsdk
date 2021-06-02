@@ -52,7 +52,8 @@ class NodeViewController: UITableViewController {
         
         case .light: fallthrough
         case .bridge: fallthrough
-        case .rfPa:
+        case .rfPa: fallthrough
+        case .curtain:
             
             let controller = DeviceViewController(style: .grouped)
             controller.device = device

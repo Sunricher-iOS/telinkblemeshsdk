@@ -74,7 +74,7 @@ public func == (lhs: MeshOtaFile, rhs: MeshOtaFile) -> Bool {
 
 public protocol MeshOtaManagerDelegate: NSObjectProtocol {
     
-    func meshOtaManager(_ manager: MeshOtaManager, didUpdateFailed reason: MeshOtaManager.FaildReason)
+    func meshOtaManager(_ manager: MeshOtaManager, didUpdateFailed reason: MeshOtaManager.FailedReason)
     
     func meshOtaManager(_ manager: MeshOtaManager, didUpdateProgress progress: Float)
     
@@ -84,7 +84,7 @@ public protocol MeshOtaManagerDelegate: NSObjectProtocol {
 
 extension MeshOtaManagerDelegate {
     
-    public func meshOtaManager(_ manager: MeshOtaManager, didUpdateFailed reason: MeshOtaManager.FaildReason) {}
+    public func meshOtaManager(_ manager: MeshOtaManager, didUpdateFailed reason: MeshOtaManager.FailedReason) {}
     
     public func meshOtaManager(_ manager: MeshOtaManager, didUpdateProgress progress: Float) {}
     
@@ -118,7 +118,7 @@ public class MeshOtaManager: NSObject {
 extension MeshOtaManager {
     
     
-    public enum FaildReason {
+    public enum FailedReason {
         
         case invalidOtaFile
         case disconnected
@@ -238,7 +238,9 @@ extension MeshOtaManager: MeshManagerNodeDelegate {
         
         guard state == .connecting else {
             return
-        }
+        }        
+            
+        timer?.invalidate()
         
         startSendData()
         delegate?.meshOtaManager(self, didUpdateProgress: 0.3)

@@ -191,7 +191,7 @@ extension OtaTableViewController: MeshManagerDeviceDelegate {
 
 extension OtaTableViewController: MeshOtaManagerDelegate {
     
-    func meshOtaManager(_ manager: MeshOtaManager, didUpdateFailed reason: MeshOtaManager.FaildReason) {
+    func meshOtaManager(_ manager: MeshOtaManager, didUpdateFailed reason: MeshOtaManager.FailedReason) {
         
         alertController?.message = reason.title
     }
@@ -211,7 +211,7 @@ extension OtaTableViewController: MeshOtaManagerDelegate {
     
 }
 
-extension MeshOtaManager.FaildReason {
+extension MeshOtaManager.FailedReason {
     
     var title: String {
         
