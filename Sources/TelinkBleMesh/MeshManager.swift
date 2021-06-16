@@ -1031,7 +1031,7 @@ extension MeshManager {
                 return
             }
             
-            let duration = Int(command.userData[3]) | Int((command.userData[4] << 8))
+            let duration = Int(command.userData[3]) | (Int(command.userData[4]) << 8)
             DispatchQueue.main.async {
                 
                 self.deviceDelegate?.meshManager(self, device: command.src, didGetLightOnOffDuration: duration)
