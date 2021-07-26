@@ -112,4 +112,11 @@ extension AddDeviceViewController: MeshPairingManagerDelegate {
             self?.view.makeToast("pairing_failed".localization, position: .center)
         }
     }
+    
+    func meshPairingManager(_ manager: MeshPairingManager, terminalWithUnsupportMeshAddDevice address: Int, deviceType: MeshDeviceType, macData: Data) {
+        
+        NSLog("terminalWithUnsupportMeshAddDevice", "")
+        alertController?.message = NSLocalizedString("terminal_with_unsupport_mesh_add_device", comment: "") + String(format: " 0x%02X ", address) + deviceType.category.description
+    }
+    
 }

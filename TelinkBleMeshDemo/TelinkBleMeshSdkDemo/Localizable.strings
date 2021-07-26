@@ -69,3 +69,4 @@
 "connect_overtime" = "Connect overtime, please restart your device and try again.";
 "invalid_ota_file" = "Invalid OTA file";
 "ota_disconnected" = "Disconnected, please restart your device and try again.";
+"terminal_with_unsupport_mesh_add_device" = "Terminal with unsupport mesh add device";

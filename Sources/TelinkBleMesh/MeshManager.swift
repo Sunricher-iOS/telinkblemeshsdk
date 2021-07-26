@@ -437,7 +437,10 @@ extension MeshManager: CBCentralManagerDelegate {
                 return
             }
             
-            if self.isAutoLogin && self.network.name == name && self.connectNode == nil {
+            if self.isAutoLogin
+                && self.network.name == name
+                && self.connectNode == nil
+                && meshNode.deviceType.isSafeConntion {
                 
                 self.connect(meshNode)
             }

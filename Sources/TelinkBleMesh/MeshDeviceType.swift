@@ -20,6 +20,7 @@ public struct MeshDeviceType {
         case outlet
         case bridge
         case rfPa
+        case customPanel
         
         case unsupported
     }
@@ -69,6 +70,9 @@ public struct MeshDeviceType {
         case 0x13: fallthrough
         case 0x14:
             category = .remote
+            
+        case 0x16:
+            category = .customPanel
             
         case 0x04:
             category = .sensor
@@ -141,6 +145,9 @@ extension MeshDeviceType.Category {
             
         case .unsupported:
             return "Unsupported"
+            
+        case .customPanel:
+            return "Custom panel"
         }
     }
     
@@ -265,4 +272,50 @@ extension MeshDeviceType: Equatable {}
 public func == (lhs: MeshDeviceType, rhs: MeshDeviceType) -> Bool {
     
     return lhs.rawValue1 == rhs.rawValue1 && lhs.rawValue2 == rhs.rawValue2
+}
+
+extension MeshDeviceType {
+    
+    public var isSupportMeshAdd: Bool {
+        
+        switch category {
+        
+        case .light: fallthrough
+        case .curtain: fallthrough
+        case .bridge: fallthrough
+        case .outlet:
+            return true
+            
+        case .remote: fallthrough
+        case .sensor: fallthrough
+        case .transmitter: fallthrough
+        case .peripheral: fallthrough
+        case .rfPa: fallthrough
+        case .unsupported: fallthrough
+        case .customPanel:
+            return false
+        }
+    }
+    
+    public var isSafeConntion: Bool {
+        
+        switch category {
+        
+        case .light: fallthrough
+        case .curtain: fallthrough
+        case .outlet:
+            return true
+            
+        case .remote: fallthrough
+        case .sensor: fallthrough
+        case .transmitter: fallthrough
+        case .peripheral: fallthrough
+        case .rfPa: fallthrough
+        case .unsupported: fallthrough
+        case .customPanel: fallthrough
+        case .bridge:
+            return false
+        }
+    }
+    
 }

@@ -15,6 +15,8 @@ public protocol MeshPairingManagerDelegate: NSObjectProtocol {
     ///     - reason: MeshPairingManager.PairingFailedReason
     func meshPairingManager(_ manager: MeshPairingManager, pairingFailed reason: MeshPairingManager.PairingFailedReason)
     
+    func meshPairingManager(_ manager: MeshPairingManager, terminalWithUnsupportMeshAddDevice address: Int, deviceType: MeshDeviceType, macData: Data)
+    
     ///
     /// - Parameters:
     ///     - manager: MeshPairingManager
@@ -79,8 +81,6 @@ public class MeshPairingManager: NSObject {
     private var pendingDevices: [Data: (Int, Int)] = [:]
     private var availableAddressList: [Int] = []
     
-//    private var connectNode: MeshNode?
-    
     private override init() {
         super.init()        
     }
@@ -117,7 +117,6 @@ public class MeshPairingManager: NSObject {
         pendingDevices.removeAll()
         availableAddressList.removeAll()
                 
-//        connectNode = nil
         MeshManager.shared.stopScanNode()
         MeshManager.shared.disconnect()
     }
@@ -131,7 +130,6 @@ extension MeshPairingManager {
         
         timer?.invalidate()
         status = .existDeviceScanning
-//        connectNode = nil
         MeshManager.shared.scanNode(network)
         
         timer = Timer.scheduledTimer(timeInterval: connectingInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
@@ -143,7 +141,6 @@ extension MeshPairingManager {
         
         timer?.invalidate()
         status = .factoryConnecting
-//        connectNode = nil
         MeshManager.shared.scanNode(.factory)
         
         timer = Timer.scheduledTimer(timeInterval: connectingInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
@@ -155,7 +152,9 @@ extension MeshPairingManager {
         
         timer?.invalidate()
         status = .allMacScanning
-        MeshCommand.requestAddressMac().send()
+        // Need filter the device type which support mesh add, user another method to scan mac data
+        // MeshCommand.requestAddressMac().send()
+        MeshCommand.requestMacDeviceType(MeshCommand.Address.all).send()
         
         timer = Timer.scheduledTimer(timeInterval: scanningInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
     }
@@ -232,7 +231,6 @@ extension MeshPairingManager {
             
             status = .stopped
             MLog("factoryConnecting failed, cancel.")
-//            connectNode = nil
             MeshManager.shared.stopScanNode()
             MeshManager.shared.disconnect()
             
@@ -265,9 +263,9 @@ extension MeshPairingManager {
             
             status = .networkConnecting
             MLog("networkSetting OK, next, networkConnecting")
-//            connectNode = nil
             MeshManager.shared.scanNode(network)
             
+            timer?.invalidate()
             timer = Timer.scheduledTimer(timeInterval: connectingInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
             
             DispatchQueue.main.async {
@@ -279,7 +277,6 @@ extension MeshPairingManager {
             
             status = .stopped
             MLog("networkConnecting failed, cancel.")
-//            connectNode = nil
             MeshManager.shared.stopScanNode()
             MeshManager.shared.disconnect()
             
@@ -390,36 +387,7 @@ extension MeshPairingManager: MeshManagerNodeDelegate {
     
     public func meshManager(_ manager: MeshManager, didGetMac macData: Data, address: Int) {
         
-        guard status == .allMacScanning else {
-            
-            MLog("Only for allMacScanning")
-            return
-        }
-        
-        guard let newAddress = getNextAvailableAddress(address) else {
-            
-            if pendingDevices.count == 0 {
-                
-                status = .stopped
-                timer?.invalidate()
-                MLog("getNextAvailableAddress failed & pendingDevices.count == 0, stopped.")
-//                connectNode = nil
-                MeshManager.shared.stopScanNode()
-                MeshManager.shared.disconnect()
-                
-                DispatchQueue.main.async {
-                    
-                    self.delegate?.meshPairingManager(self, pairingFailed: .noMoreNewAddresses)
-                }
-            }
-            
-            return
-        }
-        
-        timer?.invalidate()
-        pendingDevices[macData] = (address, newAddress)
-        
-        timer = Timer.scheduledTimer(timeInterval: scanningInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
+        // handleMacData(address: address, macData: macData)
     }
     
 }
@@ -471,11 +439,55 @@ extension MeshPairingManager: MeshManagerDeviceDelegate {
     
     public func meshManager(_ manager: MeshManager, device address: Int, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {
         
+//        guard deviceType.isSupportMeshAdd else {
+//
+//            delegate?.meshPairingManager(self, terminalWithUnsupportMeshAddDevice: address, deviceType: deviceType, macData: macData)
+//            stop()
+//            return
+//        }
         
+        handleMacData(address: address, macData: macData)
     }
     
     public func meshManager(_ manager: MeshManager, device address: Int, didGetDate date: Date) {
         
+    }
+    
+}
+
+extension MeshPairingManager {
+    
+    private func handleMacData(address: Int, macData: Data) {
+        
+        guard status == .allMacScanning else {
+            
+            MLog("Only for allMacScanning")
+            return
+        }
+        
+        guard let newAddress = getNextAvailableAddress(address) else {
+            
+            if pendingDevices.count == 0 {
+                
+                status = .stopped
+                timer?.invalidate()
+                MLog("getNextAvailableAddress failed & pendingDevices.count == 0, stopped.")
+                MeshManager.shared.stopScanNode()
+                MeshManager.shared.disconnect()
+                
+                DispatchQueue.main.async {
+                    
+                    self.delegate?.meshPairingManager(self, pairingFailed: .noMoreNewAddresses)
+                }
+            }
+            
+            return
+        }
+        
+        timer?.invalidate()
+        pendingDevices[macData] = (address, newAddress)
+        
+        timer = Timer.scheduledTimer(timeInterval: scanningInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
     }
     
 }
