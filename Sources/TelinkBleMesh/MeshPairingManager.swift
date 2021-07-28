@@ -15,7 +15,7 @@ public protocol MeshPairingManagerDelegate: NSObjectProtocol {
     ///     - reason: MeshPairingManager.PairingFailedReason
     func meshPairingManager(_ manager: MeshPairingManager, pairingFailed reason: MeshPairingManager.PairingFailedReason)
     
-    func meshPairingManager(_ manager: MeshPairingManager, terminalWithUnsupportMeshAddDevice address: Int, deviceType: MeshDeviceType, macData: Data)
+    func meshPairingManager(_ manager: MeshPairingManager, terminalWithUnsupportedDevice address: Int, deviceType: MeshDeviceType, macData: Data)
     
     ///
     /// - Parameters:
@@ -193,7 +193,7 @@ extension MeshPairingManager {
         
         timer?.invalidate()
         status = .networkSetting        
-        MeshManager.shared.setNewNetwork(network)
+        MeshManager.shared.setNewNetwork(network, isMesh: true)
         
         timer = Timer.scheduledTimer(timeInterval: setNetworkInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
     }
@@ -377,14 +377,6 @@ extension MeshPairingManager: MeshManagerNodeDelegate {
         }
     }
     
-    public func meshManager(_ manager: MeshManager, didFailToLoginNodeIdentifier identifier: UUID) {
-                
-    }
-    
-    public func meshManager(_ manager: MeshManager, didConfirmNewNetwork isSuccess: Bool) {
-
-    }
-    
     public func meshManager(_ manager: MeshManager, didGetMac macData: Data, address: Int) {
         
         // handleMacData(address: address, macData: macData)
@@ -439,18 +431,17 @@ extension MeshPairingManager: MeshManagerDeviceDelegate {
     
     public func meshManager(_ manager: MeshManager, device address: Int, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {
         
-//        guard deviceType.isSupportMeshAdd else {
-//
-//            delegate?.meshPairingManager(self, terminalWithUnsupportMeshAddDevice: address, deviceType: deviceType, macData: macData)
-//            stop()
-//            return
-//        }
+        guard deviceType.isSupportMeshAdd else {
+            
+            stop()
+            DispatchQueue.main.async {
+                
+                self.delegate?.meshPairingManager(self, terminalWithUnsupportedDevice: address, deviceType: deviceType, macData: macData)
+            }
+            return
+        }
         
         handleMacData(address: address, macData: macData)
-    }
-    
-    public func meshManager(_ manager: MeshManager, device address: Int, didGetDate date: Date) {
-        
     }
     
 }

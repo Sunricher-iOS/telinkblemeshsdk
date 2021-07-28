@@ -332,15 +332,11 @@ static int snNo = 0;
     return [NSData dataWithBytes:buffer length:20];
 }
 
-+ (NSData *)getNetworkLtk:(uint8_t *)sectionKey {
-    
-    return [self getNetworkLtk:sectionKey isMesh:YES];
-}
-
 + (NSData *)getNetworkLtk:(uint8_t *)sectionKey isMesh:(BOOL)isMesh {
     
     GetLTKBuffer;
     uint8_t buffer[20];
+    
     [self getNetworkInfoByte:buffer Opcode:6 Str:ltkBuffer Psk:sectionKey];
     if (isMesh) {
         buffer[17] = 0x01;

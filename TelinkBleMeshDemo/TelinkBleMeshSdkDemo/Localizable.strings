@@ -70,3 +70,8 @@
 "invalid_ota_file" = "Invalid OTA file";
 "ota_disconnected" = "Disconnected, please restart your device and try again.";
 "terminal_with_unsupport_mesh_add_device" = "Terminal with unsupport mesh add device";
+"mesh_add" = "Mesh Add";
+"single_add" = "Single Add";
+"unsupport_device_type" = "Unsupport device type";
+"no_more_addresses" = "No more addresses";
+"single_add_finished_message" = "Add finished";

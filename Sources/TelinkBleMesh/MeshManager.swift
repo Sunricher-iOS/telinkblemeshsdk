@@ -338,7 +338,7 @@ extension MeshManager {
      - Parameters:
         - network: The new network.
      */
-    func setNewNetwork(_ network: MeshNetwork) {
+    func setNewNetwork(_ network: MeshNetwork, isMesh: Bool) {
         
         executeSerialAsyncTask {
             
@@ -352,7 +352,7 @@ extension MeshManager {
                   let pairingCharacteristic = self.pairingCharacteristic,
                   let nameData = CryptoAction.getNetworkName(network.name, sectionKey: self.sectionKey),
                   let passwordData = CryptoAction.getNetworkPassword(network.password, sectionKey: self.sectionKey),
-                  let ltkData = CryptoAction.getNetworkLtk(self.sectionKey) else {
+                  let ltkData = CryptoAction.getNetworkLtk(self.sectionKey, isMesh: isMesh) else {
                 
                 return
             }

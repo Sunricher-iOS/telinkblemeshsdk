@@ -20,6 +20,8 @@ public struct MeshDeviceType {
         case outlet
         case bridge
         case rfPa
+        
+        // Citron 8 keys pannel
         case customPanel
         
         case unsupported
@@ -294,6 +296,30 @@ extension MeshDeviceType {
         case .unsupported: fallthrough
         case .customPanel:
             return false
+        }
+    }
+    
+    public var isSupportSingleAdd: Bool {
+        
+        switch category {
+        
+        case .light: fallthrough
+        case .curtain: fallthrough
+        case .bridge: fallthrough
+        case .outlet:
+            return false
+            
+        // Unsupported
+        case .transmitter: fallthrough
+        case .peripheral: fallthrough
+        case .unsupported:
+            return false
+            
+        case .remote: fallthrough
+        case .sensor: fallthrough
+        case .rfPa: fallthrough
+        case .customPanel:
+            return true
         }
     }
     

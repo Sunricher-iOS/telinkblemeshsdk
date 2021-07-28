@@ -18,6 +18,7 @@
 		0850A2982611BE0600638765 /* AddDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0850A2972611BE0600638765 /* AddDeviceViewController.swift */; };
 		085651F32609F5C400C7FF8E /* DeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085651F22609F5C400C7FF8E /* DeviceViewController.swift */; };
 		085651FD2609F64400C7FF8E /* MyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085651FC2609F64400C7FF8E /* MyDevice.swift */; };
+		088020B426AFC00900234231 /* SingleAddDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088020B326AFC00900234231 /* SingleAddDeviceViewController.swift */; };
 		08AD22B626438E69000468AF /* DeviceAddressesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */; };
 		08AD230E2643C019000468AF /* TelinkBleMesh in Frameworks */ = {isa = PBXBuildFile; productRef = 08AD230D2643C019000468AF /* TelinkBleMesh */; };
 		08AE3C8A263BA0E500952791 /* DeviceSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AE3C89263BA0E500952791 /* DeviceSettingsViewController.swift */; };
@@ -53,6 +54,7 @@
 		0850A2972611BE0600638765 /* AddDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeviceViewController.swift; sourceTree = "<group>"; };
 		085651F22609F5C400C7FF8E /* DeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceViewController.swift; sourceTree = "<group>"; };
 		085651FC2609F64400C7FF8E /* MyDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDevice.swift; sourceTree = "<group>"; };
+		088020B326AFC00900234231 /* SingleAddDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAddDeviceViewController.swift; sourceTree = "<group>"; };
 		08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAddressesViewController.swift; sourceTree = "<group>"; };
 		08AD22C02643BE12000468AF /* workspace-state.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "workspace-state.json"; sourceTree = "<group>"; };
 		08AD22C32643BE12000468AF /* manifest.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = manifest.db; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				08AE3C89263BA0E500952791 /* DeviceSettingsViewController.swift */,
 				08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */,
 				08AEE6ED265E524500986085 /* OtaTableViewController.swift */,
+				088020B326AFC00900234231 /* SingleAddDeviceViewController.swift */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -523,7 +526,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1220;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					08DF3C9425AEF97000EC3AF7 = {
 						CreatedOnToolsVersion = 12.2;
@@ -588,6 +591,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				082DFED825B034FA004668EF /* NetworkManager.swift in Sources */,
+				088020B426AFC00900234231 /* SingleAddDeviceViewController.swift in Sources */,
 				08DF3CDC25AF107200EC3AF7 /* NodesViewController.swift in Sources */,
 				08AEE6EE265E524500986085 /* OtaTableViewController.swift in Sources */,
 				0850A2982611BE0600638765 /* AddDeviceViewController.swift in Sources */,
@@ -695,7 +699,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -750,7 +754,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

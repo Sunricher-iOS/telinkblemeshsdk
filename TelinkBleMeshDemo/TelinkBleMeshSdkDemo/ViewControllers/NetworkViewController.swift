@@ -68,12 +68,23 @@ class NetworkViewController: UITableViewController {
         
         let cancel = UIAlertAction(title: "cancel".localization, style: .cancel, handler: nil)
         
-        let addNewAddress = UIAlertAction(title: "add_new_device".localization, style: .default) { [weak self] (_) in
+        let addNewAddress = UIAlertAction(title: "mesh_add".localization, style: .default) { [weak self] (_) in
             
             guard let self = self else { return }
             
             self.isNeedReload = true
             let controller = AddDeviceViewController(style: .grouped)
+            controller.network = self.network
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+        
+        let singleAddAction = UIAlertAction(title: "single_add".localization, style: .default) { [weak self] _ in
+            
+            guard let self = self else { return }
+            
+            self.isNeedReload = true
+            
+            let controller = SingleAddDeviceViewController(style: .grouped)
             controller.network = self.network
             self.navigationController?.pushViewController(controller, animated: true)
         }
@@ -89,6 +100,7 @@ class NetworkViewController: UITableViewController {
         }
         
         alertController.addAction(addNewAddress)
+        alertController.addAction(singleAddAction)
         alertController.addAction(manageDeviceAddresses)
         alertController.addAction(cancel)
         

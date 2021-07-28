@@ -58,9 +58,6 @@
 
 + (NSData *)getNetworkLtk:(NSData *)bufferData sectionKey:(uint8_t *)sectionKey __attribute((deprecated("Use the getNetworkLtk instead.")));
 
-/// isMesh: false
-+ (NSData *)getNetworkLtk:(uint8_t *)sectionKey;
-
 + (NSData *)getNetworkLtk:(uint8_t *)sectionKey isMesh:(BOOL)isMesh;
 
 + (NSData *)getNetworkConfirm:(uint8_t *)sectionKey;
