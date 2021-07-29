@@ -48,7 +48,7 @@ class SingleAddDeviceViewController: UITableViewController {
         
         let node = nodes[indexPath.row]
         
-        SinglePairingManager.shared.startPairing(network, node: node, delegate: self)
+        SinglePairingManager.shared.startPairing(network, node: node)
         
         alertController = UIAlertController(title: "pairing...".localization, message: "adding".localization, preferredStyle: .alert)
         alertController?.popoverPresentationController?.sourceView = view

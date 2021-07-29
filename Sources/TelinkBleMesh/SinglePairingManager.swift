@@ -103,7 +103,7 @@ public class SinglePairingManager: NSObject {
     ///     - network: New MeshNetwork
     ///     - node: Adding node
     ///     - delegate: SinglePairingManagerDelegate
-    public func startPairing(_ network: MeshNetwork, node: MeshNode, delegate: SinglePairingManagerDelegate) {
+    public func startPairing(_ network: MeshNetwork, node: MeshNode) {
         
         MLog("SinglePairingManager startPairing")
         state = .startPairing
