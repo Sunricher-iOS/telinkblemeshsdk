@@ -33,6 +33,8 @@ import CryptoAction
     
     @objc optional func meshManager(_ manager: MeshManager, didConfirmNewNetwork isSuccess: Bool)
     
+    @objc optional func meshManager(_ manager: MeshManager, didGetFirmware firmware: String, node: MeshNode)
+    
 }
 
 public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
@@ -360,16 +362,15 @@ extension MeshManager {
             MLog("datas " + nameData.hexString + ", " + passwordData.hexString + ", " + ltkData.hexString);
             
             peripheral.writeValue(nameData, for: pairingCharacteristic, type: .withResponse)
-            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
+//            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
             
             peripheral.writeValue(passwordData, for: pairingCharacteristic, type: .withResponse)
-            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
+//            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
             
             peripheral.writeValue(ltkData, for: pairingCharacteristic, type: .withResponse)
-            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
+            Thread.sleep(forTimeInterval: 0.02)
             
             peripheral.readValue(for: pairingCharacteristic)
-            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
         }
     }
     
@@ -1048,6 +1049,12 @@ extension MeshManager {
             return
         }
         MLog("handleFirmwareValue firmware \(firmware)")
+        
+        DispatchQueue.main.async {
+            
+            guard let node = self.connectNode else { return }
+            self.nodeDelegate?.meshManager?(self, didGetFirmware: firmware, node: node)
+        }
     }
     
     private func handleOtaValue(_ value: Data) {

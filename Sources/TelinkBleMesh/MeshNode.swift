@@ -94,14 +94,6 @@ public class MeshNode: NSObject {
     
     public internal(set) var deviceType: MeshDeviceType
     
-    
-//    init(_ peripheral: CBPeripheral) {
-//        
-//        self.peripheral = peripheral
-//        
-//        super.init()
-//    }
-    
     init?(_ peripheral: CBPeripheral, advertisementData: [String: Any], rssi: Int) {
         
         self.peripheral = peripheral

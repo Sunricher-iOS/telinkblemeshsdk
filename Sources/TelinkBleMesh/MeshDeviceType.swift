@@ -21,7 +21,7 @@ public struct MeshDeviceType {
         case bridge
         case rfPa
         
-        // Citron 8 keys pannel
+        // Citron 8 keys pannel, 4 buttons IO module
         case customPanel
         
         case unsupported
@@ -303,7 +303,9 @@ extension MeshDeviceType {
         
         switch category {
         
-        case .light: fallthrough
+        case .light:
+            return true
+            
         case .curtain: fallthrough
         case .bridge: fallthrough
         case .outlet:

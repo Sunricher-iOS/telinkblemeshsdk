@@ -174,7 +174,8 @@ extension DeviceSettingsViewController {
             
             self.view.makeToastActivity(.center)
             
-            MeshCommand.changeAddress(Int(self.device.meshDevice.address), withNewAddress: address, macData: macData).send()
+//            MeshCommand.changeAddress(Int(self.device.meshDevice.address), withNewAddress: address, macData: macData).send()
+            MeshCommand.changeAddress(Int(self.device.meshDevice.address), withNewAddress: address).send()
         }
         
         alertController.addAction(cancelAction)

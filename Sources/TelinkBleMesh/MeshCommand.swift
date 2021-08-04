@@ -254,6 +254,18 @@ extension MeshCommand {
         return cmd
     }
     
+    public static func changeAddress(_ address: Int, withNewAddress newAddress: Int) -> MeshCommand {
+        
+        assert(newAddress > 0 && newAddress <= 0xFF, "New address out of range [1, 255].")
+        
+        var cmd = MeshCommand()
+        cmd.tag = .replaceAddress
+        cmd.dst = address
+        cmd.param = newAddress & 0xFF
+        cmd.userData[0] = 0x00
+        return cmd
+    }
+    
     /**
      __@Telink__
      Restore to the default (factory) network.

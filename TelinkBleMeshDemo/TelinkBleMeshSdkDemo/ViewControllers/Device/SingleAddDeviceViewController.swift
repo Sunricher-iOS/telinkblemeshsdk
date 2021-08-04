@@ -14,31 +14,33 @@ class SingleAddDeviceViewController: UITableViewController {
     
     private var nodes: [MeshNode] = []
     private var alertController: UIAlertController?
+    
+    private var addedCount: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "single_add".localization
         
-        let refreshItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.refreshAction))
-        navigationItem.rightBarButtonItem = refreshItem
+//        let refreshItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.refreshAction))
+//        navigationItem.rightBarButtonItem = refreshItem
         
         refreshAction()
     }
     
     @objc func refreshAction() {
         
-        nodes.removeAll()
+        addedCount = 0
         tableView.reloadData()
         
-        SinglePairingManager.shared.delegate = self
-        SinglePairingManager.shared.startScanning()
+        AutoPairingManager.shared.delegate = self
+        AutoPairingManager.shared.startPairing(network)
     }
     
     deinit {
         
-        SinglePairingManager.shared.delegate = nil
-        SinglePairingManager.shared.stop()
+        AutoPairingManager.shared.delegate = nil
+        AutoPairingManager.shared.stop()
     }
 
     // MARK: - Table view data source
@@ -46,21 +48,7 @@ class SingleAddDeviceViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let node = nodes[indexPath.row]
         
-        SinglePairingManager.shared.startPairing(network, node: node)
-        
-        alertController = UIAlertController(title: "pairing...".localization, message: "adding".localization, preferredStyle: .alert)
-        alertController?.popoverPresentationController?.sourceView = view
-        alertController?.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.width / 2, y: view.bounds.height / 2, width: 1, height: 1)
-        
-        let stopAction = UIAlertAction(title: "stop".localization, style: .cancel) { _ in
-            
-            SinglePairingManager.shared.stop()
-        }
-        
-        alertController?.addAction(stopAction)
-        present(alertController!, animated: true, completion: nil)
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -89,34 +77,21 @@ class SingleAddDeviceViewController: UITableViewController {
     
 }
 
-extension SingleAddDeviceViewController: SinglePairingManagerDelegate {
+extension SingleAddDeviceViewController: AutoPairingManagerDelegate {
     
-    func singlePairingManager(_ manager: SinglePairingManager, didDiscoverNode node: MeshNode) {
+    func autoPairingManagerTerminalWithNoMoreNewAddresses(_ manager: AutoPairingManager) {
+        
+        NSLog("autoPairingManagerTerminalWithNoMoreNewAddresses", "")
+    }
+    
+    func autoPairingManager(_ manager: AutoPairingManager, didAddNode node: MeshNode, newAddress: Int) {
+        
+        NSLog("didAddNode \(node.name) \(newAddress))", "")
         
         guard !nodes.contains(node) else { return }
         
         nodes.append(node)
         tableView.reloadData()
-    }
-    
-    func singlePairingManager(_ manager: SinglePairingManager, terminalWithUnsupportNode node: MeshNode) {
-        
-        alertController?.message = "unsupport_device_type".localization
-    }
-    
-    func singlePairingManagerTerminalWithNoMoreNewAddresses(_ manager: SinglePairingManager) {
-        
-        alertController?.message = "no_more_addresses".localization
-    }
-    
-    func singlePairingManagerDidFailToLoginNode(_ manager: SinglePairingManager) {
-        
-        alertController?.message = "login_failed".localization
-    }
-    
-    func singlePairingManagerDidFinishPairing(_ manager: SinglePairingManager) {
-        
-        alertController?.message = "single_add_finished_message".localization
     }
     
 }

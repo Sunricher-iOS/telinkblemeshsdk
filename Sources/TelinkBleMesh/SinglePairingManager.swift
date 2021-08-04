@@ -172,8 +172,33 @@ extension SinglePairingManager: MeshManagerNodeDelegate {
         timer?.invalidate()
         state = .deviceTypeGetting
         
-        MeshCommand.requestMacDeviceType(MeshCommand.Address.connectedNode).send()
-        timer = Timer.scheduledTimer(timeInterval: deviceTypeGettingInterval, target: self, selector: #selector(timerAction(_:)), userInfo: nil, repeats: false)
+        if node.shortAddress == pendingAddress.0 {
+            
+            NSLog("node short address == pending old address, next", "")
+            
+            guard let newAddress = getNextAvailableAddress(pendingAddress.0) else {
+                
+                stop()
+                DispatchQueue.main.async {
+                    
+                    self.delegate?.singlePairingManagerTerminalWithNoMoreNewAddresses(self)
+                }
+                return
+            }
+            
+            pendingAddress.1 = newAddress
+            state = .addressChanging
+            
+            MeshCommand.changeAddress(MeshCommand.Address.connectedNode, withNewAddress: newAddress).send()
+//            MeshCommand.changeAddress(MeshCommand.Address.connectedNode, withNewAddress: newAddress, macData: node).send()
+            
+            
+            
+//            timer = Timer.scheduledTimer(timeInterval: waitingChaningAddressesInterval, target: self, selector: #selector(timerAction(_:)), userInfo: nil, repeats: false)
+        }
+        
+//        MeshCommand.requestMacDeviceType(MeshCommand.Address.connectedNode).send()
+//        timer = Timer.scheduledTimer(timeInterval: deviceTypeGettingInterval, target: self, selector: #selector(timerAction(_:)), userInfo: nil, repeats: false)
     }
     
     public func meshManager(_ manager: MeshManager, didFailToLoginNodeIdentifier identifier: UUID) {
@@ -215,6 +240,22 @@ extension SinglePairingManager: MeshManagerDeviceDelegate {
         MeshCommand.changeAddress(MeshCommand.Address.connectedNode, withNewAddress: newAddress, macData: macData).send()
         
         timer = Timer.scheduledTimer(timeInterval: waitingChaningAddressesInterval, target: self, selector: #selector(timerAction(_:)), userInfo: nil, repeats: false)
+    }
+    
+    public func meshManager(_ manager: MeshManager, didGetMac macData: Data, address: Int) {
+        
+        NSLog("did get mac address \(address), pending new address \(pendingAddress.1)", "")
+        
+        if pendingAddress.1 == address {
+            
+            NSLog("is OK, set network now", "")
+            
+            timer?.invalidate()
+            state = .networkSetting
+            MeshManager.shared.setNewNetwork(self.network, isMesh: false)
+            
+            timer = Timer.scheduledTimer(timeInterval: setNetworkInterval, target: self, selector: #selector(timerAction(_:)), userInfo: nil, repeats: false)
+        }
     }
     
 }
