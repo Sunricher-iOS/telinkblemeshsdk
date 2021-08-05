@@ -31,7 +31,6 @@ public class AutoPairingManager: NSObject {
     
     private var state = State.stopped
     
-//    private let scanningInterval: TimeInterval = 4
     private let connectingInterval: TimeInterval  = 8
     private let addressSettingInterval: TimeInterval = 4
     private let networkSettingInterval: TimeInterval = 4
@@ -49,6 +48,7 @@ public class AutoPairingManager: NSObject {
         case networkSetting
     }
     
+    /// Start pairing devices without Bridge.
     public func startPairing(_ network: MeshNetwork) {
         
         MLog("startPairing \(network.name), \(network.password)")
@@ -78,6 +78,7 @@ public class AutoPairingManager: NSObject {
         
         state = .stopped
         timer?.invalidate()
+        MeshManager.shared.nodeDelegate = nil
         MeshManager.shared.stopScanNode()
         MeshManager.shared.disconnect()
     }

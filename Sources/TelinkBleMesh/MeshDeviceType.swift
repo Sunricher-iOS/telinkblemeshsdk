@@ -299,32 +299,6 @@ extension MeshDeviceType {
         }
     }
     
-    public var isSupportSingleAdd: Bool {
-        
-        switch category {
-        
-        case .light:
-            return true
-            
-        case .curtain: fallthrough
-        case .bridge: fallthrough
-        case .outlet:
-            return false
-            
-        // Unsupported
-        case .transmitter: fallthrough
-        case .peripheral: fallthrough
-        case .unsupported:
-            return false
-            
-        case .remote: fallthrough
-        case .sensor: fallthrough
-        case .rfPa: fallthrough
-        case .customPanel:
-            return true
-        }
-    }
-    
     public var isSafeConntion: Bool {
         
         switch category {

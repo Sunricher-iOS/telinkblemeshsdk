@@ -73,7 +73,7 @@ class NetworkViewController: UITableViewController {
             guard let self = self else { return }
             
             self.isNeedReload = true
-            let controller = AddDeviceViewController(style: .grouped)
+            let controller = BridgePairingViewController()
             controller.network = self.network
             self.navigationController?.pushViewController(controller, animated: true)
         }

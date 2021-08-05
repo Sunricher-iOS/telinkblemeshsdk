@@ -15,7 +15,6 @@
 		082DFED825B034FA004668EF /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFED725B034FA004668EF /* NetworkManager.swift */; };
 		082DFEDE25B04B41004668EF /* NetworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFEDD25B04B41004668EF /* NetworkViewController.swift */; };
 		082DFEE225B04CAF004668EF /* TelinkBleMeshExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFEE125B04CAF004668EF /* TelinkBleMeshExtensions.swift */; };
-		0850A2982611BE0600638765 /* AddDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0850A2972611BE0600638765 /* AddDeviceViewController.swift */; };
 		085651F32609F5C400C7FF8E /* DeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085651F22609F5C400C7FF8E /* DeviceViewController.swift */; };
 		085651FD2609F64400C7FF8E /* MyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085651FC2609F64400C7FF8E /* MyDevice.swift */; };
 		088020B426AFC00900234231 /* SingleAddDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088020B326AFC00900234231 /* SingleAddDeviceViewController.swift */; };
@@ -29,6 +28,7 @@
 		08DF3CA525AEF97100EC3AF7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08DF3CA325AEF97100EC3AF7 /* LaunchScreen.storyboard */; };
 		08DF3CB025AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3CAF25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift */; };
 		08DF3CDC25AF107200EC3AF7 /* NodesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */; };
+		08E17C7626BB85150051FD34 /* BridgePairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E17C7526BB85150051FD34 /* BridgePairingViewController.swift */; };
 		08FCB95E25B1438D00F2F06C /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 08FCB95D25B1438D00F2F06C /* Toast */; };
 /* End PBXBuildFile section */
 
@@ -51,7 +51,6 @@
 		082DFED725B034FA004668EF /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		082DFEDD25B04B41004668EF /* NetworkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkViewController.swift; sourceTree = "<group>"; };
 		082DFEE125B04CAF004668EF /* TelinkBleMeshExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelinkBleMeshExtensions.swift; sourceTree = "<group>"; };
-		0850A2972611BE0600638765 /* AddDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeviceViewController.swift; sourceTree = "<group>"; };
 		085651F22609F5C400C7FF8E /* DeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceViewController.swift; sourceTree = "<group>"; };
 		085651FC2609F64400C7FF8E /* MyDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDevice.swift; sourceTree = "<group>"; };
 		088020B326AFC00900234231 /* SingleAddDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAddDeviceViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +114,7 @@
 		08DF3CAF25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelinkBleMeshSdkDemoTests.swift; sourceTree = "<group>"; };
 		08DF3CB125AEF97200EC3AF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodesViewController.swift; sourceTree = "<group>"; };
+		08E17C7526BB85150051FD34 /* BridgePairingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgePairingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,11 +173,11 @@
 			isa = PBXGroup;
 			children = (
 				085651F22609F5C400C7FF8E /* DeviceViewController.swift */,
-				0850A2972611BE0600638765 /* AddDeviceViewController.swift */,
 				08AE3C89263BA0E500952791 /* DeviceSettingsViewController.swift */,
 				08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */,
 				08AEE6ED265E524500986085 /* OtaTableViewController.swift */,
 				088020B326AFC00900234231 /* SingleAddDeviceViewController.swift */,
+				08E17C7526BB85150051FD34 /* BridgePairingViewController.swift */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -594,10 +594,10 @@
 				088020B426AFC00900234231 /* SingleAddDeviceViewController.swift in Sources */,
 				08DF3CDC25AF107200EC3AF7 /* NodesViewController.swift in Sources */,
 				08AEE6EE265E524500986085 /* OtaTableViewController.swift in Sources */,
-				0850A2982611BE0600638765 /* AddDeviceViewController.swift in Sources */,
 				082DFEBF25B02ED1004668EF /* NodeViewController.swift in Sources */,
 				08DF3C9925AEF97000EC3AF7 /* AppDelegate.swift in Sources */,
 				08AD22B626438E69000468AF /* DeviceAddressesViewController.swift in Sources */,
+				08E17C7626BB85150051FD34 /* BridgePairingViewController.swift in Sources */,
 				082DFED425B03113004668EF /* NetworksViewController.swift in Sources */,
 				08D6AC1D260C36B100AEB39C /* SwitchTableViewCell.swift in Sources */,
 				08AE3C8A263BA0E500952791 /* DeviceSettingsViewController.swift in Sources */,
