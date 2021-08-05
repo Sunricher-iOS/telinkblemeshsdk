@@ -191,6 +191,8 @@ extension MeshDeviceType {
         case singleDim2 = 0x13
         case singleOnOff2 = 0x14
         
+        case powerMetering = 0x20
+        
         case onoff = 0x30
         case onoff2 = 0x60
         
@@ -229,6 +231,9 @@ extension MeshDeviceType {
             case .onoff: fallthrough
             case .onoff2:
                 return [.onOff]
+                
+            case .powerMetering:
+                return [.onOff, .brightness]
                 
             case .singleDim: fallthrough
             case .singleDim2: fallthrough
