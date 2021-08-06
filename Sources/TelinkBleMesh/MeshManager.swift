@@ -374,7 +374,7 @@ extension MeshManager {
         }
     }
     
-    func readFirmwareWithConnectNode() {
+    public func readFirmwareWithConnectNode() {
         
         guard self.isLogin else {
             return
@@ -1048,12 +1048,13 @@ extension MeshManager {
         guard let firmware = String(data: value, encoding: .utf8) else {
             return
         }
-        MLog("handleFirmwareValue firmware \(firmware)")
+        let firmwareTrim = firmware.replacingOccurrences(of: "\0", with: "")
+        MLog("handleFirmwareValue firmware \(firmwareTrim)")
         
         DispatchQueue.main.async {
             
             guard let node = self.connectNode else { return }
-            self.nodeDelegate?.meshManager?(self, didGetFirmware: firmware, node: node)
+            self.nodeDelegate?.meshManager?(self, didGetFirmware: firmwareTrim, node: node)
         }
     }
     

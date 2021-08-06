@@ -25,12 +25,21 @@ class NodesViewController: UITableViewController {
         let refreshItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshItemAction))
         navigationItem.rightBarButtonItem = refreshItem
         
+        let otaItem = UIBarButtonItem(title: "OTA", style: .plain, target: self, action: #selector(self.otaAction))
+        navigationItem.leftBarButtonItem = otaItem
+        
         refreshItemAction()
     }
     
     deinit {
         
         stopScan()
+    }
+    
+    @objc private func otaAction() {
+        
+        let controller = OtaListViewController(style: .grouped)
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     @objc func refreshItemAction() {

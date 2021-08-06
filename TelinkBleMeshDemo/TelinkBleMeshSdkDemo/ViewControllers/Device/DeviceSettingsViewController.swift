@@ -59,12 +59,7 @@ class DeviceSettingsViewController: UITableViewController {
             getLightOnOffDurationAction()
             
         case .ota:
-            
-            let controller = OtaTableViewController(style: .grouped)
-            controller.title = "firmware_update".localization
-            controller.device = device
-            controller.netework = network
-            navigationController?.pushViewController(controller, animated: true)
+            view.makeToast("Pelase use `Factory network -> OTA`", position: .center)
         }
     }
 

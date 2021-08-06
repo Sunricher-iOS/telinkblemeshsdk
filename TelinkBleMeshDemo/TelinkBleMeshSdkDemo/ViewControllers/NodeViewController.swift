@@ -48,22 +48,28 @@ class NodeViewController: UITableViewController {
         }
         guard let deviceType = device.deviceType else { return }
         
-        switch deviceType.category {
+        let controller = DeviceViewController(style: .grouped)
+        controller.device = device
+        controller.network = .factory
+        deviceDelegate = controller
+        navigationController?.pushViewController(controller, animated: true)
         
-        case .light: fallthrough
-        case .bridge: fallthrough
-        case .rfPa: fallthrough
-        case .curtain:
-            
-            let controller = DeviceViewController(style: .grouped)
-            controller.device = device
-            controller.network = .factory
-            deviceDelegate = controller
-            navigationController?.pushViewController(controller, animated: true)
-            
-        default:
-            break
-        }
+//        switch deviceType.category {
+//        
+//        case .light: fallthrough
+//        case .bridge: fallthrough
+//        case .rfPa: fallthrough
+//        case .curtain:
+//            
+//            let controller = DeviceViewController(style: .grouped)
+//            controller.device = device
+//            controller.network = .factory
+//            deviceDelegate = controller
+//            navigationController?.pushViewController(controller, animated: true)
+//            
+//        default:
+//            break
+//        }
         
         
     }

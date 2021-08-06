@@ -29,6 +29,7 @@
 		08DF3CB025AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3CAF25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift */; };
 		08DF3CDC25AF107200EC3AF7 /* NodesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */; };
 		08E17C7626BB85150051FD34 /* BridgePairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E17C7526BB85150051FD34 /* BridgePairingViewController.swift */; };
+		08E1EFAF26BCC97300D27582 /* OtaListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E1EFAE26BCC97300D27582 /* OtaListViewController.swift */; };
 		08FCB95E25B1438D00F2F06C /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 08FCB95D25B1438D00F2F06C /* Toast */; };
 /* End PBXBuildFile section */
 
@@ -115,6 +116,7 @@
 		08DF3CB125AEF97200EC3AF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodesViewController.swift; sourceTree = "<group>"; };
 		08E17C7526BB85150051FD34 /* BridgePairingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgePairingViewController.swift; sourceTree = "<group>"; };
+		08E1EFAE26BCC97300D27582 /* OtaListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,9 +177,10 @@
 				085651F22609F5C400C7FF8E /* DeviceViewController.swift */,
 				08AE3C89263BA0E500952791 /* DeviceSettingsViewController.swift */,
 				08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */,
-				08AEE6ED265E524500986085 /* OtaTableViewController.swift */,
 				088020B326AFC00900234231 /* SingleAddDeviceViewController.swift */,
 				08E17C7526BB85150051FD34 /* BridgePairingViewController.swift */,
+				08E1EFAE26BCC97300D27582 /* OtaListViewController.swift */,
+				08AEE6ED265E524500986085 /* OtaTableViewController.swift */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -605,6 +608,7 @@
 				082DFEC725B0307A004668EF /* Tools.swift in Sources */,
 				085651FD2609F64400C7FF8E /* MyDevice.swift in Sources */,
 				082DFEE225B04CAF004668EF /* TelinkBleMeshExtensions.swift in Sources */,
+				08E1EFAF26BCC97300D27582 /* OtaListViewController.swift in Sources */,
 				0800AAB1260B3ACC0010CA22 /* SliderTableViewCell.swift in Sources */,
 				085651F32609F5C400C7FF8E /* DeviceViewController.swift in Sources */,
 			);

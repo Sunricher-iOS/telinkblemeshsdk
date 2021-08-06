@@ -10,8 +10,9 @@ import TelinkBleMesh
 
 class OtaTableViewController: UITableViewController {
     
-    weak var device: MyDevice!
+//    weak var device: MyDevice!
     var netework: MeshNetwork!
+    var node: MeshNode!
     
     private let sections: [SectionType] = [
         .currentFirmware, .latestFirmware, .update
@@ -25,12 +26,11 @@ class OtaTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let deviceType = device.deviceType {
-            
-            otaFile = MeshOtaManager.shared.getLatestOtaFile(deviceType)
-        }
-        
         getFirmwareVersion()
+        DispatchQueue.global().async {
+            
+            self.otaFile = MeshOtaManager.shared.getLatestOtaFile(self.node.deviceType)
+        }
     }
 
     // MARK: - Table view data source
@@ -41,7 +41,9 @@ class OtaTableViewController: UITableViewController {
         let section = sections[indexPath.section]
         switch section {
         
-        case .currentFirmware: fallthrough
+        case .currentFirmware:
+            getFirmwareVersion()
+            
         case .latestFirmware:
             break
             
@@ -123,12 +125,12 @@ extension OtaTableViewController {
         }
         
         guard let current = self.currentFirmware else {
-            
+
             view.makeToast("get_current_firmware_again".localization, position: .center)
             getFirmwareVersion()
             return
         }
-        
+
         guard otaFile.isNeedUpdate(current) else {
 
             view.makeToast("already_the_latest_firmware".localization, position: .center)
@@ -145,7 +147,7 @@ extension OtaTableViewController {
             guard let self = self else { return }
             
             MeshOtaManager.shared.delegate = self
-            MeshOtaManager.shared.startOta(Int(self.device.meshDevice.address), network: self.netework, otaFile: otaFile)
+            MeshOtaManager.shared.startOta(Int(self.node.shortAddress), network: self.netework, otaFile: otaFile)
             
             self.alertController = UIAlertController(title: "updating".localization, message: "0%", preferredStyle: .alert)
             self.alertController?.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.width / 2, y: self.view.bounds.height / 2, width: 1, height: 1)
@@ -169,21 +171,17 @@ extension OtaTableViewController {
     
     private func getFirmwareVersion() {
         
-        MeshManager.shared.deviceDelegate = self
-        MeshCommand.getFirmwareVersion(Int(device.meshDevice.address)).send()
+        MeshManager.shared.nodeDelegate = self
+        MeshManager.shared.readFirmwareWithConnectNode()
     }
     
 }
 
-extension OtaTableViewController: MeshManagerDeviceDelegate {
+extension OtaTableViewController: MeshManagerNodeDelegate {
     
-    func meshManager(_ manager: MeshManager, device address: Int, didGetFirmwareVersion version: String) {
+    func meshManager(_ manager: MeshManager, didGetFirmware firmware: String, node: MeshNode) {
         
-        guard address == Int(device.meshDevice.address) else {
-            return
-        }
-        
-        currentFirmware = version
+        currentFirmware = firmware
         tableView.reloadData()
     }
     

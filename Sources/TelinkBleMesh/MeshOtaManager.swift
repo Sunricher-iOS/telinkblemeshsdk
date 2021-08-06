@@ -20,7 +20,8 @@ public struct MeshOtaFile {
     
     public let version: String
     
-    public let versionCode: Float
+    /// rawValue * 100
+    public let versionCode: Int
     
     public var data: Data? {
         
@@ -54,11 +55,12 @@ public struct MeshOtaFile {
         return value < self.versionCode
     }
     
-    private static func getVersionCode(_ version: String) -> Float {
+    private static func getVersionCode(_ version: String) -> Int {
         
         guard version.contains("V") else { return 0 }
         
-        return Float(version.replacingOccurrences(of: "V", with: "")) ?? 0
+        let rawValue = Double(version.replacingOccurrences(of: "V", with: "")) ?? 0
+        return Int(rawValue * 100.0)
     }
     
 }
