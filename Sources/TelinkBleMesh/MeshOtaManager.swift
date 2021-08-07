@@ -199,7 +199,15 @@ extension MeshOtaManager {
         
         self.data = data
         
-        connectNode()
+        if MeshManager.shared.isLogin && Int(MeshManager.shared.connectNode?.shortAddress ?? 0) == address {
+            
+            timer?.invalidate()
+            startSendData()
+            
+        } else {
+            
+            connectNode()
+        }
     }
     
     public func stopOta() {
