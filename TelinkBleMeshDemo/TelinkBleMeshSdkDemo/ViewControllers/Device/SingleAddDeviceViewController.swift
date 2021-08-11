@@ -37,7 +37,8 @@ class SingleAddDeviceViewController: UITableViewController {
         AutoPairingManager.shared.startPairing(network)
     }
     
-    deinit {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
         AutoPairingManager.shared.delegate = nil
         AutoPairingManager.shared.stop()

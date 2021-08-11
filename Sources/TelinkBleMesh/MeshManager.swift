@@ -206,7 +206,7 @@ extension MeshManager {
             
             self.connectNode = node
             let options: [String: Any] = [
-                CBConnectPeripheralOptionNotifyOnDisconnectionKey: true
+                CBConnectPeripheralOptionNotifyOnDisconnectionKey: false
             ]
             self.centralManager.connect(node.peripheral, options: options)
         }
