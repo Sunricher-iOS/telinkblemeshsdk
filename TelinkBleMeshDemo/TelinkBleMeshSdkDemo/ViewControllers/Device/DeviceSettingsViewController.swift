@@ -59,7 +59,9 @@ class DeviceSettingsViewController: UITableViewController {
             getLightOnOffDurationAction()
             
         case .ota:
-            view.makeToast("Pelase use `Factory network -> OTA`", position: .center)
+            
+            MeshManager.shared.deviceDelegate = self
+            MeshCommand.getFirmwareVersion(Int(device.meshDevice.address)).send()
         }
     }
 
@@ -294,6 +296,14 @@ extension DeviceSettingsViewController: MeshManagerDeviceDelegate {
         
         let message = "\(address): duration \(duration) seconds"
         view.makeToast(message, position: .center)
+    }
+    
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetFirmwareVersion version: String) {
+        
+        guard address == device.meshDevice.address else { return }
+        
+         view.makeToast("Frimware: \(version)", position: .center)
     }
     
 }
