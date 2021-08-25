@@ -18,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setUpWindow()
         
+        MeshManager.shared.deviceEventDelegate = self
+        
         return true
     }
 
@@ -55,3 +57,26 @@ extension AppDelegate {
     
 }
 
+extension AppDelegate: MeshManagerDeviceEventDelegate {
+    
+    func meshManager(_ manager: MeshManager, didUpdateEvent event: MqttDeviceEventProtocol) {
+        
+        let mqttMessage = MqttMessage.deviceEvent(event, userId: "maginawin")
+        NSLog("didUpdateEvent \(mqttMessage)", "")
+        
+        switch event.eventType {
+        
+        case .state:
+            
+            guard let stateEvent = event as? MqttDeviceStateEvent else {
+                return
+            }
+            
+            NSLog("State event meshDevices.count \(stateEvent.meshDevices.count)", "")
+            
+        default:
+            break
+        }
+    }
+    
+}

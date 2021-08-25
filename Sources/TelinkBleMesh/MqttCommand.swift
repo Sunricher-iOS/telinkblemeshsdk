@@ -101,25 +101,3 @@ extension MqttCommand {
     }
     
 }
-
-extension MqttCommand {
-    
-    static func mqttMessage(method: Method, version: Version, userId: String, payloadType: PayloadType, value: String) -> String {
-        
-        let dict = [
-            "header": [
-                "method": method.rawValue,
-                "version": version.rawValue,
-                "user_id": userId
-            ],
-            "payload": [
-                "type": payloadType.rawValue,
-                "value": value
-            ]
-        ]
-        
-        guard let data = try? JSONSerialization.data(withJSONObject: dict, options: []) else { return "" }
-        return String(data: data, encoding: .utf8) ?? ""
-    }
-    
-}

@@ -65,6 +65,12 @@ extension MeshManagerDeviceDelegate {
     
 }
 
+public protocol MeshManagerDeviceEventDelegate: NSObjectProtocol {
+    
+    func meshManager(_ manager: MeshManager, didUpdateEvent event: MqttDeviceEventProtocol)
+    
+}
+
 public class MeshManager: NSObject {
     
     public static let shared = MeshManager()
@@ -72,6 +78,8 @@ public class MeshManager: NSObject {
     public weak var nodeDelegate: MeshManagerNodeDelegate?
     
     public weak var deviceDelegate: MeshManagerDeviceDelegate?
+    
+    public weak var deviceEventDelegate: MeshManagerDeviceEventDelegate?
     
     /**
      The default is `true`.
@@ -951,6 +959,9 @@ extension MeshManager {
         DispatchQueue.main.async {
             
             self.deviceDelegate?.meshManager(self, didUpdateMeshDevices: devices)
+            
+            let event = MqttDeviceStateEvent(meshDevices: devices)
+            self.deviceEventDelegate?.meshManager(self, didUpdateEvent: event)
         }
     }
     
@@ -981,6 +992,9 @@ extension MeshManager {
             DispatchQueue.main.async {
                 
                 self.deviceDelegate?.meshManager(self, device: address, didUpdateDeviceType: deviceType, macData: macData)
+                
+                let event = MqttDeviceTypeEvent(shortAddress: address, deviceType: deviceType, macData: macData)
+                self.deviceEventDelegate?.meshManager(self, didUpdateEvent: event)
             }
             
         case .lightControlMode:
@@ -1038,6 +1052,9 @@ extension MeshManager {
         DispatchQueue.main.async {
             
             self.deviceDelegate?.meshManager(self, device: command.src, didGetDate: date)
+            
+            let event = MqttDeviceDateEvent(shortAddress: command.src, date: date)
+            self.deviceEventDelegate?.meshManager(self, didUpdateEvent: event)
         }
     }
     
@@ -1063,6 +1080,9 @@ extension MeshManager {
             DispatchQueue.main.async {
                 
                 self.deviceDelegate?.meshManager(self, device: command.src, didGetLightOnOffDuration: duration)
+                
+                let event = MqttDeviceLightOnOffDurationEvent(shortAddress: command.src, duration: duration)
+                self.deviceEventDelegate?.meshManager(self, didUpdateEvent: event)
             }
         }
     }
@@ -1104,6 +1124,9 @@ extension MeshManager {
             
             let currentVersion = isStandard ? version : "V0.1"
             self.deviceDelegate?.meshManager(self, device: command.src, didGetFirmwareVersion: currentVersion)
+            
+            let event = MqttDeviceFirmwareEvent(shortAddress: command.src, firmwareVersion: currentVersion)
+            self.deviceEventDelegate?.meshManager(self, didUpdateEvent: event)
         }
     }
     
