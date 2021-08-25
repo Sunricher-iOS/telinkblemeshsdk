@@ -157,7 +157,10 @@ extension DeviceViewController: SwitchTableViewCellDelegate {
         
         cell.textLabel?.text = isOn ? MeshDevice.State.on.title : MeshDevice.State.off.title
         
-        MeshCommand.turnOnOff(Int(device.meshDevice.address), isOn: isOn).send()
+//        MeshCommand.turnOnOff(Int(device.meshDevice.address), isOn: isOn).send()
+        let command = MeshCommand.turnOnOff(Int(device.meshDevice.address), isOn: isOn)
+        let mqttMessage = MqttMessage.meshCommand(command, userId: "maginawin")
+        MeshManager.shared.sendMqttMessage(mqttMessage)
     }
     
 }

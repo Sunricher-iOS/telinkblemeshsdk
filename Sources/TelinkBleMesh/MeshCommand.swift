@@ -118,6 +118,32 @@ public struct MeshCommand {
         userData = Data(data[11..<20])
     }
     
+    init?(mqttCommandData data: Data) {
+        
+        guard data.count == 20 else { return nil }
+        
+        guard let tempTag = Tag(rawValue: data[7]) else {
+            
+            return
+        }
+        
+        var tempSrc = Int(data[3])
+        tempSrc |= Int(data[4]) << 8
+        src = tempSrc
+        
+        var tempDst = Int(data[5])
+        tempDst |= Int(data[6]) << 8
+        dst = tempDst
+        
+        tag = tempTag
+        
+        var tempVendorID = Int(data[8]) << 8
+        tempVendorID |= Int(data[9])
+        
+        param = Int(data[10])
+        userData = Data(data[11..<20])
+    }
+    
 }
 
 extension MeshCommand {

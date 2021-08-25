@@ -61,3 +61,29 @@ extension Data {
     }
     
 }
+
+extension String {
+    
+    var hexData: Data {
+        
+        var temp = self
+        if temp.count % 2 != 0 {
+            temp = "0" + temp
+        }
+        
+        let value = NSString(string: temp)
+        let size = value.length / 2
+        if size == 0 { return Data() }
+        
+        var result = Data()
+        for i in 0..<size {
+            
+            let item = value.substring(with: NSRange(location: i * 2, length: 2))
+            let itemInt = UInt8(item, radix: 16) ?? 0
+            
+            result.append(itemInt)
+        }
+        
+        return result
+    }
+}

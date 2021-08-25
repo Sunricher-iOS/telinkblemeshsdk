@@ -24,7 +24,8 @@ class NodeViewController: UITableViewController {
         navigationItem.rightBarButtonItem = refreshItem
         
         MeshManager.shared.deviceDelegate = self
-        MeshManager.shared.scanMeshDevices()
+//        MeshManager.shared.scanMeshDevices()
+        MeshManager.shared.sendMqttMessage(MqttMessage.scanMeshDevices("wd"))
     }
     
     @objc func refreshItemAction() {
@@ -32,7 +33,8 @@ class NodeViewController: UITableViewController {
         devices.removeAll()
         tableView.reloadData()
         
-        MeshManager.shared.scanMeshDevices()
+//        MeshManager.shared.scanMeshDevices()
+        MeshManager.shared.sendMqttMessage(MqttMessage.scanMeshDevices("wd"))
     }
 
     // MARK: - Table view data source

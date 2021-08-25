@@ -328,6 +328,30 @@ extension MeshManager {
         }        
     }
     
+    public func sendMqttMessage(_ message: String, isSample: Bool = false) {
+        
+        guard let mqttCommand = MqttCommand.makeCommandWithMqttMessage(message) else {
+            
+            MLog("send mqtt message failed, wrong message \(message)")
+            return
+        }
+        
+        MLog("Will send mqtt message \(message)")
+        
+        switch mqttCommand.commandType {
+        
+        case .command:
+            
+            if let command = MeshCommand(mqttCommandData: mqttCommand.data) {
+                
+                send(command, isSample: isSample)
+            }
+            
+        case .scanMeshDevices:            
+            scanMeshDevices()
+        }
+    }
+    
 }
 
 // MARK: - Interval
