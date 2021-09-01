@@ -16,7 +16,7 @@ class DeviceSettingsViewController: UITableViewController {
     
     private var options: [SettingsOption] = [
         .changeAddress, .resetNetwork, .syncDatetime, .getDatetime,
-        .setLightOnOffDuration, .getLightOnOffDuration, .ota
+        .setLightOnOffDuration, .getLightOnOffDuration, .ota, .lightRunning
     ]
     
     /// (short address, mac data)
@@ -62,6 +62,12 @@ class DeviceSettingsViewController: UITableViewController {
             
             MeshManager.shared.deviceDelegate = self
             MeshCommand.getFirmwareVersion(Int(device.meshDevice.address)).send()
+            
+        case .lightRunning:
+            
+            let controller = LightRunningViewController(style: .grouped)
+            controller.device = device
+            navigationController?.pushViewController(controller, animated: true)
         }
     }
 
@@ -105,6 +111,8 @@ extension DeviceSettingsViewController {
         
         case ota
         
+        case lightRunning
+        
         var title: String {
             
             switch self {
@@ -129,6 +137,9 @@ extension DeviceSettingsViewController {
                 
             case .ota:
                 return "firmware_update".localization
+                
+            case .lightRunning:
+                return "light_running".localization
             }
         }
     }
@@ -259,10 +270,10 @@ extension DeviceSettingsViewController: MeshManagerDeviceDelegate {
     
     func meshManager(_ manager: MeshManager, didUpdateMeshDevices meshDevices: [MeshDevice]) {
         
-        meshDevices.forEach {
-            
-            MeshCommand.requestMacDeviceType(Int($0.address)).send()
-        }
+//        meshDevices.forEach {
+//            
+//            MeshCommand.requestMacDeviceType(Int($0.address)).send()
+//        }
     }
     
     func meshManager(_ manager: MeshManager, device address: Int, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {

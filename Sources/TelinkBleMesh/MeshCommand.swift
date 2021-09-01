@@ -5,7 +5,7 @@
 //  Created by maginawin on 2021/1/13.
 //
 
-import Foundation
+import UIKit
 import CryptoAction
 
 public struct MeshCommand {
@@ -191,6 +191,14 @@ extension MeshCommand {
     enum SrLightControlMode: UInt8 {
         
         case lightOnOffDuration = 0x0F
+        
+        case getLightRunningMode = 0x00
+        
+        case setLightRunningMode = 0x05
+        
+        case setLightRunningSpeed = 0x03
+        
+        case customLightRunningMode = 0x01
     }
     
     enum SingleChannel: UInt8 {
@@ -580,6 +588,260 @@ extension MeshCommand {
         var cmd = MeshCommand()
         cmd.tag = .getFirmware
         cmd.dst = address
+        return cmd
+    }
+    
+}
+
+// MARK: - Light Running Mode
+
+extension MeshCommand {
+    
+    public struct LightRunningMode {
+        
+        public enum State: UInt8 {
+            
+            case stopped = 0x00
+            case defaultMode = 0x01
+            case customMode = 0x02
+        }
+        
+        public enum DefaultMode: UInt8 {
+            
+            case colorfulMixed = 0x01
+            case redShade = 0x02
+            case greenShade = 0x03
+            case blueShade = 0x04
+            case yellowShade = 0x05
+            case cyanShade = 0x06
+            case purpleShade = 0x07
+            case whiteShade = 0x08
+            case redGreenShade = 0x09
+            case redBlueShade = 0x0A
+            case greenBlueShade = 0x0B
+            case colorfulStrobe = 0x0C
+            case redStrobe = 0x0D
+            case greenStrobe = 0x0E
+            case blueStrobe = 0x0F
+            case yellowStrobe = 0x10
+            case cyanStrobe = 0x11
+            case purpleStrobe = 0x12
+            case whiteStrobe = 0x13
+            case colorfulJump = 0x14
+            
+            public static let all: [DefaultMode] = (0x01...0x14).map { return DefaultMode(rawValue: $0)! }
+        }
+        
+        public enum CustomMode: UInt8 {
+            
+            case ascendShade = 0x01
+            case descendShade = 0x02
+            case ascendDescendShade = 0x03
+            case mixedShade = 0x04
+            case jump = 0x05
+            case strobe = 0x06
+            
+            public static let all: [CustomMode] = (0x01...0x06).map { CustomMode(rawValue: $0)! }
+        }
+        
+        public struct Color {
+            
+            public var red: UInt8
+            public var green: UInt8
+            public var blue: UInt8
+            
+            public var uiColor: UIColor {
+                
+                return UIColor(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+            }
+            
+            public init(red: UInt8, green: UInt8, blue: UInt8) {
+                
+                self.red = red
+                self.green = green
+                self.blue = blue
+            }
+            
+            public init(color: UIColor) {
+                
+                var red: CGFloat = 0
+                var green: CGFloat = 0
+                var blue: CGFloat = 0
+                color.getRed(&red, green: &green, blue: &blue, alpha: nil)
+                
+                self.red = UInt8(red * 255.0)
+                self.green = UInt8(green * 255.0)
+                self.blue = UInt8(blue * 255.0)
+            }
+        }
+        
+        public var address: Int
+        
+        public var state: State
+        
+        public var defaultMode: DefaultMode = .colorfulMixed
+        
+        public var customMode: CustomMode = .ascendShade
+        
+        /// range [0x00, 0x0F]
+        public var speed: Int = 0x0A
+        
+        /// range [0x01, 0x10]
+        public var customModeId: Int = 0x01
+        
+        public init(address: Int, state: State) {
+            
+            self.address = address
+            self.state = state
+        }
+        
+        init?(address: Int, userData: Data) {
+            
+            guard userData[0] == SrIndentifier.lightControlMode.rawValue,
+                  userData[1] == SrLightControlMode.getLightRunningMode.rawValue,
+                  let state = State(rawValue: userData[4]) else {
+                
+                return nil
+            }
+            
+            self.address = address
+            self.speed = max(0x00, min(0x0F, Int(userData[2])))
+            self.state = state
+            
+            switch state {
+            
+            case .stopped:
+                break
+                
+            case .defaultMode:
+                self.defaultMode = DefaultMode(rawValue: userData[5]) ?? self.defaultMode
+                
+            case .customMode:
+                self.customModeId = max(0x01, min(0x10, Int(userData[5])))
+                self.customMode = CustomMode(rawValue: userData[6]) ?? self.customMode
+            }
+        }
+    }
+    
+    public static func getLightRunningMode(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.getLightRunningMode.rawValue
+        return cmd
+    }
+    
+    public static func updateLightRunningMode(_ mode: LightRunningMode) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = mode.address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.setLightRunningMode.rawValue
+        cmd.userData[2] = mode.state.rawValue
+        
+        switch mode.state {
+        
+        case .stopped:
+            break
+            
+        case .defaultMode:
+            cmd.userData[3] = mode.defaultMode.rawValue
+            
+        case .customMode:
+            cmd.userData[3] = UInt8(mode.customModeId)
+            cmd.userData[4] = mode.customMode.rawValue
+        }
+        
+        return cmd
+    }
+    
+    /// speed range: [0x00, 0x0F], 0x00 -> fastest, 0x0F -> slowest
+    public static func updateLightRunningSpeed(_ address: Int, speed: Int) -> MeshCommand {
+        
+        assert(speed >= 0x00 && speed <= 0x0F, "speed \(speed) is out of range [0x00, 0x0F]")
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.setLightRunningSpeed.rawValue
+        cmd.userData[2] = UInt8(speed)
+        return cmd
+    }
+    
+    // cmd.userData[2]
+    // 0x00, read custom mode
+    // 0x01, add
+    // 0x02, remove
+    
+    public static func getLightRunningCustomModeIdList(_ address: Int) -> MeshCommand {
+        
+        // 0x00 for mode id list
+        return getLightRunningCustomModeColors(address, modeId: 0x00)
+    }
+    
+    /// modeId range [0x01, 0x10]
+    public static func getLightRunningCustomModeColors(_ address: Int, modeId: Int) -> MeshCommand {
+        
+        assert(modeId >= 0x00 && modeId <= 0x10, "modeId out of range [0x00, 0x10]")
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.customLightRunningMode.rawValue
+        cmd.userData[2] = 0x00
+        cmd.userData[3] = UInt8(modeId)
+        return cmd
+    }
+    
+    /// - Parameters:
+    ///     - modeId: range [0x01, 0x10]
+    ///     - colors: colors.count range [1, 5]
+    public static func updateLightRunningCustomModeColors(_ address: Int, modeId: Int, colors: [LightRunningMode.Color]) -> [MeshCommand] {
+        
+        assert(modeId >= 0x01 && modeId <= 0x10, "modeId out of range [0x00, 0x10]")
+        assert(colors.count > 0 && colors.count <= 5, "colors.count out of range [1, 5]")
+        
+        var commands: [MeshCommand] = []
+        
+        for i in 0..<colors.count {
+            
+            let index = i + 1
+            let color = colors[i]
+            
+            var cmd = MeshCommand()
+            cmd.tag = .appToNode
+            cmd.dst = address
+            cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+            cmd.userData[1] = SrLightControlMode.customLightRunningMode.rawValue
+            cmd.userData[2] = 0x01
+            cmd.userData[3] = UInt8(modeId)
+            cmd.userData[4] = UInt8(index)
+            cmd.userData[5] = color.red
+            cmd.userData[6] = color.green
+            cmd.userData[7] = color.blue
+            
+            commands.append(cmd)
+        }
+        
+        return commands
+    }
+    
+    public static func removeLightRunningCustomModeId(_  address: Int, modeId: Int) -> MeshCommand {
+        
+        assert(modeId >= 0x01 && modeId <= 0x10, "modeId out of range [0x00, 0x10]")
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.customLightRunningMode.rawValue
+        cmd.userData[2] = 0x02
+        cmd.userData[3] = UInt8(modeId)
         return cmd
     }
     

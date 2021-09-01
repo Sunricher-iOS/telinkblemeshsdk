@@ -49,6 +49,12 @@ public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
     
     func meshManager(_ manager: MeshManager, device address: Int, didGetFirmwareVersion version: String)
     
+    func meshManager(_ manager: MeshManager, device address: Int, didGetLightRunningMode mode: MeshCommand.LightRunningMode)
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetLightRunningModeIdList idList: [Int])
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetLightRunningModeId modeId: Int, colorsCount: Int, colorIndex: Int, color: MeshCommand.LightRunningMode.Color)
+    
 }
 
 extension MeshManagerDeviceDelegate {
@@ -62,6 +68,12 @@ extension MeshManagerDeviceDelegate {
     public func meshManager(_ manager: MeshManager, device address: Int, didGetLightOnOffDuration duration: Int) {}
     
     public func meshManager(_ manager: MeshManager, device address: Int, didGetFirmwareVersion version: String) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetLightRunningMode mode: MeshCommand.LightRunningMode) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetLightRunningModeIdList idList: [Int]) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetLightRunningModeId modeId: Int, colorsCount: Int, colorIndex: Int, color: MeshCommand.LightRunningMode.Color) {}
     
 }
 
@@ -892,6 +904,7 @@ extension MeshManager {
         case .appToNode:
             
             MLog("appToNode tag")
+            self.handleNodeToAppData(data)
             
         case .onOff:
             
@@ -1084,6 +1097,69 @@ extension MeshManager {
                 let event = MqttDeviceLightOnOffDurationEvent(shortAddress: command.src, duration: duration)
                 self.deviceEventDelegate?.meshManager(self, didUpdateEvent: event)
             }
+            
+        case .getLightRunningMode:
+            
+            MLog("getLightRunningMode response")
+            guard let mode = MeshCommand.LightRunningMode(address: command.src, userData: command.userData) else {
+                
+                MLog("getLightRunningMode init failed.")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                
+                self.deviceDelegate?.meshManager(self, device: command.src, didGetLightRunningMode: mode)
+            }
+            
+        case .setLightRunningMode:
+            
+            MLog("setLightRunningMode")
+            
+        case .setLightRunningSpeed:
+            
+            MLog("setLightRunningSpeed")
+            
+        case .customLightRunningMode:
+            
+            MLog("customLightRunningMode")
+            guard command.userData[2] == 0x00 else {
+                
+                MLog("customLightRunningMode init failed.")
+                return
+            }
+            
+            if command.userData[3] == 0x00 {
+                
+                let value = (Int(command.userData[4]) << 8) | Int(command.userData[5])
+                var modeIds: [Int] = []
+                for i in 0..<16 {
+                    if ((0x01 << i) & value) > 0 {
+                        modeIds.append(i + 1)
+                    }
+                }
+                MLog("customLightRunningMode idList count \(modeIds.count)")
+                
+                DispatchQueue.main.async {
+                    
+                    self.deviceDelegate?.meshManager(self, device: command.src, didGetLightRunningModeIdList: modeIds)
+                }
+                
+            } else if command.userData[3] >= 0x01 && command.userData[3] <= 0x10 {
+             
+                let modeId = Int(command.userData[3])
+                let colorsCount = Int(command.userData[4])
+                let colorIndex = Int(command.userData[5])
+                let color = MeshCommand.LightRunningMode.Color(red: command.userData[6], green: command.userData[7], blue: command.userData[8])
+                
+                MLog("LighRunningColor modeId \(modeId), count \(colorsCount), index \(colorIndex)")
+                
+                DispatchQueue.main.async {
+                    
+                    self.deviceDelegate?.meshManager(self, device: command.src, didGetLightRunningModeId: modeId, colorsCount: colorsCount, colorIndex: colorIndex, color: color)
+                }
+            }
+            
         }
     }
         

@@ -75,3 +75,11 @@
 "unsupport_device_type" = "Unsupport device type";
 "no_more_addresses" = "No more addresses";
 "single_add_finished_message" = "Add finished";
+"light_running" = "Light running";
+"start_default" = "Start Default";
+"default_mode" = "Default Mode";
+"start_custom" = "Start Custom";
+"custom_mode" = "Custom Mode";
+"custom_colors" = "Custom Colors";
+"speed" = "Speed";
+"brightness" = "Brightness";
