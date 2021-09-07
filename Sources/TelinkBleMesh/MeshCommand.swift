@@ -554,37 +554,6 @@ extension MeshCommand {
     }
 }
 
-// MARK: - Light Control Mode
-
-extension MeshCommand {
-    
-    /// - Parameter duration: Range `[1, 0xFFFF]`, unit `second(s)`.
-    public static func setLightOnOffDuration(_ address: Int, duration: Int) -> MeshCommand {
-                
-        var cmd = MeshCommand()
-        cmd.tag = .appToNode
-        cmd.dst = address
-        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
-        cmd.userData[1] = SrLightControlMode.lightOnOffDuration.rawValue
-        cmd.userData[2] = 0x01 // set
-        cmd.userData[3] = UInt8(duration & 0xFF)
-        cmd.userData[4] = UInt8((duration >> 8) & 0xFF)
-        return cmd
-    }
-    
-    public static func getLightOnOffDuration(_ address: Int) -> MeshCommand {
-        
-        var cmd = MeshCommand()
-        cmd.tag = .appToNode
-        cmd.dst = address
-        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
-        cmd.userData[1] = SrLightControlMode.lightOnOffDuration.rawValue
-        cmd.userData[2] = 0x00 // get
-        return cmd
-    }
-    
-}
-
 // MARK: - OTA
 
 extension MeshCommand {
@@ -899,3 +868,53 @@ extension MeshCommand {
     }
     
 }
+
+
+// MARK: - SR Private
+
+extension MeshCommand {
+    
+    /// - Parameter duration: Range `[1, 0xFFFF]`, unit `second(s)`.
+    public static func setLightOnOffDuration(_ address: Int, duration: Int) -> MeshCommand {
+                
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.lightOnOffDuration.rawValue
+        cmd.userData[2] = 0x01 // set
+        cmd.userData[3] = UInt8(duration & 0xFF)
+        cmd.userData[4] = UInt8((duration >> 8) & 0xFF)
+        return cmd
+    }
+    
+    public static func getLightOnOffDuration(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.lightOnOffDuration.rawValue
+        cmd.userData[2] = 0x00 // get
+        return cmd
+    }
+    
+    // Light switch type - push button, 3 ways button
+    
+    // PWM frequency
+    
+    // Enable pairing
+    
+    // Enable rgb independence
+    
+    // Sensor configuration
+    
+    // Sunrise sunset
+    
+    // Smart switch configuration
+    
+}
+
+// MARK: - Scenes
+
+// MARK: - Timing
