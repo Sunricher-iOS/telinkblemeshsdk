@@ -165,7 +165,7 @@ extension MeshCommand {
         
         case replaceAddress = 0xE0
         
-        case getMacNotify = 0xE1
+        case deviceAddressNotify = 0xE1
         
         case resetNetwork = 0xE3
         
@@ -178,6 +178,12 @@ extension MeshCommand {
         case getFirmware = 0xC7
         
         case firmwareResponse = 0xC8
+        
+        case getGroups = 0xDD
+        
+        case responseGroups = 0xD4
+        
+        case groupAction = 0xD7
     }
     
     /// Sunricher private protocol
@@ -842,6 +848,53 @@ extension MeshCommand {
         cmd.userData[1] = SrLightControlMode.customLightRunningMode.rawValue
         cmd.userData[2] = 0x02
         cmd.userData[3] = UInt8(modeId)
+        return cmd
+    }
+    
+}
+
+// MARK: - Groups
+
+extension MeshCommand {
+    
+    public static func getGroups(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .getGroups
+        cmd.dst = address
+        cmd.userData[0] = 0x01
+        return cmd
+    }
+    
+    public static func getGroupDevices(_ groupId: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .replaceAddress
+        cmd.dst = groupId
+        cmd.param = 0xFF
+        cmd.userData[0] = 0xFF
+        return cmd
+    }
+    
+    public static func addGroup(_ groupId: Int, address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .groupAction
+        cmd.dst = address
+        cmd.param = 0x01
+        cmd.userData[0] = UInt8(groupId & 0xFF)
+        cmd.userData[1] = 0x80
+        return cmd
+    }
+    
+    public static func deleteGroup(_ groupId: Int, address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .groupAction
+        cmd.dst = address
+        cmd.param = 0x00
+        cmd.userData[0] = UInt8(groupId & 0xFF)
+        cmd.userData[1] = 0x80
         return cmd
     }
     

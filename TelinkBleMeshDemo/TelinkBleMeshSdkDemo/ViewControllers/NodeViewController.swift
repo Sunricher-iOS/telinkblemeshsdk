@@ -20,12 +20,21 @@ class NodeViewController: UITableViewController {
 
         title = node.title
         
+        let advancedItem = UIBarButtonItem(title: "advanced".localization, style: .plain, target: self, action: #selector(advancedAction))
         let refreshItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.refreshItemAction))
-        navigationItem.rightBarButtonItem = refreshItem
+        
+        navigationItem.rightBarButtonItems = [advancedItem, refreshItem]
         
         MeshManager.shared.deviceDelegate = self
 //        MeshManager.shared.scanMeshDevices()
         MeshManager.shared.sendMqttMessage(MqttMessage.scanMeshDevices("wd"))
+    }
+    
+    @objc private func advancedAction() {
+        
+        let controller = NodeAdvancedViewController(style: .grouped)
+        controller.addresses = devices.map { Int($0.meshDevice.address) }
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     @objc func refreshItemAction() {
@@ -138,3 +147,4 @@ extension NodeViewController: MeshManagerDeviceDelegate {
     }
     
 }
+

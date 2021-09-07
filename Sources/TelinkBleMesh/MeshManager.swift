@@ -29,7 +29,7 @@ import CryptoAction
     @available(iOS 10.0, *)
     @objc optional func meshManagerDidUpdateState(_ manager: MeshManager, state: CBManagerState)
     
-    @objc optional func meshManager(_ manager: MeshManager, didGetMac macData: Data, address: Int)
+    @objc optional func meshManager(_ manager: MeshManager, didGetDeviceAddress address: Int)
     
     @objc optional func meshManager(_ manager: MeshManager, didConfirmNewNetwork isSuccess: Bool)
     
@@ -55,6 +55,10 @@ public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
     
     func meshManager(_ manager: MeshManager, device address: Int, didGetLightRunningModeId modeId: Int, colorsCount: Int, colorIndex: Int, color: MeshCommand.LightRunningMode.Color)
     
+    func meshManager(_ manager: MeshManager, device address: Int, didGetGroups groups: [Int])
+    
+    func meshManager(_ manager: MeshManager, didGetDeviceAddress address: Int)
+    
 }
 
 extension MeshManagerDeviceDelegate {
@@ -74,6 +78,10 @@ extension MeshManagerDeviceDelegate {
     public func meshManager(_ manager: MeshManager, device address: Int, didGetLightRunningModeIdList idList: [Int]) {}
     
     public func meshManager(_ manager: MeshManager, device address: Int, didGetLightRunningModeId modeId: Int, colorsCount: Int, colorIndex: Int, color: MeshCommand.LightRunningMode.Color) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetGroups groups: [Int]) {}
+    
+    public func meshManager(_ manager: MeshManager, didGetDeviceAddress address: Int) {}
     
 }
 
@@ -907,36 +915,29 @@ extension MeshManager {
             self.handleNodeToAppData(data)
             
         case .onOff:
-            
             MLog("onOff tag")
             
         case .brightness:
-            
             MLog("brightness tag")
             
         case .singleChannel:
-            
             MLog("singleChannel tag")
             
         case .replaceAddress:
-            
             MLog("replaceNodeAddress tag")
             
-        case .getMacNotify:
+        case .deviceAddressNotify:
             
-            MLog("getMacNotify tag")
-            self.handleGetMacNotifyData(data)
+            MLog("deviceAddrNotify tag")
+            self.handleDeviceAddressNotifyData(data)
             
         case .resetNetwork:
-            
             MLog("resetNetwork tag")
             
         case .syncDatetime:
-            
             MLog("syncDatetime tag")
             
         case .getDatetime:
-            
             MLog("getDatetime tag")
             
         case .datetimeResponse:
@@ -945,13 +946,23 @@ extension MeshManager {
             self.handleDatetimeResponseData(data)
             
         case .getFirmware:
-            
             MLog("getFirmware tag")
             
         case .firmwareResponse:
             
             MLog("firmwareResponse tag")
             self.handleFirmwareResponseValue(data)
+            
+        case .getGroups:
+            MLog("getGropus tag")
+            
+        case .responseGroups:
+            
+            MLog("responseGroups tag")
+            self.handleResponseGroupsValue(data)
+            
+        case .groupAction:
+            MLog("groupAction tag")
         }
     }
     
@@ -1017,21 +1028,21 @@ extension MeshManager {
         }
     }
     
-    private func handleGetMacNotifyData(_ data: Data) {
+    private func handleDeviceAddressNotifyData(_ data: Data) {
         
         guard let command = MeshCommand(notifyData: data) else {
             
-            MLog("handleGetMacNotifyData failed, cannot covert to a MeshCommand")
+            MLog("handleDeviceAddressNotifyData failed, cannot covert to a MeshCommand")
             return
         }
         
-        let newAddress = command.param
-        let macData = Data(command.userData[1...6].reversed())
-        MLog("handleGetMacNotifyData newAddress " + String(format: "%02X", newAddress) + ", mac \(macData.hexString)")
+        let address = command.param
+        MLog("handleDeviceAddressNotifyData newAddress " + String(format: "%02X", address))
         
         DispatchQueue.main.async {
             
-            self.nodeDelegate?.meshManager?(self, didGetMac: macData, address: newAddress)
+            self.nodeDelegate?.meshManager?(self, didGetDeviceAddress: address)
+            self.deviceDelegate?.meshManager(self, didGetDeviceAddress: address)
         }
         
     }
@@ -1203,6 +1214,31 @@ extension MeshManager {
             
             let event = MqttDeviceFirmwareEvent(shortAddress: command.src, firmwareVersion: currentVersion)
             self.deviceEventDelegate?.meshManager(self, didUpdateEvent: event)
+        }
+    }
+    
+    private func handleResponseGroupsValue(_ value: Data) {
+        
+        guard let command = MeshCommand(notifyData: value) else {
+            return
+        }
+        
+        let firstGroup = command.param
+        guard firstGroup != 0xFF else { return }
+        
+        var groups = [firstGroup | 0x8000]
+        command.userData.forEach {
+            
+            if $0 == 0xFF { return }
+            let temp = Int($0) | 0x8000
+            if groups.contains(temp) { return }
+            groups.append(temp)
+        }
+        MLog("handleResponseGroupsValue \(command.src) didGetGroups \(groups)")
+        
+        DispatchQueue.main.async {
+            
+            self.deviceDelegate?.meshManager(self, device: command.src, didGetGroups: groups)
         }
     }
     

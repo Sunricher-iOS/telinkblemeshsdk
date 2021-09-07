@@ -127,7 +127,7 @@ extension AutoPairingManager: MeshManagerNodeDelegate {
         timer = Timer.scheduledTimer(timeInterval: addressSettingInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
     }
     
-    public func meshManager(_ manager: MeshManager, didGetMac macData: Data, address: Int) {
+    public func meshManager(_ manager: MeshManager, didGetDeviceAddress address: Int) {
         
         guard state == .addressSetting,
               newAddress == address else { return }

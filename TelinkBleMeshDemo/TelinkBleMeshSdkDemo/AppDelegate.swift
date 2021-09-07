@@ -39,8 +39,8 @@ extension AppDelegate {
         
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [
-            networksController,
             peripheralsController,
+            networksController,
         ]
         
         window = UIWindow(frame: UIScreen.main.bounds)

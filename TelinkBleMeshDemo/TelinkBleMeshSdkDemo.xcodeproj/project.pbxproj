@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		0800AAB1260B3ACC0010CA22 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0800AAB0260B3ACC0010CA22 /* SliderTableViewCell.swift */; };
 		0815A0E726DDCB42003EEB08 /* LightRunningSelectModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0815A0E626DDCB42003EEB08 /* LightRunningSelectModeViewController.swift */; };
+		08270F7326E5FA8300088CE4 /* NodeAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08270F7226E5FA8300088CE4 /* NodeAdvancedViewController.swift */; };
+		08270F7626E5FB8300088CE4 /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08270F7526E5FB8300088CE4 /* GroupsTableViewController.swift */; };
+		08270F7926E617AB00088CE4 /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08270F7826E617AB00088CE4 /* GroupViewController.swift */; };
 		082DFEBF25B02ED1004668EF /* NodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFEBE25B02ED1004668EF /* NodeViewController.swift */; };
 		082DFEC325B0302E004668EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 082DFEC225B0302E004668EF /* Localizable.strings */; };
 		082DFEC725B0307A004668EF /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFEC625B0307A004668EF /* Tools.swift */; };
@@ -50,6 +53,9 @@
 /* Begin PBXFileReference section */
 		0800AAB0260B3ACC0010CA22 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
 		0815A0E626DDCB42003EEB08 /* LightRunningSelectModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightRunningSelectModeViewController.swift; sourceTree = "<group>"; };
+		08270F7226E5FA8300088CE4 /* NodeAdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeAdvancedViewController.swift; sourceTree = "<group>"; };
+		08270F7526E5FB8300088CE4 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
+		08270F7826E617AB00088CE4 /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		082DFEBE25B02ED1004668EF /* NodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeViewController.swift; sourceTree = "<group>"; };
 		082DFEC225B0302E004668EF /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		082DFEC625B0307A004668EF /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
@@ -147,12 +153,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08270F7426E5FB7300088CE4 /* Groups */ = {
+			isa = PBXGroup;
+			children = (
+				08270F7526E5FB8300088CE4 /* GroupsTableViewController.swift */,
+				08270F7826E617AB00088CE4 /* GroupViewController.swift */,
+			);
+			path = Groups;
+			sourceTree = "<group>";
+		};
 		082DFECC25B030DF004668EF /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				0850A28E2611BDCD00638765 /* Device */,
+				08270F7426E5FB7300088CE4 /* Groups */,
 				08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */,
 				082DFEBE25B02ED1004668EF /* NodeViewController.swift */,
+				08270F7226E5FA8300088CE4 /* NodeAdvancedViewController.swift */,
 				082DFED325B03113004668EF /* NetworksViewController.swift */,
 				082DFEDD25B04B41004668EF /* NetworkViewController.swift */,
 			);
@@ -608,6 +625,8 @@
 				082DFED825B034FA004668EF /* NetworkManager.swift in Sources */,
 				088020B426AFC00900234231 /* SingleAddDeviceViewController.swift in Sources */,
 				08DF3CDC25AF107200EC3AF7 /* NodesViewController.swift in Sources */,
+				08270F7326E5FA8300088CE4 /* NodeAdvancedViewController.swift in Sources */,
+				08270F7926E617AB00088CE4 /* GroupViewController.swift in Sources */,
 				08AEE6EE265E524500986085 /* OtaTableViewController.swift in Sources */,
 				082DFEBF25B02ED1004668EF /* NodeViewController.swift in Sources */,
 				08DF3C9925AEF97000EC3AF7 /* AppDelegate.swift in Sources */,
@@ -621,6 +640,7 @@
 				08561DC826DCDB7600EC92D1 /* LightRunningViewController.swift in Sources */,
 				0815A0E726DDCB42003EEB08 /* LightRunningSelectModeViewController.swift in Sources */,
 				08BAAC6626DF13400012CCFF /* LightRunningAddColorViewController.swift in Sources */,
+				08270F7626E5FB8300088CE4 /* GroupsTableViewController.swift in Sources */,
 				085651FD2609F64400C7FF8E /* MyDevice.swift in Sources */,
 				082DFEE225B04CAF004668EF /* TelinkBleMeshExtensions.swift in Sources */,
 				08E1EFAF26BCC97300D27582 /* OtaListViewController.swift in Sources */,
