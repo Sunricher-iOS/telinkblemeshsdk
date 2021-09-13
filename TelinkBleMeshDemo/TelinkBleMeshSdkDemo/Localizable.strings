@@ -85,3 +85,7 @@
 "brightness" = "Brightness";
 "advanced" = "Advanced";
 "groups" = "Groups";
+"light_switch_type" = "Light Switch Type";
+"pwm_frequency" = "PWM Frequency";
+"enable_pairing" = "Enable Pairing";
+"enable_rgb_independence" = "Enable RGB Independence";

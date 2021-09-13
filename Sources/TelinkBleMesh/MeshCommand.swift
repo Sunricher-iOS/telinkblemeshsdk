@@ -514,6 +514,21 @@ extension MeshCommand {
     
 }
 
+// MARK: - Advanced Configuration
+
+extension MeshCommand {
+    
+    public static func getLightSwitchType(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .singleChannel
+        cmd.dst = address
+        cmd.param = Int(SingleChannel.blue.rawValue)
+        return cmd
+    }
+    
+}
+
 // MARK: - Date-time
 
 extension MeshCommand {

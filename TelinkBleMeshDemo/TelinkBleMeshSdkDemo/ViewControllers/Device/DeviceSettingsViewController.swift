@@ -68,6 +68,18 @@ class DeviceSettingsViewController: UITableViewController {
             let controller = LightRunningViewController(style: .grouped)
             controller.device = device
             navigationController?.pushViewController(controller, animated: true)
+            
+        case .lightSwitchType:
+            break
+            
+        case .pwmFrequency:
+            break
+            
+        case .enablePairing:
+            break
+            
+        case .enableRgbIndependence:
+            break 
         }
     }
 
@@ -113,6 +125,11 @@ extension DeviceSettingsViewController {
         
         case lightRunning
         
+        case lightSwitchType
+        case pwmFrequency
+        case enablePairing
+        case enableRgbIndependence
+        
         var title: String {
             
             switch self {
@@ -140,6 +157,18 @@ extension DeviceSettingsViewController {
                 
             case .lightRunning:
                 return "light_running".localization
+                
+            case .lightSwitchType:
+                return "light_switch_type".localization
+                
+            case .pwmFrequency:
+                return "pwm_frequency".localization
+                
+            case .enablePairing:
+                return "enable_pairing".localization
+                
+            case .enableRgbIndependence:
+                return "enable_rgb_independence".localization
             }
         }
     }
