@@ -35,8 +35,8 @@
 		08DF3CA525AEF97100EC3AF7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08DF3CA325AEF97100EC3AF7 /* LaunchScreen.storyboard */; };
 		08DF3CB025AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3CAF25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift */; };
 		08DF3CDC25AF107200EC3AF7 /* NodesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */; };
-		08E17C7626BB85150051FD34 /* BridgePairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E17C7526BB85150051FD34 /* BridgePairingViewController.swift */; };
 		08E1EFAF26BCC97300D27582 /* OtaListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E1EFAE26BCC97300D27582 /* OtaListViewController.swift */; };
+		08E9B12C26F032A400E89BBA /* DevicePairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E9B12B26F032A400E89BBA /* DevicePairingViewController.swift */; };
 		08FCB95E25B1438D00F2F06C /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 08FCB95D25B1438D00F2F06C /* Toast */; };
 /* End PBXBuildFile section */
 
@@ -129,8 +129,8 @@
 		08DF3CAF25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelinkBleMeshSdkDemoTests.swift; sourceTree = "<group>"; };
 		08DF3CB125AEF97200EC3AF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodesViewController.swift; sourceTree = "<group>"; };
-		08E17C7526BB85150051FD34 /* BridgePairingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgePairingViewController.swift; sourceTree = "<group>"; };
 		08E1EFAE26BCC97300D27582 /* OtaListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaListViewController.swift; sourceTree = "<group>"; };
+		08E9B12B26F032A400E89BBA /* DevicePairingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicePairingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,7 +203,7 @@
 				08AE3C89263BA0E500952791 /* DeviceSettingsViewController.swift */,
 				08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */,
 				088020B326AFC00900234231 /* SingleAddDeviceViewController.swift */,
-				08E17C7526BB85150051FD34 /* BridgePairingViewController.swift */,
+				08E9B12B26F032A400E89BBA /* DevicePairingViewController.swift */,
 				08E1EFAE26BCC97300D27582 /* OtaListViewController.swift */,
 				08AEE6ED265E524500986085 /* OtaTableViewController.swift */,
 				08561DC726DCDB7600EC92D1 /* LightRunningViewController.swift */,
@@ -631,7 +631,6 @@
 				082DFEBF25B02ED1004668EF /* NodeViewController.swift in Sources */,
 				08DF3C9925AEF97000EC3AF7 /* AppDelegate.swift in Sources */,
 				08AD22B626438E69000468AF /* DeviceAddressesViewController.swift in Sources */,
-				08E17C7626BB85150051FD34 /* BridgePairingViewController.swift in Sources */,
 				082DFED425B03113004668EF /* NetworksViewController.swift in Sources */,
 				08D6AC1D260C36B100AEB39C /* SwitchTableViewCell.swift in Sources */,
 				08AE3C8A263BA0E500952791 /* DeviceSettingsViewController.swift in Sources */,
@@ -643,6 +642,7 @@
 				08270F7626E5FB8300088CE4 /* GroupsTableViewController.swift in Sources */,
 				085651FD2609F64400C7FF8E /* MyDevice.swift in Sources */,
 				082DFEE225B04CAF004668EF /* TelinkBleMeshExtensions.swift in Sources */,
+				08E9B12C26F032A400E89BBA /* DevicePairingViewController.swift in Sources */,
 				08E1EFAF26BCC97300D27582 /* OtaListViewController.swift in Sources */,
 				08BAAC6426DF13340012CCFF /* LightRunningColorsViewController.swift in Sources */,
 				0800AAB1260B3ACC0010CA22 /* SliderTableViewCell.swift in Sources */,
@@ -816,7 +816,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sunricher.maginawin.TelinkBleMeshSdkDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -836,7 +836,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sunricher.maginawin.TelinkBleMeshSdkDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

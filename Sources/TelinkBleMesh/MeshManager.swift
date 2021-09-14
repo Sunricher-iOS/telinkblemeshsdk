@@ -414,13 +414,13 @@ extension MeshManager {
             MLog("datas " + nameData.hexString + ", " + passwordData.hexString + ", " + ltkData.hexString);
             
             peripheral.writeValue(nameData, for: pairingCharacteristic, type: .withResponse)
-//            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
+            Thread.sleep(forTimeInterval: 0.05)
             
             peripheral.writeValue(passwordData, for: pairingCharacteristic, type: .withResponse)
-//            Thread.sleep(forTimeInterval: self.sendingTimeInterval)
+            Thread.sleep(forTimeInterval: 0.05)
             
             peripheral.writeValue(ltkData, for: pairingCharacteristic, type: .withResponse)
-            Thread.sleep(forTimeInterval: 0.02)
+            Thread.sleep(forTimeInterval: 0.05)
             
             peripheral.readValue(for: pairingCharacteristic)
         }
@@ -475,7 +475,7 @@ extension MeshManager: CBCentralManagerDelegate {
     
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
-        guard RSSI.intValue <= 0 else { return }
+        guard RSSI.intValue <= 0 && RSSI.intValue >= -75 else { return }
         
         executeSerialAsyncTask {
             

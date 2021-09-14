@@ -68,17 +68,17 @@ class NetworkViewController: UITableViewController {
         
         let cancel = UIAlertAction(title: "cancel".localization, style: .cancel, handler: nil)
         
-        let addNewAddress = UIAlertAction(title: "mesh_add".localization, style: .default) { [weak self] (_) in
+        let addDeviceAction = UIAlertAction(title: "Add Device", style: .default) { [weak self] _ in
             
             guard let self = self else { return }
             
             self.isNeedReload = true
-            let controller = BridgePairingViewController()
+            let controller = DevicePairingViewController()
             controller.network = self.network
             self.navigationController?.pushViewController(controller, animated: true)
         }
         
-        let singleAddAction = UIAlertAction(title: "single_add".localization, style: .default) { [weak self] _ in
+        let addAccessoryAction = UIAlertAction(title: "Add Accessory", style: .default) { [weak self] _ in
             
             guard let self = self else { return }
             
@@ -99,8 +99,8 @@ class NetworkViewController: UITableViewController {
             self.navigationController?.pushViewController(controller, animated: true)
         }
         
-        alertController.addAction(addNewAddress)
-        alertController.addAction(singleAddAction)
+        alertController.addAction(addDeviceAction)
+        alertController.addAction(addAccessoryAction)
         alertController.addAction(manageDeviceAddresses)
         alertController.addAction(cancel)
         
@@ -188,6 +188,10 @@ extension NetworkViewController: MeshManagerNodeDelegate {
     func meshManagerNeedTurnOnBluetooth(_ manager: MeshManager) {
         
         view.makeToast("please_turn_on_bluetooth".localization, position: .center)
+    }
+    
+    func meshManager(_ manager: MeshManager, didGetDeviceAddress address: Int) {
+        
     }
     
 }

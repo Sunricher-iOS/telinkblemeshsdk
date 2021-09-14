@@ -7,20 +7,18 @@
 
 import Foundation
 
-public protocol AutoPairingManagerDelegate: NSObjectProtocol {
+public protocol AccessoryPairingManagerDelegate: NSObjectProtocol {
     
-    func autoPairingManagerTerminalWithNoMoreNewAddresses(_ manager: AutoPairingManager)
+    func accessoryPairingManagerTerminalWithNoMoreNewAddresses(_ manager: AccessoryPairingManager)
     
-//    func autoPairingManagerDidFinish(_ manager: AutoPairingManager)
-    
-    func autoPairingManager(_ manager: AutoPairingManager, didAddNode node: MeshNode, newAddress: Int)
+    func accessoryPairingManager(_ manager: AccessoryPairingManager, didAddNode node: MeshNode, newAddress: Int)
 }
 
-public class AutoPairingManager: NSObject {
+public class AccessoryPairingManager: NSObject {
     
-    public static let shared = AutoPairingManager()
+    public static let shared = AccessoryPairingManager()
     
-    public weak var delegate: AutoPairingManagerDelegate?
+    public weak var delegate: AccessoryPairingManagerDelegate?
     
     private var network: MeshNetwork = .factory
     
@@ -59,7 +57,7 @@ public class AutoPairingManager: NSObject {
         MLog("availableAddressList count: \(availableAddressList.count), values \(availableAddressList)")
         if availableAddressList.count < 1 {
             
-            delegate?.autoPairingManagerTerminalWithNoMoreNewAddresses(self)
+            delegate?.accessoryPairingManagerTerminalWithNoMoreNewAddresses(self)
             return
         }
         
@@ -87,10 +85,11 @@ public class AutoPairingManager: NSObject {
 
 // MARK: - MeshManagerNodeDelegate
 
-extension AutoPairingManager: MeshManagerNodeDelegate {
+extension AccessoryPairingManager: MeshManagerNodeDelegate {
     
     public func meshManager(_ manager: MeshManager, didDiscoverNode node: MeshNode) {
         
+        guard !node.deviceType.isSupportMeshAdd else { return }
         guard state == .scanning else { return }
         
         timer?.invalidate()
@@ -115,7 +114,7 @@ extension AutoPairingManager: MeshManagerNodeDelegate {
             
             DispatchQueue.main.async {
                 
-                self.delegate?.autoPairingManagerTerminalWithNoMoreNewAddresses(self)
+                self.delegate?.accessoryPairingManagerTerminalWithNoMoreNewAddresses(self)
             }
             
             return
@@ -147,7 +146,7 @@ extension AutoPairingManager: MeshManagerNodeDelegate {
         
         DispatchQueue.main.async {
             
-            self.delegate?.autoPairingManager(self, didAddNode: node, newAddress: self.newAddress)
+            self.delegate?.accessoryPairingManager(self, didAddNode: node, newAddress: self.newAddress)
         }
         
         startPairing(network)
@@ -157,7 +156,7 @@ extension AutoPairingManager: MeshManagerNodeDelegate {
 
 // MARK: -
 
-extension AutoPairingManager {
+extension AccessoryPairingManager {
     
     private func getNextAvailableAddress(_ oldAddress: Int) -> Int? {
         

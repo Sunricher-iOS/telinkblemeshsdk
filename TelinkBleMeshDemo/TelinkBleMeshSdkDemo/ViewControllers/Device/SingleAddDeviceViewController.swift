@@ -33,15 +33,15 @@ class SingleAddDeviceViewController: UITableViewController {
         addedCount = 0
         tableView.reloadData()
         
-        AutoPairingManager.shared.delegate = self
-        AutoPairingManager.shared.startPairing(network)
+        AccessoryPairingManager.shared.delegate = self
+        AccessoryPairingManager.shared.startPairing(network)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        AutoPairingManager.shared.delegate = nil
-        AutoPairingManager.shared.stop()
+        AccessoryPairingManager.shared.delegate = nil
+        AccessoryPairingManager.shared.stop()
     }
 
     // MARK: - Table view data source
@@ -78,16 +78,16 @@ class SingleAddDeviceViewController: UITableViewController {
     
 }
 
-extension SingleAddDeviceViewController: AutoPairingManagerDelegate {
+extension SingleAddDeviceViewController: AccessoryPairingManagerDelegate {
     
-    func autoPairingManagerTerminalWithNoMoreNewAddresses(_ manager: AutoPairingManager) {
+    func accessoryPairingManagerTerminalWithNoMoreNewAddresses(_ manager: AccessoryPairingManager) {
         
         NSLog("autoPairingManagerTerminalWithNoMoreNewAddresses", "")
     }
     
-    func autoPairingManager(_ manager: AutoPairingManager, didAddNode node: MeshNode, newAddress: Int) {
+    func accessoryPairingManager(_ manager: AccessoryPairingManager, didAddNode node: MeshNode, newAddress: Int) {
         
-        NSLog("didAddNode \(node.name) \(newAddress))", "")
+        NSLog("didFoundNode \(node.name) \(node.macAddress) \(node.shortAddress)", "")
         
         guard !nodes.contains(node) else { return }
         

@@ -57,7 +57,7 @@ class NodeViewController: UITableViewController {
             MeshCommand.requestMacDeviceType(Int(device.meshDevice.address)).send()        
             return
         }
-        guard let deviceType = device.deviceType else { return }
+//        guard let deviceType = device.deviceType else { return }
         
         let controller = DeviceViewController(style: .grouped)
         controller.device = device

@@ -31,6 +31,12 @@ class NodesViewController: UITableViewController {
         refreshItemAction()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        stopScan()
+    }
+    
     deinit {
         
         stopScan()

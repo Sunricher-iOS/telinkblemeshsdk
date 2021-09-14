@@ -1,31 +1,29 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by maginawin on 2021/8/5.
 //
 
 import Foundation
 
-public protocol BridgePairingManagerDelegate: NSObjectProtocol {
+public protocol DevicePairingManagerDelegate: NSObjectProtocol {
     
-    func bridgePairingManagerFailToConnect(_ manager: BridgePairingManager)
+    func devicePairingManagerFailToConnect(_ manager: DevicePairingManager)
     
-    func bridgePairingManagerTerminalWithNoMoreNewAddresses(_ manager: BridgePairingManager)
+    func devicePairingManagerTerminalWithNoMoreNewAddresses(_ manager: DevicePairingManager)
     
-    func bridgePairingManager(_ manager: BridgePairingManager, terminalWithUnsupportedDevice address: Int, deviceType: MeshDeviceType, macData: Data)
+    func devicePairingManager(_ manager: DevicePairingManager, terminalWithUnsupportedDevice address: Int, deviceType: MeshDeviceType, macData: Data)
     
-    func bridgePairingManagerTerminalWithNoBridgeFound(_ manager: BridgePairingManager)
-    
-    func bridgePairingManagerDidFinish(_ manager: BridgePairingManager)
+    func devicePairingManagerDidFinish(_ manager: DevicePairingManager)
     
 }
 
-public class BridgePairingManager: NSObject {
+public class DevicePairingManager: NSObject {
     
-    public static let shared = BridgePairingManager()
+    public static let shared = DevicePairingManager()
     
-    public weak var delegate: BridgePairingManagerDelegate?
+    public weak var delegate: DevicePairingManagerDelegate?
     
     private var network: MeshNetwork = .factory
     private var timer: Timer?
@@ -40,6 +38,8 @@ public class BridgePairingManager: NSObject {
     private let addressChangingInterval: TimeInterval = 8
     private let networkSettingInterval: TimeInterval = 4
     
+    private var mainNode: MeshNode?
+    
     private enum State {
         
         case stopped
@@ -48,6 +48,7 @@ public class BridgePairingManager: NSObject {
         case devicesGetting
         case addressChanging
         case networkSetting
+        case checking
     }
     
     private override init() {
@@ -64,7 +65,7 @@ public class BridgePairingManager: NSObject {
         MLog("availableAddressList count: \(availableAddressList.count), values \(availableAddressList)")
         if availableAddressList.count < 1 {
             
-            delegate?.bridgePairingManagerTerminalWithNoMoreNewAddresses(self)
+            delegate?.devicePairingManagerTerminalWithNoMoreNewAddresses(self)
             return
         }
         
@@ -82,8 +83,9 @@ public class BridgePairingManager: NSObject {
     
     public func stop() {
         
-        MLog("stop bridge pairing")
+        MLog("stop Device pairing")
         
+        mainNode = nil
         models.removeAll()
         state = .stopped
         timer?.invalidate()
@@ -98,9 +100,23 @@ public class BridgePairingManager: NSObject {
 
 // MARK: - MeshManagerNodeDelegate
 
-extension BridgePairingManager: MeshManagerNodeDelegate {
+extension DevicePairingManager: MeshManagerNodeDelegate {
     
     public func meshManager(_ manager: MeshManager, didDiscoverNode node: MeshNode) {
+        
+        if state == .checking {
+            
+            if let mainNode = self.mainNode, mainNode.macValue == node.macValue {
+                
+                timer?.invalidate()
+                state = .connecting
+                
+                MeshManager.shared.connect(node)
+                timer = Timer.scheduledTimer(timeInterval: connectingInterval, target: self, selector: #selector(timerAction(_:)), userInfo: nil, repeats: false)
+            }
+            
+            return
+        }
         
         guard node.deviceType.isSafeConntion, state == .scanning else {
             return
@@ -116,6 +132,22 @@ extension BridgePairingManager: MeshManagerNodeDelegate {
     
     public func meshManager(_ manager: MeshManager, didLoginNode node: MeshNode) {
         
+        if node.macValue == mainNode?.macValue {
+            
+            timer?.invalidate()
+            state = .networkSetting
+            
+            MLog("checking setNewNework")
+            
+            MeshManager.shared.setNewNetwork(network, isMesh: false)
+            
+            timer = Timer.scheduledTimer(timeInterval: networkSettingInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
+            
+            return
+        }
+        
+        mainNode = node
+        
         guard state == .connecting else { return }
         
         timer?.invalidate()
@@ -126,18 +158,22 @@ extension BridgePairingManager: MeshManagerNodeDelegate {
         timer = Timer.scheduledTimer(timeInterval: devicesGettingInterval, target: self, selector: #selector(timerAction(_:)), userInfo: nil, repeats: false)
     }
     
+    public func meshManager(_ manager: MeshManager, didGetDeviceAddress address: Int) {
+        
+    }
+    
     public func meshManager(_ manager: MeshManager, didGetFirmware firmware: String, node: MeshNode) {
         
         guard state == .networkSetting else { return }
         
-        MLog("bridge pairing didGetFirmware")
+        MLog("Device pairing didGetFirmware")
     }
     
 }
 
 // MARK: - MeshManagerDeviceDelegate
 
-extension BridgePairingManager: MeshManagerDeviceDelegate {
+extension DevicePairingManager: MeshManagerDeviceDelegate {
     
     public func meshManager(_ manager: MeshManager, device address: Int, didUpdateDeviceType deviceType: MeshDeviceType, macData: Data) {
         
@@ -149,7 +185,7 @@ extension BridgePairingManager: MeshManagerDeviceDelegate {
             stop()
             DispatchQueue.main.async {
                 
-                self.delegate?.bridgePairingManager(self, terminalWithUnsupportedDevice: address, deviceType: deviceType, macData: macData)
+                self.delegate?.devicePairingManager(self, terminalWithUnsupportedDevice: address, deviceType: deviceType, macData: macData)
             }
             return
         }
@@ -159,7 +195,7 @@ extension BridgePairingManager: MeshManagerDeviceDelegate {
             stop()
             DispatchQueue.main.async {
                 
-                self.delegate?.bridgePairingManagerTerminalWithNoMoreNewAddresses(self)
+                self.delegate?.devicePairingManagerTerminalWithNoMoreNewAddresses(self)
             }
             return
         }
@@ -176,7 +212,7 @@ extension BridgePairingManager: MeshManagerDeviceDelegate {
 
 // MARK: -
 
-extension BridgePairingManager {
+extension DevicePairingManager {
     
     private func getNextAvailableAddress(_ oldAddress: Int) -> Int? {
         
@@ -205,7 +241,7 @@ extension BridgePairingManager {
             stop()
             DispatchQueue.main.async {
                 
-                self.delegate?.bridgePairingManagerFailToConnect(self)
+                self.delegate?.devicePairingManagerFailToConnect(self)
             }
             
         case .devicesGetting:
@@ -215,11 +251,14 @@ extension BridgePairingManager {
             addressChangingHandler()
             
         case .networkSetting:
+            networkSettingHandler()
+        
+        case .checking:
             
             stop()
             DispatchQueue.main.async {
                 
-                self.delegate?.bridgePairingManagerDidFinish(self)
+                self.delegate?.devicePairingManagerDidFinish(self)
             }
             
         case .stopped:
@@ -228,13 +267,6 @@ extension BridgePairingManager {
     }
     
     private func devicesGettingHandler() {
-        
-        if models.count < 2 || !models.contains(where: { $0.deviceType.category == .bridge }) {
-            
-            stop()
-            delegate?.bridgePairingManagerTerminalWithNoBridgeFound(self)
-            return
-        }
         
         MLog("change models addresses")
         
@@ -260,9 +292,23 @@ extension BridgePairingManager {
         
         MLog("networkSetting")
         
-        MeshManager.shared.setNewNetwork(network, isMesh: true)
+        MeshManager.shared.setNewNetwork(network, isMesh: false)
         
         timer = Timer.scheduledTimer(timeInterval: networkSettingInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
+    }
+    
+    private func networkSettingHandler() {
+        
+        MLog("networkSettingHandler \(network.name) \(network.password)")
+        
+        timer?.invalidate()
+        state = .checking
+        
+        MeshManager.shared.nodeDelegate = self
+        MeshManager.shared.deviceDelegate = self
+        MeshManager.shared.scanNode(.factory)
+        
+        timer = Timer.scheduledTimer(timeInterval: scanningInterval, target: self, selector: #selector(self.timerAction(_:)), userInfo: nil, repeats: false)
     }
     
 }
