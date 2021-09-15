@@ -36,6 +36,16 @@ public struct MeshDeviceType {
         case rgb
     }
     
+    public enum LightType {
+        
+        case onOff
+        case dim
+        case cct
+        case rgb
+        case rgbw
+        case rgbCct
+    }
+    
     /// Raw value of the device type.
     public let rawValue1: UInt8
     
@@ -47,6 +57,8 @@ public struct MeshDeviceType {
     
     public private(set) var capabilities: [Capability] = []
     
+    public private(set) var lightType: LightType = .onOff
+    
     init(deviceType: UInt8, subDeviceType: UInt8) {
         
         self.rawValue1 = deviceType
@@ -57,8 +69,10 @@ public struct MeshDeviceType {
         case 0x01:
             
             category = .light
-            if let capabilities = Light(rawValue: subDeviceType)?.capabilities {
+            if let (capabilities, lightType) = Light(rawValue: subDeviceType)?.capabilitiesAndLightType {
+                
                 self.capabilities = capabilities
+                self.lightType = lightType
             }            
             
         case 0x02: fallthrough
@@ -222,7 +236,7 @@ extension MeshDeviceType {
         
         case microwaveMotionSensor = 0x3C
         
-        var capabilities: [Capability] {
+        var capabilitiesAndLightType: ([Capability], LightType) {
             
             switch self {
             
@@ -230,10 +244,10 @@ extension MeshDeviceType {
             case .singleOnOff2: fallthrough
             case .onoff: fallthrough
             case .onoff2:
-                return [.onOff]
+                return ([.onOff], .onOff)
                 
             case .powerMetering:
-                return [.onOff, .brightness]
+                return ([.onOff, .brightness], .dim)
                 
             case .singleDim: fallthrough
             case .singleDim2: fallthrough
@@ -242,32 +256,32 @@ extension MeshDeviceType {
             case .dim3: fallthrough
             case .dtw: fallthrough
             case .dtw2:
-                return [.onOff, .brightness]
+                return ([.onOff, .brightness], .dim)
 
             case .cct: fallthrough
             case .cct2: fallthrough
             case .cct3: fallthrough
             case .endpoint6Pwm: fallthrough
             case .channel6Pwm:
-                return [.onOff, .brightness, .colorTemperature]
+                return ([.onOff, .brightness, .colorTemperature], .cct)
                 
             case .rgb: fallthrough
             case .rgb2:
-                return [.onOff, .brightness, .rgb]
+                return ([.onOff, .brightness, .rgb], .rgb)
                 
             case .rgbw: fallthrough
             case .rgbw2:
-                return [.onOff, .brightness, .white, .rgb]
+                return ([.onOff, .brightness, .white, .rgb], .rgbw)
                 
             case .rgbCct: fallthrough
             case .rgbCct2:
-                return [.onOff, .brightness, .colorTemperature, .rgb]
+                return ([.onOff, .brightness, .colorTemperature, .rgb], .rgbCct)
                 
             case .rfPa:
-                return []
+                return ([], .onOff)
                 
             case .microwaveMotionSensor:
-                return [.onOff, .brightness]
+                return ([.onOff, .brightness], .dim)
             }
         }
     }
