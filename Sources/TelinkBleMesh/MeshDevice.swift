@@ -29,15 +29,15 @@ public struct MeshDevice {
         }
     }
 
-    public internal(set) var state = State.on
+    public var state = State.on
     
-    public internal(set) var address: UInt8 = 0
+    public var address: UInt8 = 0
     
-    public internal(set) var groupAddress: [UInt16] = []
+    public var groupAddress: [UInt16] = []
     
-    public internal(set) var brightness: Int = 0
+    public var brightness: Int = 0
     
-    public internal(set) var version = "nil"
+    public var version = "nil"
     
     public var description: String {
         
