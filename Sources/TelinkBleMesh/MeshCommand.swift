@@ -679,6 +679,9 @@ extension MeshCommand {
         /// range [0x01, 0x10]
         public var customModeId: Int = 0x01
         
+        /// It's always empty if you don't change it.
+        public var userValues: [String: Any] = [:]
+        
         public init(address: Int, state: State) {
             
             self.address = address

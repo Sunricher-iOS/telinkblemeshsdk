@@ -59,7 +59,7 @@ public struct MeshDeviceType {
     
     public private(set) var lightType: LightType = .onOff
     
-    init(deviceType: UInt8, subDeviceType: UInt8) {
+    public init(deviceType: UInt8, subDeviceType: UInt8) {
         
         self.rawValue1 = deviceType
         self.rawValue2 = subDeviceType

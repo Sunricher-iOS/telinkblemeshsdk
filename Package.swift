@@ -24,13 +24,11 @@ let package = Package(
         .target(
             name: "CryptoAction",
             exclude: [
-                "TelinkBleMeshDemo"
             ]),
         .target(
             name: "TelinkBleMesh",
             dependencies: ["CryptoAction"],
             exclude: [
-                "TelinkBleMeshDemo"
             ],
             resources: [
                 .copy("Resources")
@@ -39,7 +37,6 @@ let package = Package(
             name: "TelinkBleMeshTests",
             dependencies: ["TelinkBleMesh"],
             exclude: [
-                "TelinkBleMeshDemo"
             ]),
     ],
     swiftLanguageVersions: [.v5]

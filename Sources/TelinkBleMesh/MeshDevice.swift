@@ -46,7 +46,8 @@ public struct MeshDevice {
         return "Address \(address) (\(hexAddress)), state \(state.title), \(brightness)%"
     }
     
-    private init?(deviceAddr: UInt8, isOnline: Bool, brightness: UInt8) {
+    /// If `deviceAddr` is 0, return nil.
+    public init?(deviceAddr: UInt8, isOnline: Bool, brightness: UInt8) {
         
         guard deviceAddr != 0 else { return nil }
         
