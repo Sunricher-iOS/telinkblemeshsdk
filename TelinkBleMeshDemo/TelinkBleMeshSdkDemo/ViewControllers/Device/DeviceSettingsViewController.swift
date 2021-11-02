@@ -16,7 +16,8 @@ class DeviceSettingsViewController: UITableViewController {
     
     private var options: [SettingsOption] = [
         .changeAddress, .resetNetwork, .syncDatetime, .getDatetime,
-        .setLightOnOffDuration, .getLightOnOffDuration, .ota, .lightRunning
+        .setLightOnOffDuration, .getLightOnOffDuration, .ota, .lightRunning,
+        .lightSwitchType, .lightPwmFrequency, .enablePairing, .enableRgbIndependence
     ]
     
     /// (short address, mac data)
@@ -70,16 +71,16 @@ class DeviceSettingsViewController: UITableViewController {
             navigationController?.pushViewController(controller, animated: true)
             
         case .lightSwitchType:
-            break
+            lightSwitchTypeAction()
             
-        case .pwmFrequency:
-            break
+        case .lightPwmFrequency:
+            lightPwmFrequencyAction()
             
         case .enablePairing:
-            break
+            enablePairingAction()
             
         case .enableRgbIndependence:
-            break 
+            enableRgbIndependenceAction()
         }
     }
 
@@ -126,7 +127,7 @@ extension DeviceSettingsViewController {
         case lightRunning
         
         case lightSwitchType
-        case pwmFrequency
+        case lightPwmFrequency
         case enablePairing
         case enableRgbIndependence
         
@@ -161,8 +162,8 @@ extension DeviceSettingsViewController {
             case .lightSwitchType:
                 return "light_switch_type".localization
                 
-            case .pwmFrequency:
-                return "pwm_frequency".localization
+            case .lightPwmFrequency:
+                return "light_pwm_frequency".localization
                 
             case .enablePairing:
                 return "enable_pairing".localization
@@ -293,6 +294,124 @@ extension DeviceSettingsViewController {
         MeshCommand.getLightOnOffDuration(Int(device.meshDevice.address)).send()
     }
     
+    private func lightSwitchTypeAction() {
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = view
+        alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.height / 2, y: view.bounds.width / 2, width: 1, height: 1)
+        
+        let address = Int(device.meshDevice.address)
+        MeshManager.shared.deviceDelegate = self
+        
+        let normalOnOffAction = UIAlertAction(title: MeshCommand.LightSwitchType.normalOnOff.title, style: .default) { _ in
+            
+            MeshCommand.setLightSwitchType(address, switchType: .normalOnOff).send()
+        }
+        
+        let pushButtonAction = UIAlertAction(title: MeshCommand.LightSwitchType.pushButton.title, style: .default) { _ in
+            
+            MeshCommand.setLightSwitchType(address, switchType: .pushButton).send()
+        }
+        
+        let threeChannelsAction = UIAlertAction(title: MeshCommand.LightSwitchType.threeChannels.title, style: .default) { _ in
+            
+            MeshCommand.setLightSwitchType(address, switchType: .threeChannels).send()
+        }
+        
+        let getAction = UIAlertAction(title: "get".localization, style: .default) { _ in
+            
+            MeshCommand.getLightSwitchType(address).send()
+        }
+        
+        let cancelAction = UIAlertAction(title: "cancel".localization, style: .cancel, handler: nil)
+        
+        alert.addAction(normalOnOffAction)
+        alert.addAction(pushButtonAction)
+        alert.addAction(threeChannelsAction)
+        alert.addAction(getAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func lightPwmFrequencyAction() {
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = view
+        alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.height / 2, y: view.bounds.width / 2, width: 1, height: 1)
+        
+        let address = Int(device.meshDevice.address)
+        MeshManager.shared.deviceDelegate = self
+        
+        let fiveHundredAction = UIAlertAction(title: "600", style: .default) { action in
+            
+            MeshCommand.setLightPwmFrequency(address, frequency: 600).send()
+        }
+        
+        let threeThousandAction = UIAlertAction(title: "3000", style: .default) { action in
+            
+            MeshCommand.setLightPwmFrequency(address, frequency: 3000).send()
+        }
+        
+        let tenThousandAction = UIAlertAction(title: "10000", style: .default) { action in
+            
+            MeshCommand.setLightPwmFrequency(address, frequency: 10000).send()
+        }
+        
+        let getAction = UIAlertAction(title: "get".localization, style: .default) { _ in
+            
+            MeshCommand.getLightPwmFrequency(address).send()
+        }
+        
+        let cancelAction = UIAlertAction(title: "cancel".localization, style: .cancel, handler: nil)
+
+        alert.addAction(fiveHundredAction)
+        alert.addAction(threeThousandAction)
+        alert.addAction(tenThousandAction)
+        alert.addAction(getAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func enablePairingAction() {
+        
+        let address = Int(device.meshDevice.address)
+        MeshCommand.enablePairing(address).send()
+        view.makeToast("ok".localization, position: .center)
+    }
+    
+    private func enableRgbIndependenceAction() {
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = view
+        alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.height / 2, y: view.bounds.width / 2, width: 1, height: 1)
+        
+        let address = Int(device.meshDevice.address)
+        MeshManager.shared.deviceDelegate = self
+        
+        let enableAction = UIAlertAction(title: "enable".localization, style: .default) { _ in
+        
+            MeshCommand.setRgbIndependence(address, isEnabled: true).send()
+        }
+        
+        let disableAction = UIAlertAction(title: "disable".localization, style: .default) { _ in
+        
+            MeshCommand.setRgbIndependence(address, isEnabled: false).send()
+        }
+        
+        let getAction = UIAlertAction(title: "get".localization, style: .default) { _ in
+        
+            MeshCommand.getRgbIndependence(address).send()
+        }
+        
+        let cancelAction = UIAlertAction(title: "cancel".localization, style: .cancel, handler: nil)
+        
+        alert.addAction(enableAction)
+        alert.addAction(disableAction)
+        alert.addAction(getAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
 }
 
 extension DeviceSettingsViewController: MeshManagerDeviceDelegate {
@@ -343,7 +462,41 @@ extension DeviceSettingsViewController: MeshManagerDeviceDelegate {
         
         guard address == device.meshDevice.address else { return }
         
-         view.makeToast("Frimware: \(version)", position: .center)
+        view.makeToast("Frimware: \(version)", position: .center)
     }
     
+    func meshManager(_ manager: MeshManager, device address: Int, didGetLightSwitchType switchType: MeshCommand.LightSwitchType) {
+        
+        guard address == device.meshDevice.address else { return }
+        
+        view.makeToast("LightSwitchType: \(switchType.title)", position: .center)
+    }
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetLightPwmFrequency frequency: Int) {
+        
+        guard address == device.meshDevice.address else { return }
+        
+        view.makeToast("LightPwmFrequency: \(frequency)", position: .center)
+    }
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetRgbIndependence isEnabled: Bool) {
+        
+        guard address == device.meshDevice.address else { return }
+        
+        view.makeToast("RGBIndependence: " + (isEnabled ? "True" : "False"), position: .center)
+    }
+    
+}
+
+extension MeshCommand.LightSwitchType {
+    
+    var title: String {
+        
+        switch self {
+            
+        case .normalOnOff: return "normal_onoff".localization
+        case .pushButton: return "push_button".localization
+        case .threeChannels: return "three_channels".localization
+        }
+    }
 }

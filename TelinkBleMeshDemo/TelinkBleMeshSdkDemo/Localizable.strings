@@ -86,6 +86,13 @@
 "advanced" = "Advanced";
 "groups" = "Groups";
 "light_switch_type" = "Light Switch Type";
-"pwm_frequency" = "PWM Frequency";
+"light_pwm_frequency" = "Light PWM Frequency";
 "enable_pairing" = "Enable Pairing";
 "enable_rgb_independence" = "Enable RGB Independence";
+"normal_onoff" = "Normal OnOff";
+"push_button" = "Push Button";
+"three_channels" = "Three Channels";
+"get" = "Get";
+"set" = "Set";
+"enable" = "Enable";
+"disable" = "Disable";

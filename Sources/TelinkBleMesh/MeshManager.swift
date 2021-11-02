@@ -59,6 +59,12 @@ public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
     
     func meshManager(_ manager: MeshManager, didGetDeviceAddress address: Int)
     
+    func meshManager(_ manager: MeshManager, device address: Int, didGetLightSwitchType switchType: MeshCommand.LightSwitchType)
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetLightPwmFrequency frequency: Int)
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetRgbIndependence isEnabled: Bool)
+    
 }
 
 extension MeshManagerDeviceDelegate {
@@ -82,6 +88,12 @@ extension MeshManagerDeviceDelegate {
     public func meshManager(_ manager: MeshManager, device address: Int, didGetGroups groups: [Int]) {}
     
     public func meshManager(_ manager: MeshManager, didGetDeviceAddress address: Int) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetLightSwitchType switchType: MeshCommand.LightSwitchType) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetLightPwmFrequency frequency: Int) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetRgbIndependence isEnabled: Bool) {}
     
 }
 
@@ -1025,6 +1037,15 @@ extension MeshManager {
             
             MLog("lightControlMode ")
             handleLightCongtrolModeCommand(command)
+            
+        case .lightSwitchType:
+            
+            MLog("lightSwitchType")
+            handleLightSwitchTypeCommand(command)
+            
+        case .special:
+            MLog("special feature command")
+            
         }
     }
     
@@ -1171,6 +1192,45 @@ extension MeshManager {
                 }
             }
             
+        case .lightPwmFrequency:
+            
+            let frequency = (Int(command.userData[4]) << 8) | Int(command.userData[3])
+            MLog("lightPwmFrequency \(frequency)")
+            
+            guard frequency > 0 else { return }
+            
+            DispatchQueue.main.async {
+                
+                self.deviceDelegate?.meshManager(self, device: command.src, didGetLightPwmFrequency: frequency)
+            }
+            
+        case .channelMode:
+            
+            guard command.userData[2] == 0x04, command.userData[3] == 0x00 else { return }
+            
+            let isEnabled = command.userData[4] == 0x01
+            MLog("channelMode: Rgb independence isEnabled \(isEnabled)")
+            
+            DispatchQueue.main.async {
+                
+                self.deviceDelegate?.meshManager(self, device: command.src, didGetRgbIndependence: isEnabled)
+            }
+        }
+    }
+    
+    private func handleLightSwitchTypeCommand(_ command: MeshCommand) {
+        
+        guard let switchType = MeshCommand.LightSwitchType(rawValue: command.userData[2]) else {
+            
+            MLog("handleLightSwitchTypeCommand failed, unsupported mode \(command.userData[2])")
+            return
+        }
+        
+        MLog("LightSwitchType \(switchType)")
+        
+        DispatchQueue.main.async {
+            
+            self.deviceDelegate?.meshManager(self, device: command.src, didGetLightSwitchType: switchType)
         }
     }
         

@@ -192,6 +192,10 @@ extension MeshCommand {
         case mac = 0x76
         
         case lightControlMode = 0x01
+        
+        case lightSwitchType = 0x07
+        
+        case special = 0x12
     }
     
     enum SrLightControlMode: UInt8 {
@@ -205,6 +209,10 @@ extension MeshCommand {
         case setLightRunningSpeed = 0x03
         
         case customLightRunningMode = 0x01
+        
+        case lightPwmFrequency = 0x0A
+        
+        case channelMode = 0x07
     }
     
     enum SingleChannel: UInt8 {
@@ -509,21 +517,6 @@ extension MeshCommand {
         cmd.userData[0] = UInt8(red)
         cmd.userData[1] = UInt8(green)
         cmd.userData[2] = UInt8(blue)
-        return cmd
-    }
-    
-}
-
-// MARK: - Advanced Configuration
-
-extension MeshCommand {
-    
-    public static func getLightSwitchType(_ address: Int) -> MeshCommand {
-        
-        var cmd = MeshCommand()
-        cmd.tag = .singleChannel
-        cmd.dst = address
-        cmd.param = Int(SingleChannel.blue.rawValue)
         return cmd
     }
     
@@ -887,8 +880,7 @@ extension MeshCommand {
     
 }
 
-
-// MARK: - SR Private
+// MARK: - Advanced Configuration
 
 extension MeshCommand {
     
@@ -919,11 +911,102 @@ extension MeshCommand {
     
     // Light switch type - push button, 3 ways button
     
-    // PWM frequency
+    public enum LightSwitchType: UInt8 {
+        
+        case normalOnOff = 0x01
+        case pushButton = 0x02
+        case threeChannels = 0x03
+    }
+    
+    public static func setLightSwitchType(_ address: Int, switchType: LightSwitchType) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightSwitchType.rawValue
+        cmd.userData[1] = 0x01 // set
+        cmd.userData[2] = switchType.rawValue
+        return cmd
+    }
+    
+    public static func getLightSwitchType(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightSwitchType.rawValue
+        cmd.userData[1] = 0x00 // get
+        return cmd
+    }
+    
+    // Pwm frequency
+    
+    /// - Parameter frequency: Range `[500, 10_000]`, unit `Hz`.
+    public static func setLightPwmFrequency(_ address: Int, frequency: Int) -> MeshCommand {
+                
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.lightPwmFrequency.rawValue
+        cmd.userData[2] = 0x01 // set
+        cmd.userData[3] = UInt8(frequency & 0xFF)
+        cmd.userData[4] = UInt8((frequency >> 8) & 0xFF)
+        return cmd
+    }
+    
+    public static func getLightPwmFrequency(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.lightPwmFrequency.rawValue
+        cmd.userData[2] = 0x00 // get
+        return cmd
+    }
     
     // Enable pairing
     
+    /// The device enters pairing mode for 5 seconds after receiving this command.
+    public static func enablePairing(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.special.rawValue
+        cmd.userData[1] = 0x01 // enable pairing
+        return cmd
+    }
+    
     // Enable rgb independence
+    
+    /// If `true`, the other channels will be closed when change the RGB,
+    /// the RGB will be closed when change the other channels.
+    public static func setRgbIndependence(_ address: Int, isEnabled: Bool) -> MeshCommand {
+                
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.channelMode.rawValue
+        cmd.userData[2] = 0x04 // RGB independence
+        cmd.userData[3] = 0x01 // set
+        cmd.userData[4] = isEnabled ? 0x01 : 0x00
+        return cmd
+    }
+    
+    public static func getRgbIndependence(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.lightControlMode.rawValue
+        cmd.userData[1] = SrLightControlMode.channelMode.rawValue
+        cmd.userData[2] = 0x04 // RGB independence
+        cmd.userData[3] = 0x00 // get 
+        return cmd
+    }
     
     // Sensor configuration
     
