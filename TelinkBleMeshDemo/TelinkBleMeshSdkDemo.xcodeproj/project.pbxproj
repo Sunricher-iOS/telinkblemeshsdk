@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0800AAB1260B3ACC0010CA22 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0800AAB0260B3ACC0010CA22 /* SliderTableViewCell.swift */; };
+		08024BF9273D089A004A4ADD /* SunriseSunsetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08024BF8273D089A004A4ADD /* SunriseSunsetViewController.swift */; };
+		08024BFB273D0A9E004A4ADD /* TitleTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08024BFA273D0A9E004A4ADD /* TitleTextFieldTableViewCell.swift */; };
 		0815A0E726DDCB42003EEB08 /* LightRunningSelectModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0815A0E626DDCB42003EEB08 /* LightRunningSelectModeViewController.swift */; };
 		08270F7326E5FA8300088CE4 /* NodeAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08270F7226E5FA8300088CE4 /* NodeAdvancedViewController.swift */; };
 		08270F7626E5FB8300088CE4 /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08270F7526E5FB8300088CE4 /* GroupsTableViewController.swift */; };
@@ -52,6 +54,8 @@
 
 /* Begin PBXFileReference section */
 		0800AAB0260B3ACC0010CA22 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
+		08024BF8273D089A004A4ADD /* SunriseSunsetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunriseSunsetViewController.swift; sourceTree = "<group>"; };
+		08024BFA273D0A9E004A4ADD /* TitleTextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		0815A0E626DDCB42003EEB08 /* LightRunningSelectModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightRunningSelectModeViewController.swift; sourceTree = "<group>"; };
 		08270F7226E5FA8300088CE4 /* NodeAdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeAdvancedViewController.swift; sourceTree = "<group>"; };
 		08270F7526E5FB8300088CE4 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
@@ -192,6 +196,7 @@
 			children = (
 				08D6AC1C260C36B100AEB39C /* SwitchTableViewCell.swift */,
 				0800AAB0260B3ACC0010CA22 /* SliderTableViewCell.swift */,
+				08024BFA273D0A9E004A4ADD /* TitleTextFieldTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -210,6 +215,7 @@
 				0815A0E626DDCB42003EEB08 /* LightRunningSelectModeViewController.swift */,
 				08BAAC6326DF13340012CCFF /* LightRunningColorsViewController.swift */,
 				08BAAC6526DF13400012CCFF /* LightRunningAddColorViewController.swift */,
+				08024BF8273D089A004A4ADD /* SunriseSunsetViewController.swift */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -622,6 +628,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08024BF9273D089A004A4ADD /* SunriseSunsetViewController.swift in Sources */,
 				082DFED825B034FA004668EF /* NetworkManager.swift in Sources */,
 				088020B426AFC00900234231 /* SingleAddDeviceViewController.swift in Sources */,
 				08DF3CDC25AF107200EC3AF7 /* NodesViewController.swift in Sources */,
@@ -639,6 +646,7 @@
 				08561DC826DCDB7600EC92D1 /* LightRunningViewController.swift in Sources */,
 				0815A0E726DDCB42003EEB08 /* LightRunningSelectModeViewController.swift in Sources */,
 				08BAAC6626DF13400012CCFF /* LightRunningAddColorViewController.swift in Sources */,
+				08024BFB273D0A9E004A4ADD /* TitleTextFieldTableViewCell.swift in Sources */,
 				08270F7626E5FB8300088CE4 /* GroupsTableViewController.swift in Sources */,
 				085651FD2609F64400C7FF8E /* MyDevice.swift in Sources */,
 				082DFEE225B04CAF004668EF /* TelinkBleMeshExtensions.swift in Sources */,

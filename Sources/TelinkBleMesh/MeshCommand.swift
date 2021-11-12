@@ -196,6 +196,14 @@ extension MeshCommand {
         case lightSwitchType = 0x07
         
         case special = 0x12
+        
+        case timezone = 0x1E
+        
+        case setLocation = 0x1A
+        case getLocation = 0x1B
+        
+        case sunrise = 0x1C
+        case sunset = 0x1D
     }
     
     enum SrLightControlMode: UInt8 {
@@ -1010,9 +1018,247 @@ extension MeshCommand {
     
     // Sensor configuration
     
-    // Sunrise sunset
-    
     // Smart switch configuration
+    
+}
+
+// MARK: - Sunrise & Sunset
+
+public enum SunriseSunsetType: UInt8 {
+    
+    case sunrise = 0x1C
+    case sunset = 0x1D
+}
+
+public enum SunriseSunsetActionType: UInt8 {
+    
+    case onOff = 0x01
+    case scene = 0x02
+    case custom = 0x04
+}
+
+public protocol SunriseSunsetAction {
+    
+    var type: SunriseSunsetType { get set }
+    
+    var actionType: SunriseSunsetActionType { get }
+    
+    var isEnabled: Bool { get set }
+    
+    var description: String { get }
+}
+
+public struct SunriseSunsetOnOffAction: SunriseSunsetAction {
+    
+    public var type: SunriseSunsetType
+    
+    public let actionType: SunriseSunsetActionType = .onOff
+    
+    /// Default true
+    public var isEnabled: Bool = true
+    
+    /// Default true
+    public var isOn: Bool = true
+    
+    /// Range [0x0000, 0xFFFF], default 0
+    public var duration: Int = 0
+    
+    public init(type: SunriseSunsetType) {
+        self.type = type
+    }
+    
+    public var description: String {
+        
+        return "OnOffAction \(type), isEnabled \(isEnabled), isOn \(isOn), duration \(duration)"
+    }
+}
+
+public struct SunriseSunsetSceneAction: SunriseSunsetAction {
+    
+    public var type: SunriseSunsetType
+    
+    public let actionType: SunriseSunsetActionType = .scene
+    
+    /// Default rue
+    public var isEnabled: Bool = true
+    
+    /// Range [1, 16], default 1
+    public var sceneID: Int = 1
+    
+    public init(type: SunriseSunsetType) {
+        self.type = type
+    }
+    
+    public var description: String {
+        
+        return "SceneAction \(type), isEnabled \(isEnabled), sceneID \(sceneID)"
+    }
+}
+
+public struct SunriseSunsetCustomAction: SunriseSunsetAction {
+    
+    public var type: SunriseSunsetType
+    
+    public let actionType: SunriseSunsetActionType = .custom
+    
+    /// Default true
+    public var isEnabled: Bool = true
+    
+    /// Range [0, 100], default 100
+    public var brightness: Int = 100
+    
+    /// Range [0, 255], default 255
+    public var red: Int = 255
+    
+    /// Range [0, 255], default 255
+    public var green: Int = 255
+    
+    /// Range [0, 255], default 255
+    public var blue: Int = 255
+    
+    /// CT range [0, 100], White range [0, 255], default 255
+    public var ctOrW: Int = 100
+    
+    /// Range [0x0000, 0xFFFF], default 0
+    public var duration: Int = 0
+    
+    public init(type: SunriseSunsetType) {
+        self.type = type
+    }
+    
+    public var description: String {
+        
+        return "CustomAction \(type), isEnabled \(isEnabled), Brightness \(brightness), RGBW \(red) \(green) \(blue) \(ctOrW), duration \(duration)"
+    }
+}
+
+extension MeshCommand {
+    
+    /// Only suuport single device address, don't use `0xFFFF` or `0x8---` as a adress.
+    /// If it's East area, `isNegative = false`, else `isNegative = true`.
+    public static func setTimezone(_ address: Int, hour: Int, minute: Int, isNegative: Bool) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.timezone.rawValue
+        cmd.userData[1] = 0x01 // set
+        cmd.userData[2] = UInt8(abs(hour)) | (isNegative ? 0x80 : 0x00)
+        cmd.userData[3] = UInt8(minute)
+        return cmd
+    }
+    
+    public static func getTimezone(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.timezone.rawValue
+        cmd.userData[1] = 0x00 // get
+        return cmd
+    }
+    
+    /// Only suuport single device address, don't use `0xFFFF` or `0x8---` as a adress.
+    public static func setLocation(_ address: Int, longitude: Float, latitude: Float) -> MeshCommand {
+        
+        // 1-4
+        let longitudeData = longitude.data
+        // 5-8
+        let latitudeData = latitude.data
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.setLocation.rawValue
+        cmd.userData[1] = longitudeData[0]
+        cmd.userData[2] = longitudeData[1]
+        cmd.userData[3] = longitudeData[2]
+        cmd.userData[4] = longitudeData[3]
+        cmd.userData[5] = latitudeData[0]
+        cmd.userData[6] = latitudeData[1]
+        cmd.userData[7] = latitudeData[2]
+        cmd.userData[8] = latitudeData[3]
+        return cmd
+    }
+    
+    public static func getLocation(_ address: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = SrIndentifier.getLocation.rawValue
+        return cmd
+    }
+    
+    public static func getSunriseSunset(_ address: Int, type: SunriseSunsetType) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = type.rawValue
+        return cmd
+    }
+    
+    public static func setSunriseSunsetAction(_ address: Int, action: SunriseSunsetAction) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = action.type.rawValue
+        cmd.userData[1] = action.actionType.rawValue | (action.isEnabled ? 0x00 : 0x80)
+        
+        switch action.actionType {
+            
+        case .onOff:
+            
+            guard let onOffAction = action as? SunriseSunsetOnOffAction else { return cmd }
+            cmd.userData[2] = onOffAction.isOn ? 0x01 : 0x00
+            cmd.userData[3] = 0x00
+            cmd.userData[4] = 0x00
+            cmd.userData[5] = 0x00
+            cmd.userData[6] = UInt8(onOffAction.duration & 0xFF)
+            cmd.userData[7] = UInt8((onOffAction.duration >> 8) & 0xFF)
+            cmd.userData[8] = 0x00 // light endpoint bit, unsupport now
+            
+        case .scene:
+            
+            guard let sceneAction = action as? SunriseSunsetSceneAction else { return cmd }
+            cmd.userData[2] = UInt8(sceneAction.sceneID)
+            
+        case .custom:
+            
+            guard let customAction = action as? SunriseSunsetCustomAction else { return cmd }
+            cmd.userData[2] = UInt8(customAction.brightness)
+            cmd.userData[3] = UInt8(customAction.red)
+            cmd.userData[4] = UInt8(customAction.green)
+            cmd.userData[5] = UInt8(customAction.blue)
+            cmd.userData[6] = UInt8(customAction.ctOrW)
+            cmd.userData[7] = UInt8(customAction.duration & 0xFF)
+            cmd.userData[8] = UInt8((customAction.duration >> 8) & 0xFF)
+        }
+        
+        return cmd
+    }
+    
+    public static func clearSunriseSunsetContent(_ address: Int, type: SunriseSunsetType) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = type.rawValue
+        cmd.userData[1] = 0xC0 // clear
+        return cmd
+    }
+    
+    public static func enableSunriseSunset(_ address: Int, type: SunriseSunsetType, isEnabled: Bool) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = type.rawValue
+        cmd.userData[1] = isEnabled ? 0xE0 : 0xF0 // enable 0xE0, disable 0xF0
+        return cmd
+    }
     
 }
 

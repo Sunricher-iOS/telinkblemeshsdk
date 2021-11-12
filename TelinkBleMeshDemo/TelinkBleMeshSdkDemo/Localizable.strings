@@ -96,3 +96,8 @@
 "set" = "Set";
 "enable" = "Enable";
 "disable" = "Disable";
+"timezone" = "Timezone";
+"location" = "Location";
+"sunrise_sunset" = "Sunrise Sunset";
+"done" = "Done";
+"input_value" = "Input Value";

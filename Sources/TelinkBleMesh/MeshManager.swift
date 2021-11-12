@@ -65,6 +65,12 @@ public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
     
     func meshManager(_ manager: MeshManager, device address: Int, didGetRgbIndependence isEnabled: Bool)
     
+    func meshManager(_ manager: MeshManager, device address: Int, didGetTimezone isNegative: Bool, hour: Int, minute: Int, sunriseHour: Int, sunriseMinute: Int, sunsetHour: Int, sunsetMinute: Int)
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetLocation longitude: Float, latitude: Float)
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetSunriseSunsetAction action: SunriseSunsetAction)
+    
 }
 
 extension MeshManagerDeviceDelegate {
@@ -94,6 +100,12 @@ extension MeshManagerDeviceDelegate {
     public func meshManager(_ manager: MeshManager, device address: Int, didGetLightPwmFrequency frequency: Int) {}
     
     public func meshManager(_ manager: MeshManager, device address: Int, didGetRgbIndependence isEnabled: Bool) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetTimezone isNegative: Bool, hour: Int, minute: Int, sunriseHour: Int, sunriseMinute: Int, sunsetHour: Int, sunsetMinute: Int) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetLocation longitude: Float, latitude: Float) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetSunriseSunsetAction action: SunriseSunsetAction) {}
     
 }
 
@@ -1046,6 +1058,29 @@ extension MeshManager {
         case .special:
             MLog("special feature command")
             
+        case .timezone:
+            
+            MLog("timezone")
+            handleTimezoneCommand(command)
+            
+        case .getLocation:
+            
+            MLog("getLocation")
+            handleLocationCommand(command)
+            
+        case .setLocation:            
+            MLog("setLocation")
+            
+        case .sunrise:
+            
+            MLog("sunrise")
+            handleSunriseSunsetCommand(command, type: .sunrise)
+            
+        case .sunset:
+            
+            MLog("sunset")
+            handleSunriseSunsetCommand(command, type: .sunset)
+            
         }
     }
     
@@ -1231,6 +1266,113 @@ extension MeshManager {
         DispatchQueue.main.async {
             
             self.deviceDelegate?.meshManager(self, device: command.src, didGetLightSwitchType: switchType)
+        }
+    }
+    
+    private func handleTimezoneCommand(_ command: MeshCommand) {
+        
+        if (command.userData[2] == 0
+            && command.userData[3] == 0
+            && command.userData[4] == 0
+            && command.userData[5] == 0
+            && command.userData[6] == 0
+            && command.userData[7] == 0
+            && command.userData[8] == 0) {
+            
+            return
+        }
+        
+        let hour = Int(command.userData[2] & 0x7F)
+        let isNegative = (command.userData[2] & 0x80) == 0x80
+        let minute = Int(command.userData[3])
+        let sunriseHour = Int(command.userData[5])
+        let sunriseMinute = Int(command.userData[6])
+        let sunsetHour = Int(command.userData[7])
+        let sunsetMinute = Int(command.userData[8])
+        
+        let sign = isNegative ? "-" : ""
+        MLog("handleTimezoneCommand \(command.src), \(sign)\(hour):\(minute), \(sunriseHour):\(sunriseMinute), \(sunsetHour):\(sunsetMinute)")
+        
+        DispatchQueue.main.async {
+            
+            self.deviceDelegate?.meshManager(self, device: command.src, didGetTimezone: isNegative, hour: hour, minute: minute, sunriseHour: sunriseHour, sunriseMinute: sunriseMinute, sunsetHour: sunsetHour, sunsetMinute: sunsetMinute)
+        }
+    }
+    
+    private func handleLocationCommand(_ command: MeshCommand) {
+        
+        if (command.userData[1] == 0
+            && command.userData[2] == 0
+            && command.userData[3] == 0
+            && command.userData[4] == 0)
+            || (command.userData[5] == 0
+            && command.userData[6] == 0
+            && command.userData[7] == 0
+            && command.userData[8] == 0) {
+            
+            return
+        }
+        
+        let longitudeData = Data(command.userData[1...4])
+        let longitude = longitudeData.floatValue
+        let latitudeData = Data(command.userData[5...8])
+        let latitude = latitudeData.floatValue
+        
+        MLog("handleLocationCommand \(longitude), \(latitude)")
+        
+        DispatchQueue.main.async {
+            
+            self.deviceDelegate?.meshManager(self, device: command.src, didGetLocation: longitude, latitude: latitude)
+        }
+    }
+    
+    private func handleSunriseSunsetCommand(_ command: MeshCommand, type: SunriseSunsetType) {
+        
+        let actionTypeValue = command.userData[1] & 0x7F
+        let isEnabled = (Int(command.userData[1]) & 0x80) == 0
+        
+        guard let actionType = SunriseSunsetActionType(rawValue: actionTypeValue) else {
+            
+            MLog("Unsupported actionType \(actionTypeValue)")
+            return
+        }
+        
+        var action: SunriseSunsetAction!
+        
+        switch actionType {
+        case .onOff:
+            
+            var onOffAction = SunriseSunsetOnOffAction(type: type)
+            onOffAction.isEnabled = isEnabled
+            onOffAction.isOn = command.userData[2] == 0x01
+            onOffAction.duration = Int(command.userData[6]) | (Int(command.userData[7]) << 8)
+            action = onOffAction
+            
+        case .scene:
+            
+            var sceneAction = SunriseSunsetSceneAction(type: type)
+            sceneAction.isEnabled = isEnabled
+            sceneAction.sceneID = Int(command.userData[2])
+            action = sceneAction
+            
+        case .custom:
+            
+            var customAction = SunriseSunsetCustomAction(type: type)
+            customAction.isEnabled = isEnabled
+            customAction.brightness = Int(command.userData[2])
+            customAction.red = Int(command.userData[3])
+            customAction.green = Int(command.userData[4])
+            customAction.blue = Int(command.userData[5])
+            customAction.ctOrW = Int(command.userData[6])
+            customAction.duration = Int(command.userData[7]) | (Int(command.userData[8]) << 8)
+            action = customAction
+        }
+        
+        MLog("SunrisetSunsetAction \(action.description)")
+        
+        DispatchQueue.main.async {
+            
+            self.deviceDelegate?.meshManager(self, device: command.src, didGetSunriseSunsetAction: action)
         }
     }
         

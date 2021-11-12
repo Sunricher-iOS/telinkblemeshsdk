@@ -87,3 +87,30 @@ extension String {
         return result
     }
 }
+
+// MARK: - Utils
+
+extension Float {
+    
+    var bytes: [UInt8] {
+        
+        return withUnsafeBytes(of: self, Array.init)
+    }
+    
+    var data: Data {
+        
+        return Data(bytes)
+    }
+    
+}
+
+extension Data {
+    
+    var floatValue: Float {
+        
+        self.withUnsafeBytes {
+            
+            $0.load(fromByteOffset: 0, as: Float.self)
+        }
+    }
+}

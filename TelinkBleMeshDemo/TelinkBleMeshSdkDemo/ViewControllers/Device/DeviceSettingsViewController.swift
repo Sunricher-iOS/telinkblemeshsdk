@@ -17,7 +17,8 @@ class DeviceSettingsViewController: UITableViewController {
     private var options: [SettingsOption] = [
         .changeAddress, .resetNetwork, .syncDatetime, .getDatetime,
         .setLightOnOffDuration, .getLightOnOffDuration, .ota, .lightRunning,
-        .lightSwitchType, .lightPwmFrequency, .enablePairing, .enableRgbIndependence
+        .lightSwitchType, .lightPwmFrequency, .enablePairing, .enableRgbIndependence,
+        .timezone, .location, .sunriseSunset
     ]
     
     /// (short address, mac data)
@@ -81,6 +82,18 @@ class DeviceSettingsViewController: UITableViewController {
             
         case .enableRgbIndependence:
             enableRgbIndependenceAction()
+            
+        case .timezone:
+            timezoneAction()
+            
+        case .location:
+            locationAction()
+            
+        case .sunriseSunset:
+            
+            let controller = SunriseSunsetViewController(style: .grouped)
+            controller.address = Int(device.meshDevice.address)
+            navigationController?.pushViewController(controller, animated: true)
         }
     }
 
@@ -130,6 +143,9 @@ extension DeviceSettingsViewController {
         case lightPwmFrequency
         case enablePairing
         case enableRgbIndependence
+        case timezone
+        case location
+        case sunriseSunset
         
         var title: String {
             
@@ -170,6 +186,15 @@ extension DeviceSettingsViewController {
                 
             case .enableRgbIndependence:
                 return "enable_rgb_independence".localization
+                
+            case .timezone:
+                return "timezone".localization
+                
+            case .location:
+                return "location".localization
+                
+            case .sunriseSunset:
+                return "sunrise_sunset".localization
             }
         }
     }
@@ -412,6 +437,65 @@ extension DeviceSettingsViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    private func timezoneAction() {
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = view
+        alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.height / 2, y: view.bounds.width / 2, width: 1, height: 1)
+        
+        let address = Int(device.meshDevice.address)
+        MeshManager.shared.deviceDelegate = self
+        
+        let setAction = UIAlertAction(title: "set".localization, style: .default) { _ in
+        
+            let seconds = TimeZone.current.secondsFromGMT()
+            
+            let isNegative = seconds < 0
+            let hour = seconds / 3600
+            let minute = (seconds - hour * 3600) / 60
+            MeshCommand.setTimezone(address, hour: hour, minute: minute, isNegative: isNegative).send()
+        }
+        
+        let getAction = UIAlertAction(title: "get".localization, style: .default) { _ in
+        
+            MeshCommand.getTimezone(address).send()
+        }
+        
+        let cancelAction = UIAlertAction(title: "cancel".localization, style: .cancel, handler: nil)
+        
+        alert.addAction(setAction)
+        alert.addAction(getAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func locationAction() {
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = view
+        alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.height / 2, y: view.bounds.width / 2, width: 1, height: 1)
+        
+        let address = Int(device.meshDevice.address)
+        MeshManager.shared.deviceDelegate = self
+        
+        let setAction = UIAlertAction(title: "set".localization, style: .default) { _ in
+        
+            MeshCommand.setLocation(address, longitude: 116.46, latitude: 39.92).send()
+        }
+        
+        let getAction = UIAlertAction(title: "get".localization, style: .default) { _ in
+        
+            MeshCommand.getLocation(address).send()
+        }
+        
+        let cancelAction = UIAlertAction(title: "cancel".localization, style: .cancel, handler: nil)
+        
+        alert.addAction(setAction)
+        alert.addAction(getAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
 }
 
 extension DeviceSettingsViewController: MeshManagerDeviceDelegate {
@@ -484,6 +568,22 @@ extension DeviceSettingsViewController: MeshManagerDeviceDelegate {
         guard address == device.meshDevice.address else { return }
         
         view.makeToast("RGBIndependence: " + (isEnabled ? "True" : "False"), position: .center)
+    }
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetTimezone isNegative: Bool, hour: Int, minute: Int, sunriseHour: Int, sunriseMinute: Int, sunsetHour: Int, sunsetMinute: Int) {
+        
+        guard address == device.meshDevice.address else { return }
+        
+        let sign = isNegative ? "-" : ""
+        let msg = "\(sign)\(hour):\(minute), \(sunriseHour):\(sunriseMinute), \(sunsetHour):\(sunsetMinute)"
+        view.makeToast(msg, position: .center)
+    }
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetLocation longitude: Float, latitude: Float) {
+        
+        guard address == device.meshDevice.address else { return }
+        
+        view.makeToast("Location: \(longitude), \(latitude)", position: .center)
     }
     
 }
