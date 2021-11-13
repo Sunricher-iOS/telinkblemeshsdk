@@ -12,7 +12,7 @@ class NodeAdvancedViewController: UITableViewController {
     var addresses: [Int] = []
     
     private let sections: [[RowType]] = [
-        [.groups]
+        [.groups, .scenes]
     ]
 
     override func viewDidLoad() {
@@ -32,6 +32,12 @@ class NodeAdvancedViewController: UITableViewController {
         case .groups:
             
             let controller = GroupsTableViewController(style: .grouped)
+            controller.addresses = addresses
+            navigationController?.pushViewController(controller, animated: true)
+            
+        case .scenes:
+            
+            let controller = ScenesTableViewController(style: .grouped)
             controller.addresses = addresses
             navigationController?.pushViewController(controller, animated: true)
         }
@@ -66,12 +72,14 @@ extension NodeAdvancedViewController {
         
         case groups
         
+        case scenes
+        
         var title: String {
             
             switch self {
             
-            case .groups:
-                return "groups".localization
+            case .groups: return "groups".localization                
+            case .scenes: return "scenes".localization
             }
         }
     }

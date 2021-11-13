@@ -184,6 +184,14 @@ extension MeshCommand {
         case responseGroups = 0xD4
         
         case groupAction = 0xD7
+        
+        case scene = 0xEE
+        
+        case loadScene = 0xEF
+        
+        case getScene = 0xC0
+        
+        case getSceneResponse = 0xC1
     }
     
     /// Sunricher private protocol
@@ -1263,5 +1271,88 @@ extension MeshCommand {
 }
 
 // MARK: - Scenes
+
+extension MeshCommand {
+    
+    public struct Scene {
+        
+        public var sceneID: Int
+        
+        /// Range [0, 100], if `brightness = 0` means `power off`.
+        public var brightness: Int = 100
+        
+        /// Range [0, 255]
+        public var red: Int = 255
+        
+        /// Range [0, 255]
+        public var green: Int = 255
+        
+        /// Range [0, 255]
+        public var blue: Int = 255
+        
+        /// CCT range [0, 100], White range [0, 255]
+        public var ctOrW = 100
+        
+        /// Range [0, 65535]
+        public var duration: Int = 0
+        
+        public init(sceneID: Int) {
+            
+            self.sceneID = sceneID
+        }
+    }
+    
+    public static func addOrUpdateScene(_ address: Int, scene: Scene) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .scene
+        cmd.dst = address
+        cmd.param = 0x01 // add
+        cmd.userData[0] = UInt8(scene.sceneID)
+        cmd.userData[1] = UInt8(scene.brightness)
+        cmd.userData[2] = UInt8(scene.red)
+        cmd.userData[3] = UInt8(scene.green)
+        cmd.userData[4] = UInt8(scene.blue)
+        cmd.userData[5] = UInt8(scene.ctOrW)
+        cmd.userData[6] = UInt8(scene.duration & 0xFF)
+        cmd.userData[7] = UInt8(scene.duration >> 8)
+        return cmd
+    }
+    
+    public static func deleteScene(_ address: Int, sceneID: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .scene
+        cmd.dst = address
+        cmd.param = 0x00 // delete
+        cmd.userData[0] = UInt8(sceneID)
+        return cmd
+    }
+    
+    public static func clearScenes(_ address: Int) -> MeshCommand {
+        
+        return deleteScene(address, sceneID: 0xFF)
+    }
+    
+    public static func loadScene(_ address: Int, sceneID: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .loadScene
+        cmd.dst = address
+        cmd.param = sceneID
+        return cmd
+    }
+    
+    /// The `address` must be a device address. sceneID range [1, 16]
+    public static func getSceneDetail(_ address: Int, sceneID: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .getScene
+        cmd.dst = address
+        cmd.userData[0] = UInt8(sceneID)
+        return cmd
+    }
+    
+}
 
 // MARK: - Timing

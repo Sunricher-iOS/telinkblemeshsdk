@@ -71,6 +71,8 @@ public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
     
     func meshManager(_ manager: MeshManager, device address: Int, didGetSunriseSunsetAction action: SunriseSunsetAction)
     
+    func meshManager(_ manager: MeshManager, device address: Int, didGetScene scene: MeshCommand.Scene)
+    
 }
 
 extension MeshManagerDeviceDelegate {
@@ -106,6 +108,8 @@ extension MeshManagerDeviceDelegate {
     public func meshManager(_ manager: MeshManager, device address: Int, didGetLocation longitude: Float, latitude: Float) {}
     
     public func meshManager(_ manager: MeshManager, device address: Int, didGetSunriseSunsetAction action: SunriseSunsetAction) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetScene scene: MeshCommand.Scene) {}
     
 }
 
@@ -987,6 +991,20 @@ extension MeshManager {
             
         case .groupAction:
             MLog("groupAction tag")
+            
+        case .scene:
+            MLog("scene tag")
+            
+        case .loadScene:
+            MLog("loadScene tag")
+            
+        case .getScene:
+            MLog("getScene tag")
+            
+        case .getSceneResponse:
+            
+            MLog("getSceneResponse tag")
+            handleResponseSceneValue(value)
         }
     }
     
@@ -1441,6 +1459,35 @@ extension MeshManager {
         DispatchQueue.main.async {
             
             self.deviceDelegate?.meshManager(self, device: command.src, didGetGroups: groups)
+        }
+    }
+    
+    private func handleResponseSceneValue(_ value: Data) {
+        
+        guard let command = MeshCommand(notifyData: value) else { return }
+        
+        let sceneID = command.param
+        guard sceneID > 0 && sceneID <= 16 else { return }
+        
+        let brightness = Int(command.userData[0])
+        let red = Int(command.userData[1])
+        let green = Int(command.userData[2])
+        let blue = Int(command.userData[3])
+        let ctOrW = Int(command.userData[4])
+        let duration = Int(command.userData[5]) | (Int(command.userData[6]) << 8)
+        
+        var scene = MeshCommand.Scene(sceneID: sceneID)
+        scene.brightness = brightness
+        scene.red = red
+        scene.green = green
+        scene.blue = blue
+        scene.ctOrW = ctOrW
+        scene.duration = duration
+        MLog("getScene \(sceneID), \(scene)")
+        
+        DispatchQueue.main.async {
+            
+            self.deviceDelegate?.meshManager(self, device: command.src, didGetScene: scene)
         }
     }
     
