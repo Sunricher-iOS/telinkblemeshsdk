@@ -73,6 +73,8 @@ public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
     
     func meshManager(_ manager: MeshManager, device address: Int, didGetScene scene: MeshCommand.Scene)
     
+    func meshManager(_ manager: MeshManager, device address: Int, didGetAlarm alarm: AlarmProtocol)
+    
 }
 
 extension MeshManagerDeviceDelegate {
@@ -110,6 +112,8 @@ extension MeshManagerDeviceDelegate {
     public func meshManager(_ manager: MeshManager, device address: Int, didGetSunriseSunsetAction action: SunriseSunsetAction) {}
     
     public func meshManager(_ manager: MeshManager, device address: Int, didGetScene scene: MeshCommand.Scene) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetAlarm alarm: AlarmProtocol) {}
     
 }
 
@@ -1004,7 +1008,18 @@ extension MeshManager {
         case .getSceneResponse:
             
             MLog("getSceneResponse tag")
-            handleResponseSceneValue(value)
+            handleSceneResponseValue(value)
+            
+        case .getAlarm:
+            MLog("getAlarm tag")
+            
+        case .getAlarmResponse:
+            
+            MLog("getAlarmResponse tag")
+            handleAlarmResponseValue(value)
+            
+        case .editAlarm:
+            MLog("editAlarm tag")
         }
     }
     
@@ -1462,7 +1477,7 @@ extension MeshManager {
         }
     }
     
-    private func handleResponseSceneValue(_ value: Data) {
+    private func handleSceneResponseValue(_ value: Data) {
         
         guard let command = MeshCommand(notifyData: value) else { return }
         
@@ -1488,6 +1503,19 @@ extension MeshManager {
         DispatchQueue.main.async {
             
             self.deviceDelegate?.meshManager(self, device: command.src, didGetScene: scene)
+        }
+    }
+    
+    private func handleAlarmResponseValue(_ value: Data) {
+        
+        guard let command = MeshCommand(notifyData: value) else { return }
+        guard let alarm = MeshCommand.makeAlarm(command) else { return }
+        
+        MLog("getAlarm \(command.src), \(alarm)")
+        
+        DispatchQueue.main.async {
+            
+            self.deviceDelegate?.meshManager(self, device: command.src, didGetAlarm: alarm)
         }
     }
     

@@ -25,6 +25,7 @@
 		085651F32609F5C400C7FF8E /* DeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085651F22609F5C400C7FF8E /* DeviceViewController.swift */; };
 		085651FD2609F64400C7FF8E /* MyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085651FC2609F64400C7FF8E /* MyDevice.swift */; };
 		086A250D273FD81100AEDCD7 /* SceneEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086A250C273FD81100AEDCD7 /* SceneEditViewController.swift */; };
+		086A2512273FF54D00AEDCD7 /* AlarmsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086A2511273FF54D00AEDCD7 /* AlarmsViewController.swift */; };
 		088020B426AFC00900234231 /* SingleAddDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088020B326AFC00900234231 /* SingleAddDeviceViewController.swift */; };
 		08A6A597273E6132000F96F9 /* ScenesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A6A596273E6132000F96F9 /* ScenesTableViewController.swift */; };
 		08A6A599273E6E6C000F96F9 /* SceneTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A6A598273E6E6C000F96F9 /* SceneTableViewController.swift */; };
@@ -35,6 +36,7 @@
 		08BAAC6426DF13340012CCFF /* LightRunningColorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BAAC6326DF13340012CCFF /* LightRunningColorsViewController.swift */; };
 		08BAAC6626DF13400012CCFF /* LightRunningAddColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BAAC6526DF13400012CCFF /* LightRunningAddColorViewController.swift */; };
 		08D6AC1D260C36B100AEB39C /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6AC1C260C36B100AEB39C /* SwitchTableViewCell.swift */; };
+		08DD4BEE2741018F00F1A257 /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD4BED2741018F00F1A257 /* AlarmViewController.swift */; };
 		08DF3C9925AEF97000EC3AF7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3C9825AEF97000EC3AF7 /* AppDelegate.swift */; };
 		08DF3CA225AEF97100EC3AF7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08DF3CA125AEF97100EC3AF7 /* Assets.xcassets */; };
 		08DF3CA525AEF97100EC3AF7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08DF3CA325AEF97100EC3AF7 /* LaunchScreen.storyboard */; };
@@ -74,6 +76,7 @@
 		085651F22609F5C400C7FF8E /* DeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceViewController.swift; sourceTree = "<group>"; };
 		085651FC2609F64400C7FF8E /* MyDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDevice.swift; sourceTree = "<group>"; };
 		086A250C273FD81100AEDCD7 /* SceneEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneEditViewController.swift; sourceTree = "<group>"; };
+		086A2511273FF54D00AEDCD7 /* AlarmsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmsViewController.swift; sourceTree = "<group>"; };
 		088020B326AFC00900234231 /* SingleAddDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAddDeviceViewController.swift; sourceTree = "<group>"; };
 		08A6A596273E6132000F96F9 /* ScenesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenesTableViewController.swift; sourceTree = "<group>"; };
 		08A6A598273E6E6C000F96F9 /* SceneTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneTableViewController.swift; sourceTree = "<group>"; };
@@ -130,6 +133,7 @@
 		08BAAC6326DF13340012CCFF /* LightRunningColorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightRunningColorsViewController.swift; sourceTree = "<group>"; };
 		08BAAC6526DF13400012CCFF /* LightRunningAddColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightRunningAddColorViewController.swift; sourceTree = "<group>"; };
 		08D6AC1C260C36B100AEB39C /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
+		08DD4BED2741018F00F1A257 /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		08DF3C9525AEF97000EC3AF7 /* TelinkBleMeshSdkDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelinkBleMeshSdkDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08DF3C9825AEF97000EC3AF7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08DF3CA125AEF97100EC3AF7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -178,6 +182,7 @@
 				0850A28E2611BDCD00638765 /* Device */,
 				08270F7426E5FB7300088CE4 /* Groups */,
 				08A6A595273E6031000F96F9 /* Scenes */,
+				086A250E273FF4AF00AEDCD7 /* Alarms */,
 				08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */,
 				082DFEBE25B02ED1004668EF /* NodeViewController.swift */,
 				08270F7226E5FA8300088CE4 /* NodeAdvancedViewController.swift */,
@@ -225,6 +230,15 @@
 				08024BF8273D089A004A4ADD /* SunriseSunsetViewController.swift */,
 			);
 			path = Device;
+			sourceTree = "<group>";
+		};
+		086A250E273FF4AF00AEDCD7 /* Alarms */ = {
+			isa = PBXGroup;
+			children = (
+				086A2511273FF54D00AEDCD7 /* AlarmsViewController.swift */,
+				08DD4BED2741018F00F1A257 /* AlarmViewController.swift */,
+			);
+			path = Alarms;
 			sourceTree = "<group>";
 		};
 		08A6A595273E6031000F96F9 /* Scenes */ = {
@@ -645,6 +659,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08DD4BEE2741018F00F1A257 /* AlarmViewController.swift in Sources */,
 				08024BF9273D089A004A4ADD /* SunriseSunsetViewController.swift in Sources */,
 				082DFED825B034FA004668EF /* NetworkManager.swift in Sources */,
 				088020B426AFC00900234231 /* SingleAddDeviceViewController.swift in Sources */,
@@ -670,6 +685,7 @@
 				08A6A597273E6132000F96F9 /* ScenesTableViewController.swift in Sources */,
 				08E9B12C26F032A400E89BBA /* DevicePairingViewController.swift in Sources */,
 				08E1EFAF26BCC97300D27582 /* OtaListViewController.swift in Sources */,
+				086A2512273FF54D00AEDCD7 /* AlarmsViewController.swift in Sources */,
 				086A250D273FD81100AEDCD7 /* SceneEditViewController.swift in Sources */,
 				08BAAC6426DF13340012CCFF /* LightRunningColorsViewController.swift in Sources */,
 				0800AAB1260B3ACC0010CA22 /* SliderTableViewCell.swift in Sources */,

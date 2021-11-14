@@ -192,6 +192,12 @@ extension MeshCommand {
         case getScene = 0xC0
         
         case getSceneResponse = 0xC1
+        
+        case editAlarm = 0xE5
+        
+        case getAlarm = 0xE6
+        
+        case getAlarmResponse = 0xE7
     }
     
     /// Sunricher private protocol
@@ -1355,4 +1361,255 @@ extension MeshCommand {
     
 }
 
-// MARK: - Timing
+// MARK: - Alarm
+
+public enum AlarmActionType: UInt8 {
+    
+    case off = 0
+    case on = 1
+    case scene = 2
+}
+
+public enum AlarmDayType: UInt8 {
+    
+    case day = 0
+    case week = 1
+}
+
+public protocol AlarmProtocol {
+    
+    var alarmID: Int { get set }
+    
+    var actionType: AlarmActionType { get set }
+    
+    var dayType: AlarmDayType { get }
+    
+    var isEnabled: Bool { get set }
+    
+    var hour: Int { get set }
+    
+    var minute: Int { get set }
+    
+    var second: Int { get set }
+    
+    var sceneID: Int { get set }
+}
+
+extension AlarmProtocol {
+    
+    var alarmEvent: UInt8 {
+        
+        return actionType.rawValue
+            | (dayType.rawValue << 4)
+            | UInt8(isEnabled ? 0x80 : 0x00)
+    }
+}
+
+public struct DayAlarm: AlarmProtocol {
+    
+    public var alarmID: Int
+    
+    public var actionType: AlarmActionType = .off
+    
+    public let dayType: AlarmDayType = .day
+    
+    public var isEnabled: Bool = true
+    
+    public var hour: Int = 10
+    
+    public var minute: Int = 10
+    
+    public var second: Int = 0
+    
+    public var sceneID: Int = 0
+    
+    public var month: Int = 1
+    
+    public var day: Int = 1
+    
+    public init(alarmID: Int) {
+        self.alarmID = alarmID
+    }
+    
+}
+
+public struct WeekAlarm: AlarmProtocol {
+    
+    public var alarmID: Int
+    
+    public var actionType: AlarmActionType = .off
+    
+    public let dayType: AlarmDayType = .week
+    
+    public var isEnabled: Bool = true
+    
+    public var hour: Int = 10
+    
+    public var minute: Int = 10
+    
+    public var second: Int = 0
+    
+    public var sceneID: Int = 0
+    
+    /// bit0 Sun, bit1 Mon, bit2 Tue, bit3 Wed, bit4 Thu, bit5 Fri, bit6 Sat,
+    /// bit7 must be 0.
+    public var week: Int = 0
+    
+    public init(alarmID: Int) {
+        self.alarmID = alarmID
+    }
+}
+
+extension MeshCommand {
+    
+    static func makeAlarm(_ command: MeshCommand) -> AlarmProtocol? {
+        
+        // 0xA5 is valid alarm
+        guard command.param == 0xA5 else { return nil }
+        let alarmID = Int(command.userData[0])
+        guard alarmID > 0 && alarmID <= 16 else { return nil }
+        
+        let event = Int(command.userData[1])
+        // bit0~bit3, 0 off, 1 on, 2 scene
+        guard let actionType = AlarmActionType(rawValue: UInt8(event & 0b1111)) else { return nil }
+        // bit4~bit6 0 day, 1 week
+        guard let dayType = AlarmDayType(rawValue: UInt8((event & 0b0111_0000) >> 4)) else { return nil }
+        let isEnabled = (event & 0x80) == 0x80
+        let hour = Int(command.userData[4])
+        let minute = Int(command.userData[5])
+        let second = Int(command.userData[6])
+        let sceneID = Int(command.userData[7])
+        
+        var alarm: AlarmProtocol?
+        
+        switch dayType {
+        case .day:
+            
+            let month = Int(command.userData[2])
+            guard month > 0 && month <= 12 else { return nil }
+            let day = Int(command.userData[3])
+            
+            var dayAlarm = DayAlarm(alarmID: alarmID)
+            dayAlarm.actionType = actionType
+            dayAlarm.isEnabled = isEnabled
+            dayAlarm.hour = hour
+            dayAlarm.minute = minute
+            dayAlarm.second = second
+            dayAlarm.sceneID = sceneID
+            dayAlarm.month = month
+            dayAlarm.day = day
+            
+            alarm = dayAlarm
+            
+        case .week:
+            
+            let week = Int(command.userData[3]) & 0x7F
+            
+            var weekAlarm = WeekAlarm(alarmID: alarmID)
+            weekAlarm.actionType = actionType
+            weekAlarm.isEnabled = isEnabled
+            weekAlarm.hour = hour
+            weekAlarm.minute = minute
+            weekAlarm.second = second
+            weekAlarm.sceneID = sceneID
+            weekAlarm.week = week
+            
+            alarm = weekAlarm
+        }
+        
+        return alarm
+    }
+}
+
+extension MeshCommand {
+    
+    // The `alarmID = 0` means get all alarms of the device.
+    public static func getAlarm(_ address: Int, alarmID: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .getAlarm
+        cmd.dst = address
+        cmd.userData[0] = UInt8(alarmID)
+        return cmd
+    }
+    
+    /// Note: `alarm.alarmID` will be set to `0x00`, the device will automatically
+    /// set the new `alarmID`.
+    public static func addAlarm(_ address: Int, alarm: AlarmProtocol) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .editAlarm
+        cmd.dst = address
+        cmd.param = 0x00 // add
+        cmd.userData[0] = 0x00 // automatically set alarmID
+        cmd.userData[1] = alarm.alarmEvent
+        
+        // 2 day.month
+        // 3 day.day, week.week
+        if alarm.dayType == .day, let dayAlarm = alarm as? DayAlarm {
+            
+            cmd.userData[2] = UInt8(dayAlarm.month)
+            cmd.userData[3] = UInt8(dayAlarm.day)
+            
+        } else if alarm.dayType == .week, let weekAlarm = alarm as? WeekAlarm {
+            
+            cmd.userData[3] = UInt8(weekAlarm.week & 0x7F)
+        }
+        
+        cmd.userData[4] = UInt8(alarm.hour)
+        cmd.userData[5] = UInt8(alarm.minute)
+        cmd.userData[6] = UInt8(alarm.second)
+        cmd.userData[7] = UInt8(alarm.sceneID)
+        return cmd
+    }
+    
+    public static func enableAlarm(_ address: Int, alarmID: Int, isEnabled: Bool) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .editAlarm
+        cmd.dst = address
+        // enable 0x03, disable 0x04
+        cmd.param = isEnabled ? 0x03 : 0x04
+        cmd.userData[0] = UInt8(alarmID)
+        return cmd
+    }
+    
+    public static func deleteAlarm(_ address: Int, alarmID: Int) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .editAlarm
+        cmd.dst = address
+        cmd.param = 0x01 // delete
+        cmd.userData[0] = UInt8(alarmID)
+        return cmd
+    }
+    
+    public static func updateAlarm(_ address: Int, alarm: AlarmProtocol) -> MeshCommand {
+        
+        var cmd = MeshCommand()
+        cmd.tag = .editAlarm
+        cmd.dst = address
+        cmd.param = 0x02 // update
+        cmd.userData[0] = UInt8(alarm.alarmID)
+        cmd.userData[1] = alarm.alarmEvent
+        
+        // 2 day.month
+        // 3 day.day, week.week
+        if alarm.dayType == .day, let dayAlarm = alarm as? DayAlarm {
+            
+            cmd.userData[2] = UInt8(dayAlarm.month)
+            cmd.userData[3] = UInt8(dayAlarm.day)
+            
+        } else if alarm.dayType == .week, let weekAlarm = alarm as? WeekAlarm {
+            
+            cmd.userData[3] = UInt8(weekAlarm.week & 0x7F)
+        }
+        
+        cmd.userData[4] = UInt8(alarm.hour)
+        cmd.userData[5] = UInt8(alarm.minute)
+        cmd.userData[6] = UInt8(alarm.second)
+        cmd.userData[7] = UInt8(alarm.sceneID)
+        return cmd
+    }
+    
+}

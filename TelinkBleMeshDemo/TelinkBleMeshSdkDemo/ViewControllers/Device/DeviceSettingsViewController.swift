@@ -18,7 +18,7 @@ class DeviceSettingsViewController: UITableViewController {
         .changeAddress, .resetNetwork, .syncDatetime, .getDatetime,
         .setLightOnOffDuration, .getLightOnOffDuration, .ota, .lightRunning,
         .lightSwitchType, .lightPwmFrequency, .enablePairing, .enableRgbIndependence,
-        .timezone, .location, .sunriseSunset
+        .timezone, .location, .sunriseSunset, .alarms
     ]
     
     /// (short address, mac data)
@@ -94,6 +94,12 @@ class DeviceSettingsViewController: UITableViewController {
             let controller = SunriseSunsetViewController(style: .grouped)
             controller.address = Int(device.meshDevice.address)
             navigationController?.pushViewController(controller, animated: true)
+            
+        case .alarms:
+            
+            let controller = AlarmsViewController(style: .grouped)
+            controller.address = Int(device.meshDevice.address)
+            navigationController?.pushViewController(controller, animated: true)
         }
     }
 
@@ -146,6 +152,7 @@ extension DeviceSettingsViewController {
         case timezone
         case location
         case sunriseSunset
+        case alarms
         
         var title: String {
             
@@ -195,6 +202,9 @@ extension DeviceSettingsViewController {
                 
             case .sunriseSunset:
                 return "sunrise_sunset".localization
+                
+            case .alarms:
+                return "alarms".localization
             }
         }
     }
