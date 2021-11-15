@@ -35,6 +35,7 @@
 		08AEE6EE265E524500986085 /* OtaTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AEE6ED265E524500986085 /* OtaTableViewController.swift */; };
 		08BAAC6426DF13340012CCFF /* LightRunningColorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BAAC6326DF13340012CCFF /* LightRunningColorsViewController.swift */; };
 		08BAAC6626DF13400012CCFF /* LightRunningAddColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BAAC6526DF13400012CCFF /* LightRunningAddColorViewController.swift */; };
+		08D046B32741EF4E00E0E55C /* WeekdaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D046B22741EF4E00E0E55C /* WeekdaysViewController.swift */; };
 		08D6AC1D260C36B100AEB39C /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6AC1C260C36B100AEB39C /* SwitchTableViewCell.swift */; };
 		08DD4BEE2741018F00F1A257 /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DD4BED2741018F00F1A257 /* AlarmViewController.swift */; };
 		08DF3C9925AEF97000EC3AF7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3C9825AEF97000EC3AF7 /* AppDelegate.swift */; };
@@ -132,6 +133,7 @@
 		08AEE6ED265E524500986085 /* OtaTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaTableViewController.swift; sourceTree = "<group>"; };
 		08BAAC6326DF13340012CCFF /* LightRunningColorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightRunningColorsViewController.swift; sourceTree = "<group>"; };
 		08BAAC6526DF13400012CCFF /* LightRunningAddColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightRunningAddColorViewController.swift; sourceTree = "<group>"; };
+		08D046B22741EF4E00E0E55C /* WeekdaysViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdaysViewController.swift; sourceTree = "<group>"; };
 		08D6AC1C260C36B100AEB39C /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		08DD4BED2741018F00F1A257 /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		08DF3C9525AEF97000EC3AF7 /* TelinkBleMeshSdkDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelinkBleMeshSdkDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -237,6 +239,7 @@
 			children = (
 				086A2511273FF54D00AEDCD7 /* AlarmsViewController.swift */,
 				08DD4BED2741018F00F1A257 /* AlarmViewController.swift */,
+				08D046B22741EF4E00E0E55C /* WeekdaysViewController.swift */,
 			);
 			path = Alarms;
 			sourceTree = "<group>";
@@ -679,6 +682,7 @@
 				0815A0E726DDCB42003EEB08 /* LightRunningSelectModeViewController.swift in Sources */,
 				08BAAC6626DF13400012CCFF /* LightRunningAddColorViewController.swift in Sources */,
 				08024BFB273D0A9E004A4ADD /* TitleTextFieldTableViewCell.swift in Sources */,
+				08D046B32741EF4E00E0E55C /* WeekdaysViewController.swift in Sources */,
 				08270F7626E5FB8300088CE4 /* GroupsTableViewController.swift in Sources */,
 				085651FD2609F64400C7FF8E /* MyDevice.swift in Sources */,
 				082DFEE225B04CAF004668EF /* TelinkBleMeshExtensions.swift in Sources */,

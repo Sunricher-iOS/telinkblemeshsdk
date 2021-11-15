@@ -53,7 +53,7 @@ class AlarmViewController: UITableViewController {
             dayAlarm.second = second
             dayAlarm.sceneID = sceneID
             dayAlarm.month = month
-            dayAlarm.hour = hour
+            dayAlarm.day = day
             alarm = dayAlarm
             
         } else if dayType == .week {
@@ -236,17 +236,84 @@ extension AlarmViewController {
     
     private func toggleActionType() {
         
+        switch actionType {
+            
+        case .off:
+            actionType = .on
+            
+        case .on:
+            actionType = .scene
+            
+        case .scene:
+            actionType = .off
+        }
+        tableView.reloadData()
     }
     
     private func toggleDayType() {
         
+        dayType = dayType == .day ? .week : .day
+        tableView.reloadData()
     }
     
     private func showTextFieldAlert(_ cellType: CellType) {
         
+        let alert = UIAlertController(title: "Input Value", message: nil, preferredStyle: .alert)
+        alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.width / 2, y: view.bounds.height / 2, width: 1, height: 1)
+        alert.popoverPresentationController?.sourceView = view
+        
+        var textField: UITextField!
+        alert.addTextField { tf in
+            textField = tf
+            textField.keyboardType = .phonePad
+            textField.autocorrectionType = .no
+        }
+        
+        let done = UIAlertAction(title: "done".localization, style: .default) { _ in
+            
+            guard let text = textField.text, let value = Int(text) else { return }
+            
+            switch cellType {
+                
+            case .alarmID: fallthrough
+            case .actionType: fallthrough
+            case .dayType:
+                break
+                
+            case .hour: self.hour = value
+            case .minute: self.minute = value
+            case .second: self.second = value
+            case .month: self.month = value
+            case .day: self.day = value
+            case .week: self.week = value
+            case .sceneID: self.sceneID = value
+            }
+            
+            self.tableView.reloadData()
+        }
+        
+        let cancel = UIAlertAction(title: "cancel".localization, style: .cancel, handler: nil)
+        
+        alert.addAction(done)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
     }
     
     private func showWeekdaysSelection() {
         
+        let controller = WeekdaysViewController(style: .grouped)
+        controller.week = week
+        controller.delegate = self
+        navigationController?.pushViewController(controller, animated: true)
     }
+}
+
+extension AlarmViewController: WeekdaysControllerDelegate {
+    
+    func weekdaysController(_ controller: WeekdaysViewController, didUpdateWeek week: Int) {
+        
+        self.week = week
+        tableView.reloadData()
+    }
+    
 }
