@@ -1130,7 +1130,7 @@ public struct SunriseSunsetCustomAction: SunriseSunsetAction {
     /// Range [0, 255], default 255
     public var blue: Int = 255
     
-    /// CT range [0, 100], White range [0, 255], default 255
+    /// CT range [0, 100], White range [0, 255], default 100
     public var ctOrW: Int = 100
     
     /// Range [0x0000, 0xFFFF], default 0
@@ -1148,7 +1148,7 @@ public struct SunriseSunsetCustomAction: SunriseSunsetAction {
 
 extension MeshCommand {
     
-    /// Only suuport single device address, don't use `0xFFFF` or `0x8---` as a adress.
+    /// Only support single device address, don't use `0xFFFF` or `0x8---` as a adress.
     /// If it's East area, `isNegative = false`, else `isNegative = true`.
     public static func setTimezone(_ address: Int, hour: Int, minute: Int, isNegative: Bool) -> MeshCommand {
         

@@ -65,6 +65,7 @@ public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
     
     func meshManager(_ manager: MeshManager, device address: Int, didGetRgbIndependence isEnabled: Bool)
     
+    /// Timezone information (`isNegative`, `hour`, `minute`).
     func meshManager(_ manager: MeshManager, device address: Int, didGetTimezone isNegative: Bool, hour: Int, minute: Int, sunriseHour: Int, sunriseMinute: Int, sunsetHour: Int, sunsetMinute: Int)
     
     func meshManager(_ manager: MeshManager, device address: Int, didGetLocation longitude: Float, latitude: Float)
