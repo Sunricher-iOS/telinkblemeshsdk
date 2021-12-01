@@ -76,6 +76,8 @@ public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
     
     func meshManager(_ manager: MeshManager, device address: Int, didGetAlarm alarm: AlarmProtocol)
     
+    func meshManager(_ manager: MeshManager, device address: Int, didGetRemoteGroups groups: [Int], isLeading: Bool)
+    
 }
 
 extension MeshManagerDeviceDelegate {
@@ -115,6 +117,8 @@ extension MeshManagerDeviceDelegate {
     public func meshManager(_ manager: MeshManager, device address: Int, didGetScene scene: MeshCommand.Scene) {}
     
     public func meshManager(_ manager: MeshManager, device address: Int, didGetAlarm alarm: AlarmProtocol) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetRemoteGroups groups: [Int], isLeading: Bool) {}
     
 }
 
@@ -1021,6 +1025,19 @@ extension MeshManager {
             
         case .editAlarm:
             MLog("editAlarm tag")
+            
+        case .setRemoteGroups:
+            MLog("setRemoteGroups tag")
+            
+        case .responseLeadingGroups:
+            
+            MLog("responseLeadingGroups tag")
+            handleRemoteGroupsResponseValue(value, isLeading: true)
+            
+        case .responseTralingGroups:
+            
+            MLog("responseLeadingGroups tag")
+            handleRemoteGroupsResponseValue(value, isLeading: false)
         }
     }
     
@@ -1517,6 +1534,41 @@ extension MeshManager {
         DispatchQueue.main.async {
             
             self.deviceDelegate?.meshManager(self, device: command.src, didGetAlarm: alarm)
+        }
+    }
+    
+    private func handleRemoteGroupsResponseValue(_ value: Data, isLeading: Bool) {
+        
+        guard let command = MeshCommand(notifyData: value) else {
+            return
+        }
+        
+        var groups: [Int] = []
+        
+        let group1 = command.param
+        if group1 != 0xFF && group1 != 0x00 {
+            groups.append(group1 | (Int(command.userData[0]) << 8))
+        }
+        
+        let group2 = Int(command.userData[1])
+        if group2 != 0xFF && group2 != 0x00 {
+            groups.append(group2 | (Int(command.userData[2]) << 8))
+        }
+        
+        let group3 = Int(command.userData[3])
+        if group3 != 0xFF && group3 != 0x00 {
+            groups.append(group3 | (Int(command.userData[4]) << 8))
+        }
+        
+        let group4 = Int(command.userData[5])
+        if group4 != 0xFF && group4 != 0x00 {
+            groups.append(group4 | (Int(command.userData[6]) << 8))
+        }
+        MLog("handleRemoteGroupsResponseValue \(command.src) didGetGroups \(groups) isLeading \(isLeading)")
+        
+        DispatchQueue.main.async {
+            
+            self.deviceDelegate?.meshManager(self, device: command.src, didGetRemoteGroups: groups, isLeading: isLeading)
         }
     }
     

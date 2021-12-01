@@ -198,6 +198,12 @@ extension MeshCommand {
         case getAlarm = 0xE6
         
         case getAlarmResponse = 0xE7
+        
+        case setRemoteGroups = 0xEC
+        
+        case responseLeadingGroups = 0xD5
+        
+        case responseTralingGroups = 0xD6
     }
     
     /// Sunricher private protocol
@@ -1609,6 +1615,70 @@ extension MeshCommand {
         cmd.userData[5] = UInt8(alarm.minute)
         cmd.userData[6] = UInt8(alarm.second)
         cmd.userData[7] = UInt8(alarm.sceneID)
+        return cmd
+    }
+    
+}
+
+// MARK: - Remotes
+
+extension MeshCommand {
+    
+    /// The `groups.count <= 4`, the `groups[x]` range is [1, 254].
+    public static func setRemoteGroups(_ address: Int, groups: [Int]) -> MeshCommand {
+        
+        return setRemoteGroups(address, groups: groups, isLeading: true, isEnd: true)
+    }
+    
+    /// The `groups.count <= 4`, the `groups[x]` range is [1, 254].
+    private static func setRemoteGroups(_ address: Int, groups: [Int], isLeading: Bool, isEnd: Bool) -> MeshCommand {
+        
+        let tempGroups = (groups.filter{ $0 > 0 && $0 <= 254 }).sorted()
+        
+        var cmd = MeshCommand()
+        cmd.tag = .setRemoteGroups
+        cmd.dst = address
+        cmd.param = 0x00
+        cmd.userData[0] = 0x80
+        cmd.userData[1] = 0x00
+        cmd.userData[2] = 0x80
+        cmd.userData[3] = 0x00
+        cmd.userData[4] = 0x80
+        cmd.userData[5] = 0x00
+        cmd.userData[6] = 0x80
+        cmd.userData[7] = isLeading ? 0x01 : 0x02 // leading groups 4
+        cmd.userData[8] = isEnd ? 0x00 : 0x01
+        
+        for (index, group) in tempGroups.enumerated() {
+            
+            let dataIndex = index * 2
+            
+            if index > 3 { break }
+            if group <= 0 || group >= 254 { continue }
+            
+            if index == 0 {
+                
+                cmd.param = group
+                cmd.userData[dataIndex] = 0x80
+                
+            } else {
+                
+                cmd.userData[dataIndex - 1] = UInt8(group)
+                cmd.userData[dataIndex] = 0x80
+            }
+        }
+        
+        return cmd
+    }
+    
+    public static func getRemoteGroups(_ address: Int, isLeading: Bool = true) -> MeshCommand {
+        
+        // GET_SW_GRP
+        
+        var cmd = MeshCommand()
+        cmd.tag = .getGroups
+        cmd.dst = address
+        cmd.userData[0] = isLeading ? 0x02 : 0x03
         return cmd
     }
     

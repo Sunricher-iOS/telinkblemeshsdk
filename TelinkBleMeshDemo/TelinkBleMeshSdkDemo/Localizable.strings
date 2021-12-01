@@ -107,3 +107,5 @@
 "device" = "Device";
 "alarms" = "Alarms";
 "alarm" = "Alarm";
+"set_groups" = "Set Groups";
+"get_groups" = "Get Groups";

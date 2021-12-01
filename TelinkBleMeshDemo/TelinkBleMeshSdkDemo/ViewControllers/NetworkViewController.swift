@@ -99,8 +99,18 @@ class NetworkViewController: UITableViewController {
             self.navigationController?.pushViewController(controller, animated: true)
         }
         
+        let advancedAction = UIAlertAction(title: "advanced".localization, style: .default) { [weak self] _ in
+            
+            guard let self = self else { return }
+            
+            let controller = NodeAdvancedViewController(style: .grouped)
+            controller.addresses = self.devices.map { Int($0.meshDevice.address) }
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+        
         alertController.addAction(addDeviceAction)
         alertController.addAction(addAccessoryAction)
+        alertController.addAction(advancedAction)
         alertController.addAction(manageDeviceAddresses)
         alertController.addAction(cancel)
         
@@ -116,7 +126,11 @@ class NetworkViewController: UITableViewController {
         
         let device = devices[indexPath.row]
         
-        guard device.isValid else { return }
+        guard device.isValid else {
+            
+            MeshCommand.requestMacDeviceType(Int(device.meshDevice.address)).send()
+            return
+        }
         guard let deviceType = device.deviceType else { return }
         
         switch deviceType.category {
@@ -130,6 +144,13 @@ class NetworkViewController: UITableViewController {
             controller.device = device
             controller.network = network
             deviceDelegate = controller
+            navigationController?.pushViewController(controller, animated: true)
+            
+        case .remote:
+            
+            let controller = RemoteSettingsViewController(style: .grouped)
+            controller.device = device
+            controller.network = network
             navigationController?.pushViewController(controller, animated: true)
             
         default:

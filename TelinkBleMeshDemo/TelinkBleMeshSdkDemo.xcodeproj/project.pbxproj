@@ -27,6 +27,7 @@
 		086A250D273FD81100AEDCD7 /* SceneEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086A250C273FD81100AEDCD7 /* SceneEditViewController.swift */; };
 		086A2512273FF54D00AEDCD7 /* AlarmsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086A2511273FF54D00AEDCD7 /* AlarmsViewController.swift */; };
 		088020B426AFC00900234231 /* SingleAddDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088020B326AFC00900234231 /* SingleAddDeviceViewController.swift */; };
+		08A0F3FB27571D670052A661 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 08A0F3FA27571D670052A661 /* Toast */; };
 		08A6A597273E6132000F96F9 /* ScenesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A6A596273E6132000F96F9 /* ScenesTableViewController.swift */; };
 		08A6A599273E6E6C000F96F9 /* SceneTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A6A598273E6E6C000F96F9 /* SceneTableViewController.swift */; };
 		08AD22B626438E69000468AF /* DeviceAddressesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */; };
@@ -44,8 +45,8 @@
 		08DF3CB025AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3CAF25AEF97200EC3AF7 /* TelinkBleMeshSdkDemoTests.swift */; };
 		08DF3CDC25AF107200EC3AF7 /* NodesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */; };
 		08E1EFAF26BCC97300D27582 /* OtaListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E1EFAE26BCC97300D27582 /* OtaListViewController.swift */; };
+		08E393AE2755C63000D78685 /* RemoteSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E393AD2755C63000D78685 /* RemoteSettingsViewController.swift */; };
 		08E9B12C26F032A400E89BBA /* DevicePairingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E9B12B26F032A400E89BBA /* DevicePairingViewController.swift */; };
-		08FCB95E25B1438D00F2F06C /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 08FCB95D25B1438D00F2F06C /* Toast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +147,7 @@
 		08DF3CB125AEF97200EC3AF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodesViewController.swift; sourceTree = "<group>"; };
 		08E1EFAE26BCC97300D27582 /* OtaListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaListViewController.swift; sourceTree = "<group>"; };
+		08E393AD2755C63000D78685 /* RemoteSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSettingsViewController.swift; sourceTree = "<group>"; };
 		08E9B12B26F032A400E89BBA /* DevicePairingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicePairingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,8 +156,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08A0F3FB27571D670052A661 /* Toast in Frameworks */,
 				08AD230E2643C019000468AF /* TelinkBleMesh in Frameworks */,
-				08FCB95E25B1438D00F2F06C /* Toast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +222,7 @@
 			children = (
 				085651F22609F5C400C7FF8E /* DeviceViewController.swift */,
 				08AE3C89263BA0E500952791 /* DeviceSettingsViewController.swift */,
+				08E393AD2755C63000D78685 /* RemoteSettingsViewController.swift */,
 				08AD22B526438E69000468AF /* DeviceAddressesViewController.swift */,
 				088020B326AFC00900234231 /* SingleAddDeviceViewController.swift */,
 				08E9B12B26F032A400E89BBA /* DevicePairingViewController.swift */,
@@ -566,8 +569,8 @@
 			);
 			name = TelinkBleMeshSdkDemo;
 			packageProductDependencies = (
-				08FCB95D25B1438D00F2F06C /* Toast */,
 				08AD230D2643C019000468AF /* TelinkBleMesh */,
+				08A0F3FA27571D670052A661 /* Toast */,
 			);
 			productName = TelinkBleMeshSdkDemo;
 			productReference = 08DF3C9525AEF97000EC3AF7 /* TelinkBleMeshSdkDemo.app */;
@@ -619,7 +622,7 @@
 			);
 			mainGroup = 08DF3C8C25AEF97000EC3AF7;
 			packageReferences = (
-				08FCB95C25B1438D00F2F06C /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				08A0F3F927571D670052A661 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			productRefGroup = 08DF3C9625AEF97000EC3AF7 /* Products */;
 			projectDirPath = "";
@@ -681,6 +684,7 @@
 				08561DC826DCDB7600EC92D1 /* LightRunningViewController.swift in Sources */,
 				0815A0E726DDCB42003EEB08 /* LightRunningSelectModeViewController.swift in Sources */,
 				08BAAC6626DF13400012CCFF /* LightRunningAddColorViewController.swift in Sources */,
+				08E393AE2755C63000D78685 /* RemoteSettingsViewController.swift in Sources */,
 				08024BFB273D0A9E004A4ADD /* TitleTextFieldTableViewCell.swift in Sources */,
 				08D046B32741EF4E00E0E55C /* WeekdaysViewController.swift in Sources */,
 				08270F7626E5FB8300088CE4 /* GroupsTableViewController.swift in Sources */,
@@ -969,25 +973,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		08FCB95C25B1438D00F2F06C /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+		08A0F3F927571D670052A661 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.1;
+				minimumVersion = 5.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		08A0F3FA27571D670052A661 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08A0F3F927571D670052A661 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
 		08AD230D2643C019000468AF /* TelinkBleMesh */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TelinkBleMesh;
-		};
-		08FCB95D25B1438D00F2F06C /* Toast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 08FCB95C25B1438D00F2F06C /* XCRemoteSwiftPackageReference "Toast-Swift" */;
-			productName = Toast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
