@@ -11,11 +11,11 @@
 		08024BF9273D089A004A4ADD /* SunriseSunsetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08024BF8273D089A004A4ADD /* SunriseSunsetViewController.swift */; };
 		08024BFB273D0A9E004A4ADD /* TitleTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08024BFA273D0A9E004A4ADD /* TitleTextFieldTableViewCell.swift */; };
 		0815A0E726DDCB42003EEB08 /* LightRunningSelectModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0815A0E626DDCB42003EEB08 /* LightRunningSelectModeViewController.swift */; };
+		0824EFBD2775A47000CB61D8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0824EFBF2775A47000CB61D8 /* Localizable.strings */; };
 		08270F7326E5FA8300088CE4 /* NodeAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08270F7226E5FA8300088CE4 /* NodeAdvancedViewController.swift */; };
 		08270F7626E5FB8300088CE4 /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08270F7526E5FB8300088CE4 /* GroupsTableViewController.swift */; };
 		08270F7926E617AB00088CE4 /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08270F7826E617AB00088CE4 /* GroupViewController.swift */; };
 		082DFEBF25B02ED1004668EF /* NodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFEBE25B02ED1004668EF /* NodeViewController.swift */; };
-		082DFEC325B0302E004668EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 082DFEC225B0302E004668EF /* Localizable.strings */; };
 		082DFEC725B0307A004668EF /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFEC625B0307A004668EF /* Tools.swift */; };
 		082DFED425B03113004668EF /* NetworksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFED325B03113004668EF /* NetworksViewController.swift */; };
 		082DFED825B034FA004668EF /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFED725B034FA004668EF /* NetworkManager.swift */; };
@@ -64,11 +64,12 @@
 		08024BF8273D089A004A4ADD /* SunriseSunsetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunriseSunsetViewController.swift; sourceTree = "<group>"; };
 		08024BFA273D0A9E004A4ADD /* TitleTextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		0815A0E626DDCB42003EEB08 /* LightRunningSelectModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightRunningSelectModeViewController.swift; sourceTree = "<group>"; };
+		0824EFBE2775A47000CB61D8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0824EFC02775A47A00CB61D8 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		08270F7226E5FA8300088CE4 /* NodeAdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeAdvancedViewController.swift; sourceTree = "<group>"; };
 		08270F7526E5FB8300088CE4 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
 		08270F7826E617AB00088CE4 /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		082DFEBE25B02ED1004668EF /* NodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeViewController.swift; sourceTree = "<group>"; };
-		082DFEC225B0302E004668EF /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		082DFEC625B0307A004668EF /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		082DFED325B03113004668EF /* NetworksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksViewController.swift; sourceTree = "<group>"; };
 		082DFED725B034FA004668EF /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -530,7 +531,7 @@
 				08DF3CA125AEF97100EC3AF7 /* Assets.xcassets */,
 				08DF3CA325AEF97100EC3AF7 /* LaunchScreen.storyboard */,
 				08DF3CA625AEF97100EC3AF7 /* Info.plist */,
-				082DFEC225B0302E004668EF /* Localizable.strings */,
+				0824EFBF2775A47000CB61D8 /* Localizable.strings */,
 			);
 			path = TelinkBleMeshSdkDemo;
 			sourceTree = "<group>";
@@ -619,6 +620,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 08DF3C8C25AEF97000EC3AF7;
 			packageReferences = (
@@ -646,7 +648,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08DF3CA525AEF97100EC3AF7 /* LaunchScreen.storyboard in Resources */,
-				082DFEC325B0302E004668EF /* Localizable.strings in Resources */,
+				0824EFBD2775A47000CB61D8 /* Localizable.strings in Resources */,
 				08DF3CA225AEF97100EC3AF7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -721,6 +723,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0824EFBF2775A47000CB61D8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0824EFBE2775A47000CB61D8 /* en */,
+				0824EFC02775A47A00CB61D8 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		08AD22EC2643BE12000468AF /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -744,6 +755,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -805,6 +817,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -868,8 +881,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sunricher.maginawin.TelinkBleMeshSdkDemo;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sunricher.maginawin.TelinkBleMeshSdkDemo.blemesh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -888,8 +901,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sunricher.maginawin.TelinkBleMeshSdkDemo;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sunricher.maginawin.TelinkBleMeshSdkDemo.blemesh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -34,7 +34,8 @@ public struct MeshNetwork {
 extension MeshNetwork {
     
     /// The default network.
-    public static let factory = MeshNetwork(name: "Srm@7478@a", password: "475869")!
+    // public static let factory = MeshNetwork(name: "Srm@7478@a", password: "475869")!
+    public static let factory = MeshNetwork(name: "BLE MESH", password: "123")!
     
 }
 
