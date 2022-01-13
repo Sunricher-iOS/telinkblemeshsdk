@@ -318,8 +318,20 @@ extension DeviceSettingsViewController {
             MeshCommand.setLightOnOffDuration(Int(self.device.meshDevice.address), duration: value).send()
         }
         
+        let allAction = UIAlertAction(title: "all".localization, style: .default) { [weak self] (_) in
+            
+            guard let self = self else { return }
+            guard let valueString = valueTextField?.text, let value = Int(valueString, radix: 10) else {
+                
+                return
+            }
+            
+            MeshCommand.setLightOnOffDuration(MeshCommand.Address.all, duration: value).send()
+        }
+        
         alert.addAction(cancelAction)
         alert.addAction(okAction)
+        alert.addAction(allAction)
         
         present(alert, animated: true, completion: nil)
     }
