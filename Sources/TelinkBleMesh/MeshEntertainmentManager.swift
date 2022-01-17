@@ -45,6 +45,8 @@ public class MeshEntertainmentManager {
     
     public static let shared = MeshEntertainmentManager()
     
+    public var index: Int = 0
+    
     private let sendQueue = DispatchQueue(label: "MeshEntertainmentSend")
     
     private var isStarted = false
@@ -54,14 +56,16 @@ public class MeshEntertainmentManager {
         
     }
     
-    public func start(_ actions: [MeshEntertainmentAction]) {
+    public func start(_ actions: [MeshEntertainmentAction], index: Int = 0) {
+        
+        self.actions = actions
+        self.index = index
         
         if self.isStarted {
             return
         }
         
         self.isStarted = true
-        self.actions = actions
         
         sendQueue.async {            
             
