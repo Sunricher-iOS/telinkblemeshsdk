@@ -256,6 +256,8 @@ extension MeshManager {
      */
     public func connect(_ node: MeshNode) {
         
+        MeshEntertainmentManager.shared.stop()
+        
         executeSerialAsyncTask {
             
             self.updateSendingTimeInterval(node)
@@ -286,6 +288,8 @@ extension MeshManager {
     }
     
     private func disconnect(autoLogin: Bool) {
+        
+        MeshEntertainmentManager.shared.stop()
         
         executeSerialAsyncTask {
             
@@ -546,6 +550,8 @@ extension MeshManager: CBCentralManagerDelegate {
         
         MLog("centralManager didConnect")
         
+        MeshEntertainmentManager.shared.stop()
+        
         DispatchQueue.main.async {
             
             guard let node = self.connectNode, node.peripheral.identifier == peripheral.identifier else {
@@ -585,6 +591,8 @@ extension MeshManager: CBCentralManagerDelegate {
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         
         MLog("centralManager didDisconnectPeripheral " + (error?.localizedDescription ?? "error nil"))
+        
+        MeshEntertainmentManager.shared.stop()
         
         self.connectNode = nil
         self.isLogin = false

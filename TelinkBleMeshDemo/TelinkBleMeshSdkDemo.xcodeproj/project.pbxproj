@@ -21,6 +21,7 @@
 		082DFED825B034FA004668EF /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFED725B034FA004668EF /* NetworkManager.swift */; };
 		082DFEDE25B04B41004668EF /* NetworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFEDD25B04B41004668EF /* NetworkViewController.swift */; };
 		082DFEE225B04CAF004668EF /* TelinkBleMeshExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082DFEE125B04CAF004668EF /* TelinkBleMeshExtensions.swift */; };
+		0853FB212795118D00467342 /* EntertainmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0853FB202795118D00467342 /* EntertainmentViewController.swift */; };
 		08561DC826DCDB7600EC92D1 /* LightRunningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08561DC726DCDB7600EC92D1 /* LightRunningViewController.swift */; };
 		085651F32609F5C400C7FF8E /* DeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085651F22609F5C400C7FF8E /* DeviceViewController.swift */; };
 		085651FD2609F64400C7FF8E /* MyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085651FC2609F64400C7FF8E /* MyDevice.swift */; };
@@ -74,6 +75,7 @@
 		082DFED725B034FA004668EF /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		082DFEDD25B04B41004668EF /* NetworkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkViewController.swift; sourceTree = "<group>"; };
 		082DFEE125B04CAF004668EF /* TelinkBleMeshExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelinkBleMeshExtensions.swift; sourceTree = "<group>"; };
+		0853FB202795118D00467342 /* EntertainmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntertainmentViewController.swift; sourceTree = "<group>"; };
 		08561DC726DCDB7600EC92D1 /* LightRunningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightRunningViewController.swift; sourceTree = "<group>"; };
 		085651F22609F5C400C7FF8E /* DeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceViewController.swift; sourceTree = "<group>"; };
 		085651FC2609F64400C7FF8E /* MyDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDevice.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				0850A28E2611BDCD00638765 /* Device */,
 				08270F7426E5FB7300088CE4 /* Groups */,
 				08A6A595273E6031000F96F9 /* Scenes */,
+				0853FB1F2795117400467342 /* Entertainment */,
 				086A250E273FF4AF00AEDCD7 /* Alarms */,
 				08DF3CDB25AF107200EC3AF7 /* NodesViewController.swift */,
 				082DFEBE25B02ED1004668EF /* NodeViewController.swift */,
@@ -235,6 +238,14 @@
 				08024BF8273D089A004A4ADD /* SunriseSunsetViewController.swift */,
 			);
 			path = Device;
+			sourceTree = "<group>";
+		};
+		0853FB1F2795117400467342 /* Entertainment */ = {
+			isa = PBXGroup;
+			children = (
+				0853FB202795118D00467342 /* EntertainmentViewController.swift */,
+			);
+			path = Entertainment;
 			sourceTree = "<group>";
 		};
 		086A250E273FF4AF00AEDCD7 /* Alarms */ = {
@@ -692,6 +703,7 @@
 				082DFEE225B04CAF004668EF /* TelinkBleMeshExtensions.swift in Sources */,
 				08A6A597273E6132000F96F9 /* ScenesTableViewController.swift in Sources */,
 				08E9B12C26F032A400E89BBA /* DevicePairingViewController.swift in Sources */,
+				0853FB212795118D00467342 /* EntertainmentViewController.swift in Sources */,
 				08E1EFAF26BCC97300D27582 /* OtaListViewController.swift in Sources */,
 				086A2512273FF54D00AEDCD7 /* AlarmsViewController.swift in Sources */,
 				086A250D273FD81100AEDCD7 /* SceneEditViewController.swift in Sources */,

@@ -395,7 +395,7 @@ extension MeshCommand {
      - Parameters:
         - address: `Int(MeshDevice.address)` or `MeshCommand.Address.connectedNode | .all`.
         - isOn: Is turn on.
-        - delay: Delay time (millisecond), range is [0x00, 0xFFFF], defalt is 0.
+        - delay: Delay time (millisecond), range is [0x00, 0xFFFF], default is 0.
      */
     public static func turnOnOff(_ address: Int, isOn: Bool, delay: UInt16 = 0) -> MeshCommand {
         
