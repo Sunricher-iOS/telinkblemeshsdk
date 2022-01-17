@@ -31,7 +31,6 @@ public struct MeshEntertainmentAction {
     /// 0xFF0000 = red,
     /// 0x00FF00 = green,
     /// 0x0000FF = blue, ...
-    /// -1 means null.
     public var rgb: Int?
     
     public init(target: Int, delay: Int = 1) {
