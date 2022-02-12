@@ -18,7 +18,7 @@ class SampleCommandCenter {
     
     private init() {
         
-        timer = RepeatingTimer(timeInterval: 0.2)
+        timer = RepeatingTimer(timeInterval: 0.3)
         timer.eventHandler = consumeCommand
         
     }

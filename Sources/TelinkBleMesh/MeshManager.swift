@@ -173,7 +173,7 @@ public class MeshManager: NSObject {
     private var sectionKey = UnsafeMutablePointer<UInt8>.allocate(capacity: 16)
     
     // 200ms every command
-    internal private(set) var sendingTimeInterval: TimeInterval = 0.2
+    internal private(set) var sendingTimeInterval: TimeInterval = 0.3
     private let sendingQueue = DispatchQueue(label: "MeshManager sending")
     private let sendingQueueKey = DispatchSpecificKey<Void>()
     
@@ -1588,7 +1588,7 @@ extension MeshManager {
         
     fileprivate func updateSendingTimeInterval(_ node: MeshNode) {
         
-        self.sendingTimeInterval = (node.deviceType.category == .rfPa) ? 0.5 : 0.2
+        self.sendingTimeInterval = (node.deviceType.category == .rfPa) ? 0.5 : 0.3
     }
     
 }
