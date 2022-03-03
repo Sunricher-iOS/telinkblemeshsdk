@@ -234,20 +234,32 @@ extension MechanicalSwitchViewController: SmartSwitchManagerDelegate {
 
 extension MechanicalSwitchViewController: SmartSwitchManagerDataSource {
     
-    func smartSwitchManagerDidConnectTagFailedMessage(_ manager: SmartSwitchManager) -> String {
+    func smartSwitchManager(_ manager: SmartSwitchManager, nfcConnectFailed state: SmartSwitchManager.State) -> String {
         return "Connect device failed, please try again."
     }
     
-    func smartSwitchManagerConfiguringMessage(_ manager: SmartSwitchManager) -> String {
-        return "Configuring, please do not remove your device."
+    func smartSwitchManager(_ manager: SmartSwitchManager, nfcScanningMessage state: SmartSwitchManager.State) -> String {
+        if state == .startConfig {
+            return "Configuring, please do not remove your device."
+        } else {
+            return "Reading, please do not remove your device."
+        }
     }
     
-    func smartSwitchManagerDidConfigureFailedMessage(_ manager: SmartSwitchManager) -> String {
-        return "Configure failed, please try again."
+    func smartSwitchManager(_ manager: SmartSwitchManager, nfcReadWriteFailedMessage state: SmartSwitchManager.State) -> String {
+        if state == .startConfig {
+            return "Configure failed, please try again."
+        } else {
+            return "Reading failed, please try again."
+        }
     }
     
-    func smartSwitchManagerDidConfigureSuccessfulMessage(_ manager: SmartSwitchManager) -> String {
-        return "Configure successful!"
+    func smartSwitchManager(_ manager: SmartSwitchManager, nfcReadWriteSuccessfulMessage state: SmartSwitchManager.State) -> String {
+        if state == .startConfig {
+            return "Configure successful!"
+        } else {
+            return "Reading successful!"
+        }
     }
     
 }

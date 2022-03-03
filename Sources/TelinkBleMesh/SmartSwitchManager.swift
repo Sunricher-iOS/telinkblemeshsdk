@@ -27,13 +27,13 @@ public protocol SmartSwitchManagerDelegate {
 
 public protocol SmartSwitchManagerDataSource {
     
-    func smartSwitchManagerDidConnectTagFailedMessage(_ manager: SmartSwitchManager) -> String
+    func smartSwitchManager(_ manager: SmartSwitchManager, nfcConnectFailed state: SmartSwitchManager.State) -> String
     
-    func smartSwitchManagerConfiguringMessage(_ manager: SmartSwitchManager) -> String
+    func smartSwitchManager(_ manager: SmartSwitchManager, nfcScanningMessage state: SmartSwitchManager.State) -> String
     
-    func smartSwitchManagerDidConfigureFailedMessage(_ manager: SmartSwitchManager) -> String
+    func smartSwitchManager(_ manager: SmartSwitchManager, nfcReadWriteFailedMessage state: SmartSwitchManager.State) -> String
     
-    func smartSwitchManagerDidConfigureSuccessfulMessage(_ manager: SmartSwitchManager) -> String
+    func smartSwitchManager(_ manager: SmartSwitchManager, nfcReadWriteSuccessfulMessage state: SmartSwitchManager.State) -> String
     
 }
 
@@ -199,7 +199,7 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
         
         guard tags.count > 0 else {
             
-            if let message = dataSource?.smartSwitchManagerDidConnectTagFailedMessage(self) {
+            if let message = dataSource?.smartSwitchManager(self, nfcConnectFailed: self.state) {
                 
                 session.invalidate(errorMessage: message)
             }
@@ -220,7 +220,7 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
                         
                         NSLog("connectError \(connectError!.localizedDescription)", "")
                         
-                        if let message = self.dataSource?.smartSwitchManagerDidConnectTagFailedMessage(self) {
+                        if let message = self.dataSource?.smartSwitchManager(self, nfcConnectFailed: self.state) {
                             
                             session.invalidate(errorMessage: message)
                         }
@@ -240,7 +240,7 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
                 
             default:
                 
-                if let message = dataSource?.smartSwitchManagerDidConnectTagFailedMessage(self) {
+                if let message = dataSource?.smartSwitchManager(self, nfcConnectFailed: self.state) {
                     
                     session.invalidate(errorMessage: message)
                 }
@@ -255,7 +255,7 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
             return
         }
         
-        if let configuringMessage = dataSource?.smartSwitchManagerConfiguringMessage(self) {
+        if let configuringMessage = dataSource?.smartSwitchManager(self, nfcScanningMessage: self.state) {
             
             session.alertMessage = configuringMessage
         }
@@ -269,7 +269,7 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
                 
                 NSLog("Write configuration error \(error!.localizedDescription), index \(index)", "")
                 
-                if let failedMessage = self.dataSource?.smartSwitchManagerDidConfigureFailedMessage(self) {
+                if let failedMessage = self.dataSource?.smartSwitchManager(self, nfcReadWriteFailedMessage: self.state) {
                     
                     session.invalidate(errorMessage: failedMessage)
                 }
@@ -305,7 +305,7 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
             case 185:
                 
                 NSLog("Configure successful.", "")
-                if let message = self.dataSource?.smartSwitchManagerDidConfigureSuccessfulMessage(self) {
+                if let message = self.dataSource?.smartSwitchManager(self, nfcReadWriteSuccessfulMessage: self.state) {
                     session.alertMessage = message
                 }
                 session.invalidate()
@@ -342,7 +342,7 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
     
     private func readConfigurationHandler(session: NFCTagReaderSession, tag: NFCMiFareTag) {
         
-        if let configuringMessage = dataSource?.smartSwitchManagerConfiguringMessage(self) {
+        if let configuringMessage = dataSource?.smartSwitchManager(self, nfcScanningMessage: self.state) {
             
             session.alertMessage = configuringMessage
         }
@@ -354,11 +354,16 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
                 
                 NSLog("Read configuration error \(error!.localizedDescription)", "")
                 
-                if let failedMessage = self.dataSource?.smartSwitchManagerDidConfigureFailedMessage(self) {
+                if let failedMessage = self.dataSource?.smartSwitchManager(self, nfcReadWriteFailedMessage: self.state) {
                     
                     session.invalidate(errorMessage: failedMessage)
                 }
                 return
+            }
+            
+            if let message = self.dataSource?.smartSwitchManager(self, nfcReadWriteSuccessfulMessage: self.state) {
+                
+                session.alertMessage = message
             }
             
             // 0x5A, 0x38, other, mode
@@ -386,7 +391,7 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
 
 extension SmartSwitchManager {
     
-    private enum State {
+    public enum State {
         
         case startConfig
         case readConfig

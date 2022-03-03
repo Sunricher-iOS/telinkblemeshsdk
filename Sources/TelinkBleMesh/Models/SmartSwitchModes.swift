@@ -29,7 +29,7 @@ public enum SmartSwitchMode: Int {
         case .onOffWwCw: return "On/Off & WW/CW"
         case .onOffCwRgb: return "On/Off & CW/RGB"
         case .s1S2S3S4: return "S1/S2/S3/S4"
-        case .onOffG2: return "On/Off Group 2"
+        case .onOffG2: return "On/Off & On/Off"
         }
     }
 }
