@@ -78,6 +78,10 @@ public protocol MeshManagerDeviceDelegate: NSObjectProtocol {
     
     func meshManager(_ manager: MeshManager, device address: Int, didGetRemoteGroups groups: [Int], isLeading: Bool)
     
+    func meshManager(_ manager: MeshManager, device address: Int, didGetGroupSyncTag tag: MeshCommand.GroupSyncTag, group: Int)
+    
+    func meshManager(_ manager: MeshManager, device address: Int, didGetSmartSwitchId switchId: Int?, index: Int, count: Int)
+    
 }
 
 extension MeshManagerDeviceDelegate {
@@ -119,6 +123,10 @@ extension MeshManagerDeviceDelegate {
     public func meshManager(_ manager: MeshManager, device address: Int, didGetAlarm alarm: AlarmProtocol) {}
     
     public func meshManager(_ manager: MeshManager, device address: Int, didGetRemoteGroups groups: [Int], isLeading: Bool) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetGroupSyncTag tag: MeshCommand.GroupSyncTag, group: Int) {}
+    
+    public func meshManager(_ manager: MeshManager, device address: Int, didGetSmartSwitchId switchId: Int?, index: Int, count: Int) {}
     
 }
 
@@ -1080,9 +1088,11 @@ extension MeshManager {
             return
         }
         
+        SmartSwitchManager.shared.append(command)
+        
         guard let identifier = MeshCommand.SrIndentifier(rawValue: command.userData[0]) else {
             
-            MLog("handleNodeToAppData failed, unsupported identifier " + String(format: "0x02X", command.userData[0]))
+            MLog("handleNodeToAppData failed, unsupported identifier " + String(format: "0x%02X", command.userData[0]))
             return
         }
         
@@ -1140,6 +1150,15 @@ extension MeshManager {
             MLog("sunset")
             handleSunriseSunsetCommand(command, type: .sunset)
             
+        case .syncInfo:
+            
+            MLog("syncInfo")
+            handleSyncInfoCommand(command)
+            
+        case .smartSwitchId:
+            
+            MLog("Mechanical ID")
+            handleMechanicalIdCommand(command)
         }
     }
     
@@ -1239,11 +1258,12 @@ extension MeshManager {
             }
             
         case .setLightRunningMode:
-            
             MLog("setLightRunningMode")
             
-        case .setLightRunningSpeed:
+        case .setSyncLightRunningMode:
+            MLog("setSyncLightRunningMode")
             
+        case .setLightRunningSpeed:            
             MLog("setLightRunningSpeed")
             
         case .customLightRunningMode:
@@ -1432,6 +1452,42 @@ extension MeshManager {
         DispatchQueue.main.async {
             
             self.deviceDelegate?.meshManager(self, device: command.src, didGetSunriseSunsetAction: action)
+        }
+    }
+    
+    private func handleSyncInfoCommand(_ command: MeshCommand) {
+        
+        guard command.userData[1] == 0x00 else {
+            return
+        }
+        
+        guard let syncTag = MeshCommand.GroupSyncTag(rawValue: command.userData[2]) else {
+            return
+        }
+        NSLog("Sync tag \(syncTag)", "")
+        
+        let g1 = command.userData[3]
+        let g2 = command.userData[4]
+        let group = Int(g1) | Int(g2) << 8
+        
+        DispatchQueue.main.async {
+            self.deviceDelegate?.meshManager(self, device: command.src, didGetGroupSyncTag: syncTag, group: group)
+        }
+    }
+    
+    private func handleMechanicalIdCommand(_ command: MeshCommand) {
+        
+        let count = Int(command.userData[1])
+        let index = Int(command.userData[2])
+        let id1 = Int(command.userData[3])
+        let id2 = Int(command.userData[4]) << 8
+        let id3 = Int(command.userData[5]) << 16
+        let id4 = Int(command.userData[6]) << 24
+        var switchId: Int? = id1 | id2 | id3 | id4
+        switchId = switchId == 0 ? nil : switchId
+        
+        DispatchQueue.main.async {
+            self.deviceDelegate?.meshManager(self, device: command.src, didGetSmartSwitchId: switchId, index: index, count: count)
         }
     }
         

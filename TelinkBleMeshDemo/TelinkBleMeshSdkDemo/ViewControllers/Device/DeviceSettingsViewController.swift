@@ -18,7 +18,7 @@ class DeviceSettingsViewController: UITableViewController {
         .changeAddress, .resetNetwork, .syncDatetime, .getDatetime,
         .setLightOnOffDuration, .getLightOnOffDuration, .ota, .lightRunning,
         .lightSwitchType, .lightPwmFrequency, .enablePairing, .enableRgbIndependence,
-        .timezone, .location, .sunriseSunset, .alarms
+        .timezone, .location, .sunriseSunset, .alarms, .mechanicalSwitches
     ]
     
     /// (short address, mac data)
@@ -100,6 +100,17 @@ class DeviceSettingsViewController: UITableViewController {
             let controller = AlarmsViewController(style: .grouped)
             controller.address = Int(device.meshDevice.address)
             navigationController?.pushViewController(controller, animated: true)
+            
+        case .smartSwitch:
+            
+            let controller = SmartSwitchViewController(style: .grouped)
+            navigationController?.pushViewController(controller, animated: true)
+            
+        case .mechanicalSwitches:
+            
+            let controller = MechanicalSwitchesViewController(style: .grouped)
+            controller.address = Int(device.meshDevice.address)
+            navigationController?.pushViewController(controller, animated: true)
         }
     }
 
@@ -154,6 +165,10 @@ extension DeviceSettingsViewController {
         case sunriseSunset
         case alarms
         
+        case smartSwitch
+        
+        case mechanicalSwitches
+        
         var title: String {
             
             switch self {
@@ -205,6 +220,12 @@ extension DeviceSettingsViewController {
                 
             case .alarms:
                 return "alarms".localization
+                
+            case .smartSwitch:
+                return "smart_switch".localization
+                
+            case .mechanicalSwitches:
+                return "Mechanical Switches"
             }
         }
     }

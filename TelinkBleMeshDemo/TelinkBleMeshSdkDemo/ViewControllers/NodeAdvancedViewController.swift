@@ -12,7 +12,7 @@ class NodeAdvancedViewController: UITableViewController {
     var addresses: [Int] = []
     
     private let sections: [[RowType]] = [
-        [.groups, .scenes, .entertainment]
+        [.groups, .scenes, .entertainment, .smartSwitch]
     ]
 
     override func viewDidLoad() {
@@ -45,6 +45,12 @@ class NodeAdvancedViewController: UITableViewController {
             
             let controller = EntertainmentViewController(style: .grouped)
             navigationController?.pushViewController(controller, animated: true)
+            
+        case .smartSwitch:
+            
+            let controller = SmartSwitchViewController(style: .grouped)
+            controller.addresses = addresses
+            navigationController?.pushViewController(controller, animated: true)
         }
     }
 
@@ -76,10 +82,9 @@ extension NodeAdvancedViewController {
     private enum RowType {
         
         case groups
-        
         case scenes
-        
         case entertainment
+        case smartSwitch
         
         var title: String {
             
@@ -88,6 +93,7 @@ extension NodeAdvancedViewController {
             case .groups: return "groups".localization                
             case .scenes: return "scenes".localization
             case .entertainment: return "entertainment".localization
+            case .smartSwitch: return "Smart Switch"
             }
         }
     }

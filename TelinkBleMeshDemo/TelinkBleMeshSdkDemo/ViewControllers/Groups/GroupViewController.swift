@@ -20,10 +20,21 @@ class GroupViewController: UITableViewController {
 
         title = String(format: "0x%04X", groupId)
         
+        let advanceItem = UIBarButtonItem(title: "Advanced", style: .plain, target: self, action: #selector(advancedAction))
+        navigationItem.rightBarButtonItem = advanceItem
+        
         MeshManager.shared.deviceDelegate = self
         MeshCommand.getGroupDevices(groupId).send()
     }
 
+    @objc private func advancedAction() {
+        
+        let controller = GroupAdvancedViewController(style: .grouped)
+        controller.groupId = groupId
+        controller.innerDevices = innerDevices
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
