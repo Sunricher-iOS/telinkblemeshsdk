@@ -10,6 +10,8 @@ import UIKit
 class SmartSwitchViewController: UITableViewController {
     
     var addresses: [Int] = []
+    var groupId: Int = 0
+    var groupInnerDevices: [Int] = []
 
     private let sections: [[CellType]] = [
         [.mechanicalSwitch]
@@ -33,6 +35,8 @@ class SmartSwitchViewController: UITableViewController {
             
             let controller = MechanicalSwitchViewController(style: .grouped)
             controller.addresses = addresses
+            controller.groupId = groupId
+            controller.groupInnerDevices = groupInnerDevices
             navigationController?.pushViewController(controller, animated: true)
         }
     }

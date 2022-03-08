@@ -44,6 +44,9 @@ class GroupViewController: UITableViewController {
             
             let device = outerDevices[indexPath.row]
             MeshCommand.addGroup(groupId, address: device).send()
+            
+            // Also add SmartSwitch
+            MeshCommand.addSmartSwitchIdWithGroupId(device, groupId: groupId).send()
         }
     }
     
@@ -61,6 +64,10 @@ class GroupViewController: UITableViewController {
                 tableView.insertRows(at: [IndexPath(row: self.outerDevices.count - 1, section: 1)], with: .automatic)
                 
                 MeshCommand.deleteGroup(self.groupId, address: device).send()
+                
+                // Also delete smart switch here.
+                MeshCommand.deleteSmartSwitchIdWithGroupId(device, groupId: self.groupId).send()
+                
                 completion(true)
             }
             let configuration = UISwipeActionsConfiguration(actions: [deleteAction])

@@ -11,6 +11,8 @@ import TelinkBleMesh
 class MechanicalSwitchViewController: UITableViewController {
     
     var addresses: [Int] = []
+    var groupId: Int = 0
+    var groupInnerDevices: [Int] = []
     
     private var state = State.getSecretKey {
         didSet {
@@ -27,12 +29,14 @@ class MechanicalSwitchViewController: UITableViewController {
 
         navigationItem.title = "Mechanical Switch"
         
-        let linkItem = UIBarButtonItem(title: "Link", style: .plain, target: self, action: #selector(linkItemAction))
-        navigationItem.rightBarButtonItem = linkItem
+        if groupId == 0 {
+            
+            let linkItem = UIBarButtonItem(title: "Link", style: .plain, target: self, action: #selector(linkItemAction))
+            navigationItem.rightBarButtonItem = linkItem
+        }
         
         SmartSwitchManager.shared.delegate = self
         SmartSwitchManager.shared.dataSource = self
-        
     }
     
     @objc private func linkItemAction() {
@@ -67,6 +71,12 @@ class MechanicalSwitchViewController: UITableViewController {
             
             let message = "Touch the device with the back of the mobile device in order to take it into use in the network. Note that it may be necessary to move the mobile device around to find the NFC responsive area."
             SmartSwitchManager.shared.readConfiguration(alertMessage: message)
+            
+        case .updateSmartSwitch:
+            startUpdateSmartSwitchHandler()
+            
+        case .unbindSmartSwitch:
+            startUnbindSmartSwitchHandler()
         }
     }
 
@@ -126,6 +136,8 @@ extension MechanicalSwitchViewController {
         case start
         case link
         case read
+        case updateSmartSwitch
+        case unbindSmartSwitch
         
         var title: String {
             switch self {
@@ -134,6 +146,8 @@ extension MechanicalSwitchViewController {
             case .start: return "Start Configuration"
             case .link: return "Link to Devices"
             case .read: return "Read Configuration"
+            case .updateSmartSwitch: return "Update Smart Switch"
+            case .unbindSmartSwitch: return "Unbind Smart Switch"
             }
         }
     }
@@ -141,7 +155,7 @@ extension MechanicalSwitchViewController {
     private var cells: [CellType] {
         
         switch state {
-        case .getSecretKey: return [.model, .get, .read]
+        case .getSecretKey: return [.model, .get, .read, .updateSmartSwitch, .unbindSmartSwitch]
         case .start: return [.start]
         case .link: return [.link]
         }
@@ -166,7 +180,11 @@ extension MechanicalSwitchViewController {
         
         SmartSwitchManager.shared.clear()
         
-        MeshCommand.getSmartSwitchSecretKey(mode.rawValue).send()
+        if groupId != 0 {
+            MeshCommand.getSmartSwitchSecretKey(mode.rawValue, groupId: groupId).send()
+        } else {
+            MeshCommand.getSmartSwitchSecretKey(mode.rawValue).send()
+        }
         
         let alert = UIAlertController(title: "Get Secret Key", message: "Getting...", preferredStyle: .alert)
         alert.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.width / 2, y: view.bounds.height / 2, width: 1, height: 1)
@@ -197,7 +215,24 @@ extension MechanicalSwitchViewController {
         
         let controller = MechanicalLinkViewController(style: .grouped)
         controller.addresses = addresses
+        controller.groupId = groupId
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    private func startUpdateSmartSwitchHandler() {
+        
+        if groupId > 0 {
+            
+            groupInnerDevices.forEach {
+                MeshCommand.addSmartSwitchIdWithGroupId($0, groupId: groupId).send()
+            }
+        }
+    }
+    
+    private func startUnbindSmartSwitchHandler() {
+        
+        let message = "Touch the device with the back of the mobile device in order to take it into use in the network. Note that it may be necessary to move the mobile device around to find the NFC responsive area."
+        SmartSwitchManager.shared.unbindConfiguration(alertMessage: message)
     }
     
 }
@@ -223,11 +258,23 @@ extension MechanicalSwitchViewController: SmartSwitchManagerDelegate {
         
         alert?.message = "Configure successful!"
         state = .getSecretKey
+        
+        if groupId != 0 {
+            
+            groupInnerDevices.forEach {
+                MeshCommand.addSmartSwitchIdWithGroupId($0, groupId: groupId).send()
+            }
+        }
     }
     
     func smartSwitchManagerDidReadConfiguration(_ manager: SmartSwitchManager, isConfigured: Bool, mode: SmartSwitchMode?) {
         
         NSLog("didReadConfiguration \(isConfigured)", "")
+    }
+    
+    func smartSwitchManagerDidUnbindConfigurationSuccessful(_ manager: SmartSwitchManager) {
+        
+        NSLog("didUnbindConfiguration", "")
     }
     
 }
@@ -241,24 +288,30 @@ extension MechanicalSwitchViewController: SmartSwitchManagerDataSource {
     func smartSwitchManager(_ manager: SmartSwitchManager, nfcScanningMessage state: SmartSwitchManager.State) -> String {
         if state == .startConfig {
             return "Configuring, please do not remove your device."
-        } else {
+        } else if state == .readConfig {
             return "Reading, please do not remove your device."
+        } else {
+            return "Unbinding, please do not remove your device."
         }
     }
     
     func smartSwitchManager(_ manager: SmartSwitchManager, nfcReadWriteFailedMessage state: SmartSwitchManager.State) -> String {
         if state == .startConfig {
             return "Configure failed, please try again."
-        } else {
+        } else if state == .readConfig {
             return "Reading failed, please try again."
+        } else {
+            return "Unbind failed, please try again."
         }
     }
     
     func smartSwitchManager(_ manager: SmartSwitchManager, nfcReadWriteSuccessfulMessage state: SmartSwitchManager.State) -> String {
         if state == .startConfig {
             return "Configure successful!"
-        } else {
+        } else if state == .readConfig {
             return "Reading successful!"
+        } else {
+            return "Unbind successful!"
         }
     }
     

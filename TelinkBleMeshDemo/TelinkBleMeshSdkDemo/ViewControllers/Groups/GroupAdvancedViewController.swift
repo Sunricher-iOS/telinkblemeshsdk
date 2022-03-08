@@ -13,7 +13,7 @@ class GroupAdvancedViewController: UITableViewController {
     var innerDevices: [Int] = []
     
     private let cellTypes: [CellType] = [
-        .control, .syncSettings
+        .control, .syncSettings, .smartSwitch
     ]
 
     override func viewDidLoad() {
@@ -39,6 +39,14 @@ class GroupAdvancedViewController: UITableViewController {
             let controller = GroupSyncViewController(style: .grouped)
             controller.groupId = groupId
             controller.innerDevices = innerDevices
+            navigationController?.pushViewController(controller, animated: true)
+            
+        case .smartSwitch:
+            
+            let controller = SmartSwitchViewController(style: .grouped)
+            controller.addresses = []
+            controller.groupId = groupId
+            controller.groupInnerDevices = innerDevices
             navigationController?.pushViewController(controller, animated: true)
         }
     }
@@ -71,11 +79,13 @@ extension GroupAdvancedViewController {
     enum CellType {
         case control
         case syncSettings
+        case smartSwitch
         
         var title: String? {
             switch self {
             case .control: return "Control"
             case .syncSettings: return "Sycn Settings"
+            case .smartSwitch: return "Smart Switch"
             }
         }
     }

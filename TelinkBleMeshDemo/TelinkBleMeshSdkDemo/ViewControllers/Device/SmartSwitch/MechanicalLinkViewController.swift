@@ -12,6 +12,7 @@ import Toast
 class MechanicalLinkViewController: UITableViewController {
     
     var addresses: [Int] = []
+    var groupId: Int = 0
     
     private var groups: [Int] = []
     private var timer: Timer?

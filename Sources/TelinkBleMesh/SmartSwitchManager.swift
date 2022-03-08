@@ -23,6 +23,8 @@ public protocol SmartSwitchManagerDelegate {
     
     func smartSwitchManagerDidReadConfiguration(_ manager: SmartSwitchManager, isConfigured: Bool, mode: SmartSwitchMode?)
     
+    func smartSwitchManagerDidUnbindConfigurationSuccessful(_ manager: SmartSwitchManager)
+    
 }
 
 public protocol SmartSwitchManagerDataSource {
@@ -125,6 +127,16 @@ extension SmartSwitchManager {
     public func readConfiguration(alertMessage: String) {
         
         state = .readConfig
+        
+        let session = NFCTagReaderSession(pollingOption: [.iso14443], delegate: self)
+        session?.alertMessage = alertMessage
+        session?.begin()
+    }
+    
+    @available(iOS 13.0, *)
+    public func unbindConfiguration(alertMessage: String) {
+        
+        state = .unbindConfig
         
         let session = NFCTagReaderSession(pollingOption: [.iso14443], delegate: self)
         session?.alertMessage = alertMessage
@@ -235,6 +247,9 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
                         
                     case .readConfig:
                         self.readConfigurationHandler(session: session, tag: miFareTag)
+                        
+                    case .unbindConfig:
+                        self.writeUnbindConfiguration(session: session, tag: miFareTag)
                     }
                 }
                 
@@ -387,6 +402,42 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
         }
     }
     
+    private func writeUnbindConfiguration(session: NFCTagReaderSession, tag: NFCMiFareTag) {
+        
+        if let configuringMessage = dataSource?.smartSwitchManager(self, nfcScanningMessage: self.state) {
+            
+            session.alertMessage = configuringMessage
+        }
+        
+        // Clear tag.
+        let data = Data([0xA2, 0x07, 0x00, 0x00, 0x00, 0x00])
+        tag.sendMiFareCommand(commandPacket: data) { receive, error in
+            
+            guard error == nil else {
+                
+                NSLog("Unbind configuration error \(error!.localizedDescription)", "")
+                
+                if let failedMessage = self.dataSource?.smartSwitchManager(self, nfcReadWriteFailedMessage: self.state) {
+                    
+                    session.invalidate(errorMessage: failedMessage)
+                }
+                return
+            }
+            
+            if let message = self.dataSource?.smartSwitchManager(self, nfcReadWriteSuccessfulMessage: self.state) {
+                
+                session.alertMessage = message
+            }
+            
+            DispatchQueue.main.async {
+                
+                self.delegate?.smartSwitchManagerDidUnbindConfigurationSuccessful(self)
+            }
+            
+            session.invalidate()
+        }
+    }
+    
 }
 
 extension SmartSwitchManager {
@@ -395,6 +446,7 @@ extension SmartSwitchManager {
         
         case startConfig
         case readConfig
+        case unbindConfig
     }
     
 }

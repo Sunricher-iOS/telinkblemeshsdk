@@ -1742,7 +1742,26 @@ extension MeshCommand {
     
     public static func getSmartSwitchSecretKey(_ mode: Int) -> MeshCommand {
         
+        assert(false, "Please use `getSmartSwitchSecretKey(_: groupId:)` instead.")
+        
         let switchId = Int.random(in: 0x0000FFFF..<0xFFFFFFFF)
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = MeshCommand.Address.connectedNode
+        cmd.userData[0] = 0x38
+        cmd.userData[1] = 0x01 // start
+        cmd.userData[2] = UInt8(mode)
+        cmd.userData[3] = UInt8(switchId & 0xFF)
+        cmd.userData[4] = UInt8((switchId >> 8) & 0xFF)
+        cmd.userData[5] = UInt8((switchId >> 16) & 0xFF)
+        cmd.userData[6] = UInt8((switchId >> 24) & 0xFF)
+        return cmd
+    }
+    
+    public static func getSmartSwitchSecretKey(_ mode: Int, groupId: Int) -> MeshCommand {
+        
+        let switchId = getSmartSwitchIdWithGroupId(groupId)
         
         var cmd = MeshCommand()
         cmd.tag = .appToNode
@@ -1770,6 +1789,43 @@ extension MeshCommand {
         return cmd
     }
     
+    /// Note: The `address` must be a device address.
+    public static func addSmartSwitchIdWithGroupId(_ address: Int, groupId: Int) -> MeshCommand {
+        
+        let switchId = getSmartSwitchIdWithGroupId(groupId)
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = 0x12
+        cmd.userData[1] = 0x03
+        cmd.userData[2] = 0x01
+        cmd.userData[3] = 0x01
+        cmd.userData[4] = UInt8((switchId >> 24) & 0xFF)
+        cmd.userData[5] = UInt8((switchId >> 16) & 0xFF)
+        cmd.userData[6] = UInt8((switchId >> 8) & 0xFF)
+        cmd.userData[7] = UInt8((switchId) & 0xFF)
+        return cmd
+    }
+    
+    public static func deleteSmartSwitchIdWithGroupId(_ address: Int, groupId: Int) -> MeshCommand {
+        
+        let switchId = getSmartSwitchIdWithGroupId(groupId)
+        
+        var cmd = MeshCommand()
+        cmd.tag = .appToNode
+        cmd.dst = address
+        cmd.userData[0] = 0x12
+        cmd.userData[1] = 0x03
+        cmd.userData[2] = 0x02
+        cmd.userData[3] = 0x01
+        cmd.userData[4] = UInt8((switchId >> 24) & 0xFF)
+        cmd.userData[5] = UInt8((switchId >> 16) & 0xFF)
+        cmd.userData[6] = UInt8((switchId >> 8) & 0xFF)
+        cmd.userData[7] = UInt8((switchId) & 0xFF)
+        return cmd
+    }
+    
     public static func deleteSmartSwitchId(_ address: Int, switchId: Int) -> MeshCommand {
         
         var cmd = MeshCommand()
@@ -1786,4 +1842,10 @@ extension MeshCommand {
         return cmd
     }
     
+    private static func getSmartSwitchIdWithGroupId(_ groupId: Int) -> Int {
+        
+        let value = groupId << 16
+        let trailing = 0x0001
+        return value | trailing
+    }
 }
