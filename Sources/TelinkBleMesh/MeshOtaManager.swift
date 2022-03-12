@@ -58,9 +58,8 @@ public struct MeshOtaFile {
     private static func getVersionCode(_ version: String) -> Int {
         
         guard version.contains("V") else { return 0 }
-        
-        let rawValue = Double(version.replacingOccurrences(of: "V", with: "")) ?? 0
-        return Int(rawValue * 100.0)
+        let raw = version.replacingOccurrences(of: "V", with: "").replacingOccurrences(of: ".", with: "")
+        return Int(raw, radix: 16) ?? 0
     }
     
 }
