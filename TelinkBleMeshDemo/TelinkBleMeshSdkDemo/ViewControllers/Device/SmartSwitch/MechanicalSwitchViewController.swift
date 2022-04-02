@@ -183,7 +183,7 @@ extension MechanicalSwitchViewController {
         if groupId != 0 {
             MeshCommand.getSmartSwitchSecretKey(mode.rawValue, groupId: groupId).send()
         } else {
-            MeshCommand.getSmartSwitchSecretKey(mode.rawValue).send()
+            MeshCommand.getSmartSwitchSecretKey(mode.rawValue, groupId: 0x8001).send()
         }
         
         let alert = UIAlertController(title: "Get Secret Key", message: "Getting...", preferredStyle: .alert)

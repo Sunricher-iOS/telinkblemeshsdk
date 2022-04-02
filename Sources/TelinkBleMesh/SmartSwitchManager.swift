@@ -240,16 +240,19 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
                     }
                     
                     NSLog("state \(self.state)", "")
-                    switch self.state {
+                    self.sendAuth(session: session, tag: miFareTag) {
                         
-                    case .startConfig:
-                        self.writeConfiguration(session: session, tag: miFareTag)
-                        
-                    case .readConfig:
-                        self.readConfigurationHandler(session: session, tag: miFareTag)
-                        
-                    case .unbindConfig:
-                        self.writeUnbindConfiguration(session: session, tag: miFareTag)
+                        switch self.state {
+                            
+                        case .startConfig:
+                            self.writeConfiguration(session: session, tag: miFareTag)
+                            
+                        case .readConfig:
+                            self.readConfigurationHandler(session: session, tag: miFareTag)
+                            
+                        case .unbindConfig:
+                            self.writeUnbindConfiguration(session: session, tag: miFareTag)
+                        }
                     }
                 }
                 
@@ -435,6 +438,26 @@ extension SmartSwitchManager: NFCTagReaderSessionDelegate {
             }
             
             session.invalidate()
+        }
+    }
+    
+    private func sendAuth(session: NFCTagReaderSession, tag: NFCMiFareTag, success: @escaping () -> Void) {
+        
+        let authData = Data([0xA2, 0xE5, 0x00, 0x00, 0xE2, 0x15])
+        tag.sendMiFareCommand(commandPacket: authData) { _, error in
+            
+            guard error == nil else {
+                
+                NSLog("Write auth error \(error!.localizedDescription)", "")
+                
+                if let failedMessage = self.dataSource?.smartSwitchManager(self, nfcReadWriteFailedMessage: self.state) {
+                    
+                    session.invalidate(errorMessage: failedMessage)
+                }
+                return
+            }
+            
+            success()
         }
     }
     
