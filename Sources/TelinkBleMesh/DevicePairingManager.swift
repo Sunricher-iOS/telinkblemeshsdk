@@ -275,7 +275,7 @@ extension DevicePairingManager {
         
         for model in models {
             
-            MeshCommand.changeAddress(model.oldAddress, withNewAddress: model.newAddress).send()
+            MeshCommand.changeAddress(model.oldAddress, withNewAddress: model.newAddress, macData: model.macData).send()
         }
         
         let consumeInterval = TimeInterval(models.count) * MeshManager.shared.sendingTimeInterval + addressChangingInterval

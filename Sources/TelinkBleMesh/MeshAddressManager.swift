@@ -14,7 +14,7 @@ public class MeshAddressManager {
     private let totalAddresses: Set<Int> = {
        
         var result = Set<Int>()
-        for index in 1...255 {
+        for index in 1...254 {
             result.insert(index)
         }
         return result
